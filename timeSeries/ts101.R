@@ -23,3 +23,7 @@ pacf(dow_jones)
 plot(diff(dow_jones))
 plot(log(dow_jones))
 plot(diff(log(dow_jones)))
+
+dow_diff <- diff(dow_jones)
+acf(dow_diff)
+pacf(dow_diff)
