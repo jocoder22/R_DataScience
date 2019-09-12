@@ -1,13 +1,25 @@
 
 options("getSymbols.warning4.0"=FALSE)
 
+# load library
 library("quantmod")
 
+
+# download Dow Jones data
 getSymbols("^DJI", src="yahoo")
 
 
 dow_jones <- DJI[, "DJI.Close"]
 
-dow_jones
 
+# Plot the DJI close
 plot(dow_jones)
+
+acf(dow_jones)
+pacf(dow_jones)
+
+
+# plot the detrending transformations
+plot(diff(dow_jones))
+plot(log(dow_jones))
+plot(diff(log(dow_jones)))
