@@ -14,7 +14,6 @@ dow_jones <- DJI[, "DJI.Close"]
 
 # Plot the DJI close
 plot(dow_jones)
-
 par(mfrow=c(2,1))
 acf(dow_jones)
 pacf(dow_jones)
@@ -22,7 +21,6 @@ pacf(dow_jones)
 
 # plot the detrending transformations
 plot(diff(dow_jones))
-
 par(mfrow=c(2,1))
 plot(log(dow_jones))
 plot(diff(log(dow_jones)))
