@@ -1,8 +1,10 @@
 
 options("getSymbols.warning4.0"=FALSE)
-par(opar)
+
 # load library
 library("quantmod")
+library("zoo")
+library("xts")
 
 
 # download Dow Jones data
