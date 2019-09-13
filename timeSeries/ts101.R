@@ -1,6 +1,6 @@
 
 options("getSymbols.warning4.0"=FALSE)
-
+par(opar)
 # load library
 library("quantmod")
 
