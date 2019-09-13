@@ -36,6 +36,7 @@ acf(dow_diff)
 pacf(dow_diff)
 
 
+
 # plot the diff(log(x))
 dow_difflog <- na.omit(diff(log(dow_jones)))
 par(mfrow=c(2,1))
