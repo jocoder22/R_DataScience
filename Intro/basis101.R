@@ -30,8 +30,7 @@ XX_prime
 # find the determinant
 det(X_prime_X)
 inverse <- inv(X_prime_X)
-inverse%*%X_prime_X
-solve(X_prime_X)
+ solve(X_prime_X)
 
 
 # inv(inv(A)) = A
