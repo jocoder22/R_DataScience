@@ -36,13 +36,18 @@ solve(X_prime_X)
 
 # inv(inv(A)) = A
 # inv(A) is symmetric if and only if A is symmetric
-# inverse of diagonal matrix = diag( 1/ diagonal)
 # inv(t(A)) = t(inv(A))
 # inv( k*A ) = (1/k) * inv(A)
 # inv(A * B) = inv(B) %*% inv(A)
 
+
+####################################################
+# diagonal matrix
 D <- diag(c(1, 2, 4))
 D
+
+
+# inverse of diagonal matrix = diag( 1/ diagonal)
 inv(D)
 diag(1 / diag(D))
 
