@@ -32,3 +32,22 @@ det(X_prime_X)
 inverse <- inv(X_prime_X)
 inverse%*%X_prime_X
 solve(X_prime_X)
+
+
+# inv(inv(A)) = A
+# inv(A) is symmetric if and only if A is symmetric
+# inverse of diagonal matrix = diag( 1/ diagonal)
+# inv(t(A)) = t(inv(A))
+# inv( k*A ) = (1/k) * inv(A)
+# inv(A * B) = inv(B) %*% inv(A)
+
+D <- diag(c(1, 2, 4))
+D
+inv(D)
+diag(1 / diag(D))
+
+
+# The determinant of an inverse is the inverse (reciprocal) of the determinant
+# det(AI) =   1 / det(A)
+det(inv(D))
+1/det(D) 
