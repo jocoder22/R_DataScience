@@ -74,6 +74,10 @@ class(CSUSHPINSA)
 summary(CSUSHPINSA)
 
 
+# plot the monthly home price index
+plot(CSUSHPINSA, type="l", col="blue", lwd=2, ylab="National Home Price Index", 
+     main="S&P/Case-Shiller U.S National Home Price Index")
+
 
 
 
