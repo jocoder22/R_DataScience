@@ -70,14 +70,30 @@ getSymbols("CSUSHPINSA", src='FRED', from = "1978-01-01" )
 # Exploratory data analysis
 head(CSUSHPINSA)
 str(CSUSHPINSA)
+attr(CSUSHPINSA, "dimnames")
 class(CSUSHPINSA)
 summary(CSUSHPINSA)
 
 
 # plot the monthly home price index
+par(mfrow=c(3, 1))
 plot(CSUSHPINSA, type="l", col="blue", lwd=2, ylab="National Home Price Index", 
      main="S&P/Case-Shiller U.S National Home Price Index")
 
 
+# plot the acf and pacf 
+acf(CSUSHPINSA)
+pacf(CSUSHPINSA)
+
+na.omit(diff(CSUSHPINSA))
+CSUSHPINSA[complete.cases(log(diff(CSUSHPINSA))), ]
+
+
+# plot the detrending transformations
+par(mfrow=c(4, 1))
+plot(log(CSUSHPINSA))
+plot(diff(log(CSUSHPINSA)))
+plot(diff(CSUSHPINSA, lag=1,differences=2))
+plot(diff(CSUSHPINSA, lag=1))
 
 
