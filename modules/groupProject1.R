@@ -10,6 +10,7 @@ library(stats)
 library(readxl)
 library(tseries)
 library(forcast)
+library(tidyr)
 
 startDate <- "2018-02-01"
 endDate <- "2018-12-30"
@@ -97,3 +98,14 @@ plot(diff(CSUSHPINSA, lag=1,differences=2))
 plot(diff(CSUSHPINSA, lag=1))
 
 
+# perform Augmented Dickey-Fuller test
+adf.test(na.omit(diff(CSUSHPINSA, lag=1,differences=2)))
+adf.test(na.omit(diff(CSUSHPINSA, lag=1)))
+adf.test(log(CSUSHPINSA))
+adf.test(na.omit(diff(log(CSUSHPINSA))))
+
+
+adf.test(diff(CSUSHPINSA, lag=1) %>% drop_na())
+
+
+index(CSUSHPINSA)
