@@ -106,6 +106,10 @@ adf.test(na.omit(diff(log(CSUSHPINSA))))
 
 
 adf.test(diff(CSUSHPINSA, lag=1) %>% drop_na())
-
-
 index(CSUSHPINSA)
+
+# evaluate acf and pacf
+CSUSHPINSA_sta <- na.omit(diff(CSUSHPINSA, lag=1,differences=2))
+par(mfrow=c(2, 1))
+acf(CSUSHPINSA_sta)
+pacf(CSUSHPINSA_sta)
