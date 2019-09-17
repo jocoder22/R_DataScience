@@ -39,9 +39,16 @@ diamonds_s <- subset(diamonds, price > 17000, names(diamonds))
 d_graph <- ggplot(diamonds_s, aes(x=carat, y=price))
 d_graph + geom_point() 
 d_graph + geom_point() + geom_smooth()
+d_graph + geom_point(aes(color=clarity)) 
+
 
 # plot points with aesthetics
+ggplot(diamonds_s, aes(x=carat, y=price, color=clarity)) + geom_point()
 d_graph + geom_point(aes(color=clarity)) 
+d_g <- d_graph + geom_point(alpha=0.3) 
+d_g + geom_smooth(se=FALSE)
+d_g + geom_point(aes(color=clarity)) 
+
 
 # plot with color
 d_graph2 <- ggplot(diamonds_s, aes(x=carat, y=price, color=cut))
