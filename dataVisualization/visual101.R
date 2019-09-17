@@ -43,6 +43,8 @@ d_graph + geom_point(aes(color=clarity))
 
 
 # plot points with aesthetics
+# Geom property to a single value, pass it as argument
+# Geom property to different or each row of data, pass it as aesthetic
 ggplot(diamonds_s, aes(x=carat, y=price, color=clarity)) + geom_point()
 d_graph + geom_point(aes(color=clarity)) 
 d_g <- d_graph + geom_point(alpha=0.3) 
