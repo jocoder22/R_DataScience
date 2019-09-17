@@ -18,6 +18,12 @@ ggplot(mtcars, aes(x=cyl, y=mpg))+
 ggplot(mtcars, aes(x=factor(cyl), y=mpg))+
   geom_point()
 
+ggplot(mtcars, aes(x=wt, y=mpg))+
+  geom_point()
+
+ggplot(mtcars, aes(x=wt, y=mpg, color=disp))+
+  geom_point()
+
 
 # explore new datasets
 class(diamonds)
@@ -35,3 +41,5 @@ d_graph2 <- ggplot(diamonds_s, aes(x=carat, y=price, color=cut))
 d_graph2 + geom_point() 
 d_graph2 + geom_point(alpha=0.6) + geom_smooth()
 d_graph2 + geom_smooth()
+
+
