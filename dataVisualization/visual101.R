@@ -1,6 +1,7 @@
 
 # load required library
 library(ggplot2)
+library(help = "datasets")
 
 # Do basic exploration
 str(mtcars)
@@ -16,3 +17,15 @@ ggplot(mtcars, aes(x=cyl, y=mpg))+
 # Cyclinder: as a factor
 ggplot(mtcars, aes(x=factor(cyl), y=mpg))+
   geom_point()
+
+
+# explore new datasets
+class(diamonds)
+str(diamonds)
+
+# plot the new graphs
+# diamonds_s <- diamonds[c(1:1000), c(1:10)]
+diamonds_s <- subset(diamonds, price > 17000, names(diamonds))
+d_graph <- ggplot(diamonds_s, aes(x=carat, y=price))
+d_graph + geom_point() 
+d_graph + geom_point() + geom_smooth()
