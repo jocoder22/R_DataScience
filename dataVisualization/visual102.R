@@ -16,3 +16,11 @@ graph_object + geom_point() +
 graph_object + geom_point() +
   geom_smooth(method="lm", se=FALSE) +
   geom_smooth(aes(group=1), method="lm", se=FALSE, linetype=2)
+
+
+# using another dataset, iris
+class(iris)
+str(iris)
+typeof(iris)
+head(iris)
+
