@@ -24,6 +24,10 @@ ggplot(mtcars, aes(x=wt, y=mpg))+
 ggplot(mtcars, aes(x=wt, y=mpg, color=disp))+
   geom_point()
 
+ggplot(mtcars, aes(x=wt, y=mpg, size=disp))+
+  geom_point()
+
+
 
 # explore new datasets
 class(diamonds)
@@ -35,6 +39,9 @@ diamonds_s <- subset(diamonds, price > 17000, names(diamonds))
 d_graph <- ggplot(diamonds_s, aes(x=carat, y=price))
 d_graph + geom_point() 
 d_graph + geom_point() + geom_smooth()
+
+# plot points with aesthetics
+d_graph + geom_point(aes(color=clarity)) 
 
 # plot with color
 d_graph2 <- ggplot(diamonds_s, aes(x=carat, y=price, color=cut))
