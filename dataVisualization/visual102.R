@@ -19,8 +19,13 @@ graph_object + geom_point() +
 
 
 # using another dataset, iris
+# expore the dataset
 class(iris)
 str(iris)
 typeof(iris)
 head(iris)
 
+# plot the petal length and petal width for each species
+ggplot(iris, aes(x=Petal.Length, y=Petal.Width))+
+  geom_jitter()+
+  facet_grid(.~Species)
