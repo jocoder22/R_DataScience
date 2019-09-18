@@ -35,3 +35,9 @@ iris_w <- iris %>%
 head(iris_w)
 str(iris_w)
 
+
+# save datasets
+getwd()
+filepath <- getwd()
+saveRDS(iris_w,file.path(filepath,"dataManagement","irisWide.rds"))
+saveRDS(iris_S,file.path(filepath,"dataManagement","irisShort.rds"))
