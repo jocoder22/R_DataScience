@@ -26,7 +26,7 @@ str(iris)
 colnames(iris)
 
 
-
+# create the full wide dataset 
 iris_w <- iris %>% 
   gather(Key, Value, -Species, -Serial) %>%
   separate(Key,c("Type", "TypeValue"), "\\.") %>%
