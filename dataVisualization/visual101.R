@@ -28,6 +28,8 @@ ggplot(mtcars, aes(x=wt, y=mpg, size=disp))+
   geom_point()
 
 
+ggplot(mtcars, aes(x=wt, y=mpg, col=cyl))+
+  geom_point(size=6, shape=9)
 
 # explore new datasets
 class(diamonds)
