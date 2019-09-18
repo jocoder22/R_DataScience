@@ -16,3 +16,22 @@ iris_S <- iris %>%
 
 head(iris_S)
 str(iris_S)
+
+
+# create the full wide dataset 
+# create the serial number
+iris$Serial <- 1:nrow(iris)
+head(iris)
+str(iris)
+colnames(iris)
+
+
+
+iris_w <- iris %>% 
+  gather(Key, Value, -Species, -Serial) %>%
+  separate(Key,c("Type", "TypeValue"), "\\.") %>%
+  spread(TypeValue, Value)
+
+head(iris_w)
+str(iris_w)
+
