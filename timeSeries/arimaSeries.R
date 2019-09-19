@@ -44,11 +44,22 @@ without_seasons <- diff(sunspots)
 ts.plot(without_seasons)
 
 
+# plot acf and pacf
 acf(sunspots, lag.max = 40)
 pacf(sunspots, lag.max = 40)
 
 acf(without_seasons)
 pacf(without_seasons)
+
+
+# do stationarity tests 
+adf.test(sunspots)
+kpss.test(sunspots)
+
+
+adf.test(without_seasons)
+kpss.test(without_seasons)
+
 
 
 
