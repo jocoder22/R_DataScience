@@ -42,6 +42,7 @@ ts.plot(sunspot_trun)
 # the dataset have seasonal components
 # Remove the seasonal element using diff and lag
 without_seasons <- diff(sunspots)
+sun_lag12 <- diff(sunspots, lag=12)
 ts.plot(without_seasons)
 
 
