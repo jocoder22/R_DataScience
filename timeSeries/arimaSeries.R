@@ -64,7 +64,8 @@ kpss.test(sunspots)
 adf.test(without_seasons)
 kpss.test(without_seasons)
 
-
+adf.test(sun_lag12)
+kpss.test(sun_lag12)
 
 # using composite test using defined function
 allTest <- function(x){
