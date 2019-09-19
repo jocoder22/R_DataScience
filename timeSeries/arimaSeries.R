@@ -49,8 +49,8 @@ ts.plot(without_seasons)
 acf(sunspots, lag.max = 40)
 pacf(sunspots, lag.max = 40)
 
-acf(without_seasons)
-pacf(without_seasons)
+acf(without_seasons, lag.max = 40)
+pacf(without_seasons, lag.max = 40)
 
 
 # do stationarity tests 
