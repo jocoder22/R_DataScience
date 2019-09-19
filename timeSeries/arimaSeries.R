@@ -1,6 +1,7 @@
 # load requried library  
-
+install.packages('aTSA')
 library(tseries)
+library(aTSA)
 
 # explore the time series dataset 
 start(sunspots) # shows the start time
@@ -62,6 +63,15 @@ kpss.test(without_seasons)
 
 
 
+# using composite test using defined function
+allTest <- function(x){
+  testVector <- c("adf", "pp", "kpss")
+  for (val in testVector){
+  stationary.test(x, method = val)
+  }
+}
 
 
-
+# Apply composite test
+allTest(without_seasons)
+allTest(sunspots)
