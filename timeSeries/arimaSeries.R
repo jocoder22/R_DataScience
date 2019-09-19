@@ -53,6 +53,7 @@ acf(without_seasons, lag.max = 40)
 pacf(without_seasons, lag.max = 40)
 
 
+
 # do stationarity tests 
 adf.test(sunspots)
 kpss.test(sunspots)
