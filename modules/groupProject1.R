@@ -10,7 +10,7 @@ library(tidyverse)
 library(stats)
 library(readxl)
 library(tseries)
-library(forcast)
+library(forecast)
 library(tidyr)
 
 startDate <- "2018-02-01"
@@ -47,8 +47,8 @@ StdDev(JP_AdjClose)
 
 
 # calculate daily stock return
-JPM_return <- CalculateReturns(JP_AdjClose)[-1]
-JP_CloseReturns <- diff(JP_AdjClose)/lag(JP_AdjClose)[-1]
+JPM_return <- CalculateReturns(JP_AdjClose)
+JP_CloseReturns <- diff(JP_AdjClose)/lag(JP_AdjClose)
 
 
 simple_jp <- JP_AdjClose[-1]/JP_AdjClose[-229] - 1

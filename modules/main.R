@@ -21,5 +21,12 @@ str(allData)
 summary(allData)
 
 # 1.1 Calculate Average stock value
+average_value <- mean(JPMorgan)
+average_value
+# [1] 107.2015
+
 # 1.2 Calculate Stock volatility
+stock_volatility <- sd(JPMorgan)
+stock_volatility
+# [1] 4.56665
 # 1.3 Calculate Daily stock returns
