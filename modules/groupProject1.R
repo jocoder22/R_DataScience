@@ -1,4 +1,5 @@
 
+# load required libraries
 library(xlsx)
 library(TTR)
 library(zoo)
@@ -47,10 +48,51 @@ StdDev(JP_AdjClose)
 
 # calculate daily stock return
 JPM_return <- CalculateReturns(JP_AdjClose)[-1]
-JP_CloseReturns <- diff(JP_AdjClose)/lag(JP_AdjClose)
+JP_CloseReturns <- diff(JP_AdjClose)/lag(JP_AdjClose)[-1]
+
+
+simple_jp <- JP_AdjClose[-1]/JP_AdjClose[-229] - 1
+jp_comp <- diff(log(JP_AdjClose))
+head(JPM_return)
+head(JP_CloseReturns)
 
 
 
+
+jp1 <- JP_AdjClose[-1]
+jp2 <- JP_AdjClose[-229]
+
+
+index(jp2) <- index(jp1)
+head(jp1)
+head(jp2)
+jpp <- jp1/jp2 - 1
+head(jpp)
+
+
+length(JP_AdjClose)
+head(JP_AdjClose[-1])
+head(JP_AdjClose[-229])
+
+tail(JP_CloseReturns)
+tail(jpp)
+tail(JP_CloseReturns)
+
+
+all(jpp == JPM_return)
+all(JP_CloseReturns == JPM_return)
+all(jpp == JP_CloseReturns)
+
+
+typeof(jpp)
+class(jpp)
+class(JP_CloseReturns)
+class(JPM_return)
+
+
+typeof(jpp)
+typeof(JP_CloseReturns)
+typeof(JPM_return)
 # Plot the graph
 plot(JP_AdjClose, type="l", col="blue", lwd=2, 
      ylab = "Adjusted close", main = "Daily Adjusted price of JP Morgan Stock")
