@@ -31,6 +31,7 @@ ggplot(mtcars, aes(x=wt, y=mpg, fill=cyl))+
   geom_point(shape=1, size=3, alpha=0.6)
 
 
+# map color to am
 ggplot(mtcars, aes(x=wt, y=mpg, fill=cyl, col=am))+
   geom_point(shape=1, size=3, alpha=0.6)
 
