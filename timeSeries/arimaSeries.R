@@ -1,7 +1,8 @@
 # load requried library  
-install.packages('aTSA')
+install.packages('astsa')
 library(tseries)
 library(aTSA)
+library(astsa)
 
 # explore the time series dataset 
 start(sunspots) # shows the start time
@@ -47,12 +48,15 @@ ts.plot(without_seasons)
 
 
 # plot acf and pacf
+acf2(sunspots, max.lag = 60)
 acf(sunspots, lag.max = 40)
 pacf(sunspots, lag.max = 40)
 
+acf2(without_seasons, max.lag = 60)
 acf(without_seasons, lag.max = 40)
 pacf(without_seasons, lag.max = 40)
 
+acf2(diff(sun_lag12), max.lag = 60)
 acf(sun_lag12, lag.max = 40)
 pacf(sun_lag12, lag.max = 40)
 
@@ -80,3 +84,17 @@ allTest <- function(x){
 allTest(without_seasons)
 allTest(sunspots)
 allTest(sun_lag12)
+
+sunlog <- log(sunspots)
+sarima(sunspots,2,1,2,0,1,1,12)
+
+sarima(sunspots,2,1,2,0,1,2,36)
+
+frequency(sunspots)
+
+plot(sunspots)
+plot(log(sunspots))
+plot(diff(diff(sunspots), lag=12))
+
+df <- diff(diff(sunspots), lag=12)
+acf2(df, max.lag = 60)
