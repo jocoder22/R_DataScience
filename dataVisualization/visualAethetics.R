@@ -39,3 +39,12 @@ ggplot(mtcars, aes(x=wt, y=mpg, fill=cyl, col=am))+
 ggplot(mtcars, aes(x=wt, y=mpg, fill=cyl))+
   geom_point(shape=1, size=3, alpha=0.6, aes(col=am))
 
+
+
+ggplot(mtcars, aes(x=wt, y=mpg, fill=cyl, col=am))+
+  geom_point(shape=1, size=3, alpha=0.6)
+
+
+# map size to cylinder
+ggplot(mtcars, aes(x=wt, y=mpg, size=cyl))+
+  geom_point(shape=1, alpha=0.6, aes(col=am))
