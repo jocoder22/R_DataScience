@@ -82,8 +82,8 @@ annualized_volatilityComp
 
 # 3.1.2 Linear regression
 # Implement a two variable regression
-model <- lm(JPM.Adjusted  ~ GSPC.Adjusted, data=allData)
-summary(model)
+linear_model <- lm(JPM.Adjusted  ~ GSPC.Adjusted, data=allData)
+summary(linear_model)
 # 
 # Call:
 #   lm(formula = JPM.Adjusted ~ GSPC.Adjusted, data = allData)
@@ -102,3 +102,17 @@ summary(model)
 # Residual standard error: 2.97 on 227 degrees of freedom
 # Multiple R-squared:  0.5788,	Adjusted R-squared:  0.5769 
 # F-statistic: 311.9 on 1 and 227 DF,  p-value: < 2.2e-16
+
+
+
+# 3.1.3 Univariate Time Series Analysis
+# Forecast S&P/Case-Shiller U.S National Home Price Index using ARMA model
+startdate <- "1978-01-01"
+getSymbols("CSUSHPINSA", src='FRED', from = "1978-01-01" )
+
+# Exploratory data analysis
+head(CSUSHPINSA)
+str(CSUSHPINSA)
+attr(CSUSHPINSA, "dimnames")
+class(CSUSHPINSA)
+summary(CSUSHPINSA)
