@@ -76,3 +76,29 @@ compReturns_volatility
 annualized_volatilityComp <- compReturns_volatility * sqrt(252)
 annualized_volatilityComp
 # [1] 0.2288891
+
+
+
+
+# 3.1.2 Linear regression
+# Implement a two variable regression
+model <- lm(JPM.Adjusted  ~ GSPC.Adjusted, data=allData)
+summary(model)
+# 
+# Call:
+#   lm(formula = JPM.Adjusted ~ GSPC.Adjusted, data = allData)
+# 
+# Residuals:
+#   Min      1Q  Median      3Q     Max 
+# -6.7551 -2.3973  0.4835  2.3838  5.6483 
+# 
+# Coefficients:
+#                Estimate  Std. Error t value  Pr(>|t|)    
+# (Intercept)   13.751225   5.294731   2.597     0.01 *  
+# GSPC.Adjusted  0.034065   0.001929  17.662   <2e-16 ***
+#   ---
+#   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# Residual standard error: 2.97 on 227 degrees of freedom
+# Multiple R-squared:  0.5788,	Adjusted R-squared:  0.5769 
+# F-statistic: 311.9 on 1 and 227 DF,  p-value: < 2.2e-16
