@@ -46,11 +46,11 @@ head(simple_returns)
 # 2018-02-09       0.020022238
 
 
-# 1.3.2 Daily continous returns
+# 1.3.2 Daily continously compounded returns
 cont_returns <- diff(log(JPMorgan))[-1]
-names(cont_returns) <- "JPM.contReturns"
+names(cont_returns) <- "JPM.compReturns"
 head(cont_returns)
-#            JPM.contReturns
+#            JPM.compReturns
 # 2018-02-02    -0.022410622
 # 2018-02-05    -0.049140201
 # 2018-02-06     0.029969236
