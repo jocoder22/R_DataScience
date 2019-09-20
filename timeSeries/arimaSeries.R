@@ -88,7 +88,7 @@ allTest(sun_lag12)
 sunlog <- log(sunspots)
 sarima(sunspots,2,1,2,0,1,1,12)
 
-sarima(sunspots,2,1,2,0,1,2,36)
+sarima(sunspots,2,1,2,0,1,3,36)
 
 frequency(sunspots)
 
