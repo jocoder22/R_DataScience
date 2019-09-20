@@ -48,4 +48,6 @@ ggplot(mtcars, aes(x=wt, y=mpg, shape=factor(cyl), col=am))+
 
 
 
-
+# map label to cylinder
+ggplot(mtcars, aes(x=wt, y=mpg, label=cyl, col=am))+
+  geom_text()
