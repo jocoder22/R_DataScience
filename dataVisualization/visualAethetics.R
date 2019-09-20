@@ -21,9 +21,20 @@ ggplot(mtcars, aes(x=wt, y=mpg, col=cyl))+
   geom_point(shape=1, size=3)
 
 
+# Map cll to fill
 ggplot(mtcars, aes(x=wt, y=mpg, fill=cyl))+
   geom_point(shape=1, size=3)
 
+
+# add alpha: transparency
 ggplot(mtcars, aes(x=wt, y=mpg, fill=cyl))+
   geom_point(shape=1, size=3, alpha=0.6)
+
+
+ggplot(mtcars, aes(x=wt, y=mpg, fill=cyl, col=am))+
+  geom_point(shape=1, size=3, alpha=0.6)
+
+
+ggplot(mtcars, aes(x=wt, y=mpg, fill=cyl))+
+  geom_point(shape=1, size=3, alpha=0.6, aes(col=am))
 
