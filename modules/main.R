@@ -45,11 +45,21 @@ head(simple_returns)
 # 2018-02-08      -0.044210207
 # 2018-02-09       0.020022238
 
+# 1.3.1.1 calculate daily and annualized volatility
+simpleReturns_volatility <- sd(simple_returns)
+simpleReturns_volatility
+# [1] 0.01438354
+
+annualized_volatilitySimple <- simpleReturns_volatility * sqrt(252)
+annualized_volatilitySimple
+# [1] 0.2283317
+
 
 # 1.3.2 Daily continously compounded returns
-cont_returns <- diff(log(JPMorgan))[-1]
-names(cont_returns) <- "JPM.compReturns"
-head(cont_returns)
+
+comp_returns <- diff(log(JPMorgan))[-1]
+names(comp_returns) <- "JPM.compReturns"
+head(comp_returns)
 #            JPM.compReturns
 # 2018-02-02    -0.022410622
 # 2018-02-05    -0.049140201
@@ -57,3 +67,12 @@ head(cont_returns)
 # 2018-02-07     0.006756144
 # 2018-02-08    -0.045217271
 # 2018-02-09     0.019824429
+
+# 1.3.2.1 calculate daily and annualized volatility
+compReturns_volatility <- sd(comp_returns)
+compReturns_volatility
+# [1] 0.01441866
+
+annualized_volatilityComp <- compReturns_volatility * sqrt(252)
+annualized_volatilityComp
+# [1] 0.2288891
