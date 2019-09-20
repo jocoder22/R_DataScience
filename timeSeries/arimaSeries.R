@@ -1,5 +1,5 @@
 # load requried library  
-install.packages('astsa')
+# install.packages('astsa')
 library(tseries)
 library(aTSA)
 library(astsa)
