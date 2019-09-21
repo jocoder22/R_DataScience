@@ -137,7 +137,7 @@ adf.test(CSUSHPINSA)
 
 
 
-# using composite test using defined function
+# using composite test
 allTest <- function(xx){
   x <- na.omit(xx)
   testVector <- c("adf", "pp", "kpss")
