@@ -151,11 +151,14 @@ allTest <- function(xx){
 
 # 3.1.3.2 Implement ARIMA(p,d,q)
 # plot acf and pacf
+par(mfrow=c(3, 1))
 plot(CSUSHPINSA)
 acf(CSUSHPINSA)
 pacf(CSUSHPINSA)
 allTest(CSUSHPINSA)
 
+
+par(mfrow=c(3, 1))
 plot(log(CSUSHPINSA))
 acf(log(CSUSHPINSA))
 pacf(log(CSUSHPINSA))
