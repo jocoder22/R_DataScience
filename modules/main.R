@@ -143,8 +143,7 @@ allTest <- function(xx){
   testVector <- c("adf", "pp", "kpss")
   for (val in testVector){
     stationary.test(x, method = val);
-    cat("\n\n\n")
-    print("##########################################")
+    cat("\n\n\n##########################################\n")
   }
 }
 
