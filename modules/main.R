@@ -164,6 +164,8 @@ acf(log(CSUSHPINSA))
 pacf(log(CSUSHPINSA))
 allTest(log(CSUSHPINSA))
 
+
+par(mfrow=c(3, 1))
 plot(diff(CSUSHPINSA))
 acf(na.omit(diff(CSUSHPINSA)))
 pacf(na.omit(diff(CSUSHPINSA)))
