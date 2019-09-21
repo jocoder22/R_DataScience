@@ -167,14 +167,14 @@ pacf(na.omit(diff(CSUSHPINSA)))
 allTest(diff(CSUSHPINSA))
 
 
-
+par(mfrow=c(3, 1))
 plot(diff(log(CSUSHPINSA)))
 acf(na.omit(diff(log(CSUSHPINSA))))
 pacf(na.omit(diff(log(CSUSHPINSA))))
 allTest(diff(log(CSUSHPINSA)))
 
 
-
+par(mfrow=c(3, 1))
 plot(diff(diff(CSUSHPINSA)))
 acf(na.omit(diff(diff(CSUSHPINSA))))
 pacf(na.omit(diff(diff(CSUSHPINSA))))
