@@ -155,3 +155,74 @@ CSUSHPINSA_sta <- na.omit(diff(CSUSHPINSA, lag=1,differences=2))
 par(mfrow=c(2, 1))
 acf(CSUSHPINSA_sta)
 pacf(CSUSHPINSA_sta)
+
+
+
+
+
+
+
+sarima(CSUSHPINSA,2,2,1,1,1,1,12)
+sarima(CSUSHPINSA,3,2,0,1,1,1,12)
+# 
+# $ttable
+#         Estimate     SE   t.value  p.value
+# ar1       -0.4912 0.1147  -4.2826  0.0000
+# ar2        0.2157 0.0521   4.1427  0.0000
+# ma1        0.6403 0.1069   5.9884  0.0000
+# sar1       0.2415 0.0738   3.2739  0.0012
+# sma1      -0.7907 0.0477 -16.5675  0.0000
+# constant   0.5746 8.9646   0.0641  0.9489
+
+# sarima(CSUSHPINSA,2,2,1,0,1,1,22)
+# $AIC
+# [1] 0.6850034
+# 
+# $AICc
+# [1] 0.6854103
+
+
+
+# sarima(CSUSHPINSA,2,2,1,0,1,2,5)
+# $AIC
+# [1] 0.6056712
+# 
+# $AICc
+# [1] 0.6062424
+
+
+
+
+
+
+# sarima(CSUSHPINSA,2,2,1,0,1,1,5)
+# $AIC
+# [1] 0.6016639
+# 
+# $AICc
+# [1] 0.6020708
+# 
+# $BIC
+# [1] 0.6628738
+
+
+# 
+# sarima(CSUSHPINSA,2,2,1,1,1,1,1)
+# $AIC
+# [1] 0.5032186
+# 
+# $AICc
+# [1] 0.5037898
+
+
+
+
+# sarima(CSUSHPINSA,2,2,1)
+# $AIC
+# [1] 0.5021679
+# 
+# $AICc
+# [1] 0.502329
+# 
+# $BIC
+# [1] 0.543003
