@@ -4,7 +4,7 @@ library(quantmod, quietly=T)
 
 # set my file path
 currentdir <- getwd()
-filepath <- file.path(filepath,"packages_reviews")
+filepath <- currentdir,"packages_reviews")
 
 # Download datasets
 startDate <- "2018-02-01"
@@ -18,6 +18,9 @@ getSymbols("XPT/USD", src="oanda")
 
 
 # set multiple dataset lookup  
-setSymbolLookup(YHOO="google", GOOG="yahoo", CHF/USD="oanda")
-setSymbolLookup(DEXUSJP="FRED", AMZN="yahoo", CSUSHPINSA="FRED")
-saveSymbolLookup(file=)
+setSymbolLookup(GOOG="yahoo", XPTUSD=list(name="XPT/USD",src="oanda"))
+setSymbolLookup(DEXUSEU="FRED", AMZN="yahoo", CSUSHPINSA="FRED")
+saveSymbolLookup(file=file.path(currentdir,"packages_reviews", "quantmod.rda"))
+
+
+getSymbols(c("GOOG", "AMZN", "XPTUSD", "CSUSHPINSA", "DEXUSEU"))
