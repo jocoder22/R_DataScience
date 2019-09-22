@@ -2,7 +2,9 @@
 # Load the required packages
 library(quantmod, quietly=T)
 
-
+# set my file path
+currentdir <- getwd()
+filepath <- file.path(filepath,"packages_reviews")
 
 # Download datasets
 startDate <- "2018-02-01"
