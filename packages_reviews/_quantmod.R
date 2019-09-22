@@ -36,7 +36,7 @@ candleChart(AMZN, multi.col=TRUE,theme="white")
 
 # Create series charts
 chartSeries(XPTUSD,name="Platinum (.oz) in $USD")
-chartSeries(to.weekly(XPTUSD),up.col='white',dn.col='blue')
+chartSeries(to.weekly(XPTUSD),up.col='green',dn.col='red')
 
 
 
