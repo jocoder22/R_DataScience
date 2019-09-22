@@ -22,9 +22,9 @@ setSymbolLookup(GOOG="yahoo", XPTUSD=list(name="XPT/USD",src="oanda"))
 setSymbolLookup(DEXUSEU="FRED", AMZN="yahoo", CSUSHPINSA="FRED")
 saveSymbolLookup(file=filepath)
 
-use the lookup.list
+# use the lookup.list
 getSymbols(c("GOOG", "AMZN", "XPTUSD", "CSUSHPINSA", "DEXUSEU"))
 
 
-
-
+# Creating charts and graphs
+barChart(GOOG)
