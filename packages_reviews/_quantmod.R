@@ -1,6 +1,7 @@
 
 # Load the required packages
 library(quantmod, quietly=T)
+require(TTR)
 
 # set my file path
 currentdir <- getwd()
@@ -28,3 +29,18 @@ getSymbols(c("GOOG", "AMZN", "XPTUSD", "CSUSHPINSA", "DEXUSEU"))
 
 # Creating charts and graphs
 barChart(GOOG)
+
+# create candleChart
+candleChart(AMZN, multi.col=TRUE,theme="white")
+
+
+# Create series charts
+chartSeries(XPTUSD,name="Platinum (.oz) in $USD")
+chartSeries(to.weekly(XPTUSD),up.col='white',dn.col='blue')
+
+
+
+# Technical analysis chart
+chartSeries(AMZN)
+addMACD()
+addBBands()
