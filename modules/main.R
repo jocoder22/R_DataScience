@@ -1,10 +1,14 @@
 # load required packages
-library(quantmod)
-library(forecast)
-library(lmtest)
-library(xts)
-library(aTSA)
+library(quantmod, quietly = T)
+library(forecast, quietly = T)
+library(lmtest, quietly = T)
+library(xts, quietly = T)
+library(aTSA, quietly = T)
+library(glue, quietly = T)
 
+filepath <- getwd()
+sink(file.path(filepath, "modules", "submission1.doc"),  
+     append=FALSE, split=FALSE, type = c("output", "message"))
 
 # Download datasets
 startDate <- "2018-02-01"
@@ -54,33 +58,6 @@ simpleReturns_volatility <- sd(simple_returns)
 simpleReturns_volatility
 # [1] 0.01438354
 
-annualized_volatilitySimple <- simpleReturns_volatility * sqrt(252)
-annualized_volatilitySimple
-# [1] 0.2283317
-
-
-# 1.3.2 Daily continously compounded returns
-
-comp_returns <- diff(log(JPMorgan))[-1]
-names(comp_returns) <- "JPM.compReturns"
-head(comp_returns)
-#            JPM.compReturns
-# 2018-02-02    -0.022410622
-# 2018-02-05    -0.049140201
-# 2018-02-06     0.029969236
-# 2018-02-07     0.006756144
-# 2018-02-08    -0.045217271
-# 2018-02-09     0.019824429
-
-# 1.3.2.1 calculate daily and annualized volatility
-compReturns_volatility <- sd(comp_returns)
-compReturns_volatility
-# [1] 0.01441866
-
-annualized_volatilityComp <- compReturns_volatility * sqrt(252)
-annualized_volatilityComp
-# [1] 0.2288891
-
 
 
 
@@ -106,10 +83,6 @@ summary(linear_model)
 # Residual standard error: 2.97 on 227 degrees of freedom
 # Multiple R-squared:  0.5788,	Adjusted R-squared:  0.5769 
 # F-statistic: 311.9 on 1 and 227 DF,  p-value: < 2.2e-16
-
-
-
-
 
 
 
@@ -151,6 +124,8 @@ allTest <- function(xx){
 # 3.1.3.2 Implement ARIMA(p,d,q)
 # plot acf and pacf
 par(mfrow=c(3, 1))
+par(cex = 0.6)
+par(mar = c(5, 5, 5, 5), oma = c(2, 2, 2, 2))
 plot(CSUSHPINSA)
 acf(CSUSHPINSA)
 pacf(CSUSHPINSA)
@@ -262,7 +237,11 @@ arima_test <- function(x,p,d,q,P=0,D=0,Q=0,S=0){
   aR <- arima(train, c(p,d,q), seasonal = list(order = c(P,D,Q), period = S));
   predictions <- predict(aR, n.ahead=lentestx)$pred;
   aR_fc <- forecast::forecast(aR, h=25);
-  accuracy(predictions, test)[2];
+ 
+  acc <-  sprintf("%.2f", accuracy(predictions, test)[2]);
+
+  sp = "Model RMSE: {acc}";
+  print(glue(sp));
   
   predictxts <- as.xts(predictions)
   index(predictxts) <- index(test)
@@ -272,5 +251,14 @@ arima_test <- function(x,p,d,q,P=0,D=0,Q=0,S=0){
 }
 
 arima_test(CSUSHPINSA,3,2,1,1,0,0,12)
-   
+# Model RMSE: 2.18
 
+
+arima_test(CSUSHPINSA,2,2,1,1,0,0,12)   
+# Model RMSE: 3.53
+
+
+arima_test(CSUSHPINSA,3,1,2,1,0,0,12)
+# Model RMSE: 7.44
+
+sink()

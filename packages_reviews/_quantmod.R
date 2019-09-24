@@ -31,7 +31,7 @@ getSymbols(c("GOOG", "AMZN", "XPTUSD", "CSUSHPINSA", "DEXUSEU"))
 barChart(GOOG)
 
 # create candleChart
-candleChart(AMZN, multi.col=TRUE,theme="white")
+candleChart(AMZN)
 
 
 # Create series charts

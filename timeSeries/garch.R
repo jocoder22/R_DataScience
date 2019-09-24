@@ -47,7 +47,7 @@ for(val in c("vClose", "vClose0", "vGK")){
   ts.plot(vtable[val], main=glue(string), ylab="Volatility")
 }
 
-
+plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), multi.panel = TRUE)
 # Volatility skewness is a similar measure to omega but using the second 
 # partial moment. It's the ratio of the upside variance compared to the 
 # downside variance. Variability skewness is the ratio of the upside risk 
@@ -56,3 +56,23 @@ MAR = 0.005
 print(VolatilitySkewness(sp500[,2], MAR, stat="volatility")) 
 print(VolatilitySkewness(sp500[,2], MAR, stat="variability")) 
 
+
+# calculate simple volatility, return volatility: Greek letter sigma 
+return_volatility <- sd(sp500$Returns[-1])
+vol_simple
+# 0.01094313 
+
+annualized_volatility <- sqrt(252) * return_volatility
+annualized_volatility
+# 0.1737168
+
+
+# chart rolling performace  
+chart.RollingPerformance(R=sp500$Returns[-1], width=22, scale=252, 
+                         FUN="sd.annualized", main="Rolling 1 month Volatility")
+
+chart.RollingPerformance(R=sp500$Returns[-1], width=22, scale=252, 
+                         colorset = (1:12), FUN = "Return.annualized", 
+                         na.pad = TRUE, type = "l", main="Rolling 1 month Return")
+
+plot(sp500$Returns,name="S&P 500 Adjusted Close Price $USD")
