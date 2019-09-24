@@ -95,11 +95,13 @@ stdret2 <- residuals(model2, standardize = TRUE)
 
 
 
+
 # Compute the standardized returns
 stdret <- residuals(model, standardize = TRUE)
 
 # Compute the standardized returns using fitted() and sigma()
 stdretCal <- (jpReturn - fitted(model)) / sigma(model)
+
 
 par(mfrow = c(2,1))
 chart.Histogram(stdret, methods = c("add.normal","add.density" ), 
