@@ -254,11 +254,17 @@ arima_test(CSUSHPINSA,3,2,1,1,0,0,12)
 # Model RMSE: 2.18
 
 
-arima_test(CSUSHPINSA,2,2,1,1,0,0,12)   
+arima_test(CSUSHPINSA,3,2,1,1,0,0,6)   
 # Model RMSE: 3.53
 
 
-arima_test(CSUSHPINSA,3,1,2,1,0,0,12)
+arima_test(CSUSHPINSA,3,1,2,1,0,0,6)
 # Model RMSE: 7.44
 
+arima_test(CSUSHPINSA,3,1,2,0,0,0,12)
+# Model RMSE: 7.44
+
+arima_model321 <- arima(CSUSHPINSA, c(3,2,1), seasonal = list(order = c(1,1,0), period = 12))
+coeftest(arima_model321)                 
+summary(arima_model321)
 sink()
