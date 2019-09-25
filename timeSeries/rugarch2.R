@@ -22,8 +22,13 @@ kurtosis(nytReturn)
 
 
 # plot the graphs 
+plot(nyt,  main=" NYT Close Price")
 plot(diff(nyt), main="First Differencing of NYT Close Price")
-plot(nytReturn)
-acf2(nytReturn)
-acf2(diff(nyt))
+plot(nytReturn,  main=" NYT Returns")
+
+
+# plot acf and pacf
+acf2(nyt, main=" NYT Close Price")
+acf2(nytReturn, main=" NYT Returns")
+acf2(diff(nyt),  main="First Differencing of NYT Close Price")
 
