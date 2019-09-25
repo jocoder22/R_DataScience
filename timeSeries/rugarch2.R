@@ -2,12 +2,13 @@
 library(quantmod, quietly = T)
 library(PerformanceAnalytics, quietly = T)
 library(rugarch, quietly = T)
+library(dplyr)
 
 # download dataset
-getSymbols("New York Times", src="yahoo")
+getSymbols("NYT", src="yahoo")
 
 # select required feature
-nyt <- New York Times[,"New York Times.Adjusted"]
+nyt <- NYT[,"NYT.Adjusted"]
 
 
 # calculate the daily simple return
@@ -48,7 +49,19 @@ model2 <- ugarchfit(data=nytReturn, spec=tspec)
 
 # Compute estimated coefficients
 cofficients <- coef(model)
-coef(model)
+m1 <- data.frame(coef(model))
+m2 <- data.frame(coef(model2))
+
+# make index a column
+m1<- m1 %>% rownames_to_column("Parameters")
+m2<- m2 %>% rownames_to_column("Parameters")
+
+
+# merge the results
+merge(m2, m1, by.x ="Parameters", by.y= "Parameters", all = TRUE)
+merge(m2, m1, all.x = TRUE, sort = FALSE)
+
+
 coef(model2)
 sumAlphaBeta <- cofficients[3] + cofficients[4]
 sumAlphaBeta # 0.9843281, less than one, there the returns are mean reverting
@@ -72,3 +85,16 @@ chart.Histogram(stdret2, methods = c("add.normal","add.density" ),
 
 
 
+# Need some data to play with
+df1 <- data.frame(LETTERS, dfindex = 1:26)
+df2 <- data.frame(letters, dfindex = c(1:10,15,20,22:35))
+
+# INNER JOIN: returns rows when there is a match in both tables.
+merge(df1, df2, by="dfindex")
+
+
+x <- data.frame(k1 = c(NA,NA,3,4,5), k2 = c(1,NA,NA,4,5), data = 1:5)
+y <- data.frame(k1 = c(NA,2,NA,4,5), k2 = c(NA,NA,3,4,5), data = 1:5)
+merge(x, y, by = c("k1","k2")) # NA's match
+merge(x, y, by = "k1") # NA's match, so 6 rows
+merge(x, y, by = "k2", incomparables = NA) # 2 rows
