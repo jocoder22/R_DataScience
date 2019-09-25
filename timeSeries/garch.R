@@ -52,7 +52,7 @@ plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), multi.panel =
 # partial moment. It's the ratio of the upside variance compared to the 
 # downside variance. Variability skewness is the ratio of the upside risk 
 # compared to the downside risk.
-
+ 
 
 MAR = 0.005
 print(VolatilitySkewness(sp500[,2], MAR, stat="volatility")) 
