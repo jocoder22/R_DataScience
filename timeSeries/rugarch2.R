@@ -59,6 +59,9 @@ dev.off()
 par(mfrow = c(2,1))
 stdret <- residuals(model, standardize = TRUE)
 stdret2 <- residuals(model2, standardize = TRUE)
+
+
+# plot the histograms
 chart.Histogram(stdret, methods = c("add.normal","add.density" ), 
                 colorset = c("gray","red","blue"), 
                 main="Model Predicted Residuals under Normal Distribution")
@@ -66,3 +69,6 @@ chart.Histogram(stdret, methods = c("add.normal","add.density" ),
 chart.Histogram(stdret2, methods = c("add.normal","add.density" ), 
                 colorset = c("gray","red","blue"), 
                 main="Model Predicted Residuals under skewed t-Distribution")
+
+
+
