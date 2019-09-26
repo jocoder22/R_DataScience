@@ -63,3 +63,5 @@ round(coef(model2), 4)
 # if gamma1 = 0, there is no Garch-in-mean then use sGARCH
 round(model2@fit$robust.matcoef, 5)
 round(model2@fit$matcoef, 5)
+
+
