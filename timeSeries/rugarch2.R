@@ -12,8 +12,8 @@ nyt <- NYT[,"NYT.Adjusted"]
 
 
 # calculate the daily simple return
-nytReturn <- CalculateReturns(nyt)[-1]
-colnames(nytReturn) <- "Price"
+nytReturn$Price<- CalculateReturns(nyt)[-1]
+
 
 
 # compute basic statistics
@@ -40,12 +40,32 @@ garchspec <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
                     variance.model = list(model="sGARCH"),
                     distribution.model = "norm")
 
-tspec <- ugarchspec(distribution.model ="sstd", 
-                    variance.model=list(variance.targeting=TRUE))
-setfixed(tspec) <- list(skew =rskew)
-tspec
+# variance targeting means the variance is mean-reverting 
+# around the sample sd
+tspec <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
+                    distribution.model ="sstd", 
+                    variance.model=list(model="sGARCH", 
+                                        variance.targeting=TRUE))
+# setfixed(tspec) <- list(skew =rskew)
 model <- ugarchfit(data=nytReturn, spec=garchspec)
 model2 <- ugarchfit(data=nytReturn, spec=tspec)
+
+
+# check mean-reverting
+all.equal(uncvariance(model2), sd(nytReturn)^2, tol=1e-03)
+uncvariance(model2) - sd(nytReturn)^2
+
+modelvol$Sigma = sigma(model2)
+modelvol$hhh <- sd(nytReturn)
+
+
+# plot mean-reverting volatility
+plot(modelvol[, "Sigma"])
+lines(modelvol[, "hhh"], col="red")
+
+
+
+
 
 # Compute estimated coefficients
 cofficients <- coef(model)
@@ -98,3 +118,5 @@ y <- data.frame(k1 = c(NA,2,NA,4,5), k2 = c(NA,NA,3,4,5), data = 1:5)
 merge(x, y, by = c("k1","k2")) # NA's match
 merge(x, y, by = "k1") # NA's match, so 6 rows
 merge(x, y, by = "k2", incomparables = NA) # 2 rows
+
+
