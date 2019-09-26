@@ -24,7 +24,7 @@ kurtosis(nytReturn)
 
 # create model specs  
 garchspec <- ugarchspec(mean.model = list(armaOrder=c(0,0), archm=TRUE, archpow=2),
-                        variance.model = list(model="sGARCH"),
+                        variance.model = list(model="gjrGARCH"),
                         distribution.model = "sstd")
 
 model1 <- ugarchfit(data=nytReturn, spec=garchspec)
