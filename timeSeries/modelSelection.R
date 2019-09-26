@@ -56,3 +56,12 @@ resid1 <- residuals(model1, standardize = TRUE)
 resid2 <- residuals(model2, standardize = TRUE)
 resid3 <- residuals(model3, standardize = TRUE)
 resid4 <- residuals(model4, standardize = TRUE)
+
+
+# plot the returns and residuals
+par(mfrow=c(2,1))
+plot(nytReturn, main="NYT Daily Returns")
+plot(resid1, main="Residual Model 1")
+
+
+acf2(resid1)
