@@ -60,10 +60,9 @@ modelvol$hhh <- sd(nytReturn)
 
 
 # plot mean-reverting volatility
-plot(modelvol[, "Sigma"])
+dev.off()
+plot(modelvol[, "Sigma"], main="New York Times Returns GARCH Volatility")
 lines(modelvol[, "hhh"], col="red")
-
-
 
 
 
