@@ -12,8 +12,8 @@ nyt <- NYT[,"NYT.Adjusted"]
 
 
 # calculate the daily simple return
-nytReturn <- CalculateReturns(nyt)[-1]
-colnames(nytReturn) <- "Price"
+nytReturn$Price <- CalculateReturns(nyt)[-1]
+
 
 
 # compute basic statistics
