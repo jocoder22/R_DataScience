@@ -15,7 +15,7 @@ nyt <- NYT[,"NYT.Adjusted"]
 nytReturn$Price <- CalculateReturns(nyt)[-1]
 
 
-
+ 
 # compute basic statistics
 summary(nytReturn)
 rskew <- skewness(nytReturn) # [1] 0.5283861
