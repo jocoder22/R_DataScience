@@ -33,6 +33,7 @@ plot(pred_volatility, main = "GARCH Predicted JP Morgan Predicted Volatility")
 # Compute unconditional variance
 uncvariance(model)
 
+
 # Compute long run standard deviation
 sqrt(uncvariance(model))  # [1] 0.02109116
 
