@@ -50,3 +50,9 @@ plotvol <- addLegend("topleft", on=1, lty=c(3,3,3), lwd=c(3,3,3),cex=2,
                      col=c("grey", "black", "red"))
 plotvol
 
+
+# calculate the standard residuals
+resid1 <- residuals(model1, standardize = TRUE)
+resid2 <- residuals(model2, standardize = TRUE)
+resid3 <- residuals(model3, standardize = TRUE)
+resid4 <- residuals(model4, standardize = TRUE)
