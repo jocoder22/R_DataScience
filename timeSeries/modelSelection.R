@@ -64,4 +64,6 @@ plot(nytReturn, main="NYT Daily Returns")
 plot(resid1, main="Residual Model 1")
 
 
-acf2(resid1)
+# check correlations
+acf(nytReturn, main="ACF NYT Daily Returns")
+acf(abs(resid1), main="ACF Residual Model 1")
