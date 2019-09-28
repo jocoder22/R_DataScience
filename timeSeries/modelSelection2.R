@@ -16,13 +16,17 @@ dev.off()
 par(mfrow = c(2,1))
 par(mar = c(1,1,1,1), oma = c(1, 1, 1, 1))
 tesla <- TSLA[,"TSLA.Adjusted"]
-plot(tesla)
+
 
 
 # calculate the daily simple return
 teslaReturn <- na.omit(CalculateReturns(tesla, method="simple"))
 colnames(teslaReturn) <- "Return"
 head(teslaReturn)
+
+
+# plot close price and Returns
+plot(tesla)
 plot(teslaReturn)
 acf2(teslaReturn)
 dev.off()
