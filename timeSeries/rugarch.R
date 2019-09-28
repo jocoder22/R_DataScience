@@ -145,3 +145,5 @@ par(mfrow = c(1,1))
 out <- newsimpact(model2)
 plot(out$zx, out$zy, xlab="Prediction Error", ylab="Predicted Variance")
 
+?rugarch
+

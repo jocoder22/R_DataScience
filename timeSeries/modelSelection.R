@@ -69,7 +69,9 @@ resid4 <- residuals(model4, standardize = TRUE)
 
 
 # plot the returns and residuals
+dev.off()
 par(mfrow=c(2,1))
+par(mar = c(1,1,1,1), oma = c(1, 1, 1, 1))
 plot(nytReturn, main="NYT Daily Returns")
 plot(resid1, main="Residual Model 1")
 

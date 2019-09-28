@@ -1,0 +1,530 @@
+[1] "JPM"
+[1] "^GSPC"
+           JPM.Adjusted GSPC.Adjusted
+2018-02-01     112.2626       2821.98
+2018-02-02     109.7747       2762.13
+2018-02-05     104.5107       2648.94
+2018-02-06     107.6902       2695.14
+2018-02-07     108.4203       2681.66
+2018-02-08     103.6270       2581.00
+'data.frame':	229 obs. of  2 variables:
+ $ JPM.Adjusted : num  112 110 105 108 108 ...
+ $ GSPC.Adjusted: num  2822 2762 2649 2695 2682 ...
+  JPM.Adjusted    GSPC.Adjusted 
+ Min.   : 90.07   Min.   :2351  
+ 1st Qu.:104.54   1st Qu.:2678  
+ Median :107.39   Median :2736  
+ Mean   :107.20   Mean   :2743  
+ 3rd Qu.:110.63   3rd Qu.:2810  
+ Max.   :115.15   Max.   :2931  
+[1] 107.2015
+[1] 4.56665
+           JPM.simpleReturns
+2018-02-02      -0.022161369
+2018-02-05      -0.047952357
+2018-02-06       0.030422834
+2018-02-07       0.006779018
+2018-02-08      -0.044210207
+2018-02-09       0.020022238
+[1] 0.01438354
+[1] 0.2283317
+           JPM.compReturns
+2018-02-02    -0.022410622
+2018-02-05    -0.049140201
+2018-02-06     0.029969236
+2018-02-07     0.006756144
+2018-02-08    -0.045217271
+2018-02-09     0.019824429
+[1] 0.01441866
+[1] 0.2288891
+
+Call:
+lm(formula = JPM.Adjusted ~ GSPC.Adjusted, data = allData)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.7551 -2.3973  0.4835  2.3838  5.6483 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   13.751225   5.294731   2.597     0.01 *  
+GSPC.Adjusted  0.034065   0.001929  17.662   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.97 on 227 degrees of freedom
+Multiple R-squared:  0.5788,	Adjusted R-squared:  0.5769 
+F-statistic: 311.9 on 1 and 227 DF,  p-value: < 2.2e-16
+
+[1] "CSUSHPINSA"
+           CSUSHPINSA
+1987-01-01     63.754
+1987-02-01     64.154
+1987-03-01     64.490
+1987-04-01     64.995
+1987-05-01     65.570
+1987-06-01     66.238
+An ‘xts’ object on 1987-01-01/2019-06-01 containing:
+  Data: num [1:390, 1] 63.8 64.2 64.5 65 65.6 ...
+ - attr(*, "dimnames")=List of 2
+  ..$ : NULL
+  ..$ : chr "CSUSHPINSA"
+  Indexed by objects of class: [Date] TZ: UTC
+  xts Attributes:  
+List of 2
+ $ src    : chr "FRED"
+ $ updated: POSIXct[1:1], format: "2019-09-22 23:39:01"
+[[1]]
+NULL
+
+[[2]]
+[1] "CSUSHPINSA"
+
+[1] "xts" "zoo"
+     Index              CSUSHPINSA    
+ Min.   :1987-01-01   Min.   : 63.75  
+ 1st Qu.:1995-02-08   1st Qu.: 80.33  
+ Median :2003-03-16   Median :129.90  
+ Mean   :2003-03-17   Mean   :126.22  
+ 3rd Qu.:2011-04-23   3rd Qu.:166.44  
+ Max.   :2019-06-01   Max.   :210.71  
+Augmented Dickey-Fuller Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+     lag  ADF p.value
+[1,]   0 8.10   0.990
+[2,]   1 1.51   0.966
+[3,]   2 3.32   0.990
+[4,]   3 3.29   0.990
+[5,]   4 2.63   0.990
+[6,]   5 2.65   0.990
+Type 2: with drift no trend 
+     lag    ADF p.value
+[1,]   0  2.187   0.990
+[2,]   1 -0.170   0.936
+[3,]   2  0.560   0.988
+[4,]   3  0.619   0.990
+[5,]   4  0.385   0.981
+[6,]   5  0.423   0.982
+Type 3: with drift and trend 
+     lag    ADF p.value
+[1,]   0  0.811   0.990
+[2,]   1 -1.972   0.588
+[3,]   2 -0.751   0.966
+[4,]   3 -0.754   0.965
+[5,]   4 -1.027   0.934
+[6,]   5 -1.001   0.938
+---- 
+Note: in fact, p.value = 0.01 means p.value <= 0.01 
+Augmented Dickey-Fuller Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+     lag  ADF p.value
+[1,]   0 8.10   0.990
+[2,]   1 1.51   0.966
+[3,]   2 3.32   0.990
+[4,]   3 3.29   0.990
+[5,]   4 2.63   0.990
+[6,]   5 2.65   0.990
+Type 2: with drift no trend 
+     lag    ADF p.value
+[1,]   0  2.187   0.990
+[2,]   1 -0.170   0.936
+[3,]   2  0.560   0.988
+[4,]   3  0.619   0.990
+[5,]   4  0.385   0.981
+[6,]   5  0.423   0.982
+Type 3: with drift and trend 
+     lag    ADF p.value
+[1,]   0  0.811   0.990
+[2,]   1 -1.972   0.588
+[3,]   2 -0.751   0.966
+[4,]   3 -0.754   0.965
+[5,]   4 -1.027   0.934
+[6,]   5 -1.001   0.938
+---- 
+Note: in fact, p.value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+Phillips-Perron Unit Root Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+ lag Z_rho p.value
+   5  1.09   0.922
+----- 
+ Type 2: with drift no trend 
+ lag Z_rho p.value
+   5 0.467   0.976
+----- 
+ Type 3: with drift and trend 
+ lag Z_rho p.value
+   5 -2.44   0.956
+--------------- 
+Note: p-value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+KPSS Unit Root Test 
+alternative: nonstationary 
+ 
+Type 1: no drift no trend 
+ lag stat p.value
+   4 0.25     0.1
+----- 
+ Type 2: with drift no trend 
+ lag  stat p.value
+   4 0.223     0.1
+----- 
+ Type 1: with drift and trend 
+ lag  stat p.value
+   4 0.223    0.01
+----------- 
+Note: p.value = 0.01 means p.value <= 0.01 
+    : p.value = 0.10 means p.value >= 0.10 
+
+
+
+##########################################
+Augmented Dickey-Fuller Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+     lag  ADF p.value
+[1,]   0 9.29   0.990
+[2,]   1 1.85   0.984
+[3,]   2 3.88   0.990
+[4,]   3 3.88   0.990
+[5,]   4 3.12   0.990
+[6,]   5 3.08   0.990
+Type 2: with drift no trend 
+     lag    ADF p.value
+[1,]   0 -0.388   0.906
+[2,]   1 -0.583   0.847
+[3,]   2 -0.521   0.868
+[4,]   3 -0.386   0.906
+[5,]   4 -0.383   0.907
+[6,]   5 -0.342   0.912
+Type 3: with drift and trend 
+     lag    ADF p.value
+[1,]   0  0.493   0.990
+[2,]   1 -1.840   0.644
+[3,]   2 -0.755   0.965
+[4,]   3 -0.702   0.970
+[5,]   4 -0.923   0.950
+[6,]   5 -0.913   0.951
+---- 
+Note: in fact, p.value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+Phillips-Perron Unit Root Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+ lag Z_rho p.value
+   5 0.246   0.747
+----- 
+ Type 2: with drift no trend 
+ lag  Z_rho p.value
+   5 -0.453   0.928
+----- 
+ Type 3: with drift and trend 
+ lag Z_rho p.value
+   5 -2.24   0.962
+--------------- 
+Note: p-value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+KPSS Unit Root Test 
+alternative: nonstationary 
+ 
+Type 1: no drift no trend 
+ lag  stat p.value
+   4 0.306     0.1
+----- 
+ Type 2: with drift no trend 
+ lag  stat p.value
+   4 0.236     0.1
+----- 
+ Type 1: with drift and trend 
+ lag  stat p.value
+   4 0.238    0.01
+----------- 
+Note: p.value = 0.01 means p.value <= 0.01 
+    : p.value = 0.10 means p.value >= 0.10 
+
+
+
+##########################################
+Augmented Dickey-Fuller Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+     lag    ADF p.value
+[1,]   0  4.139   0.990
+[2,]   1 -0.802   0.392
+[3,]   2  0.370   0.750
+[4,]   3  2.099   0.990
+[5,]   4  2.556   0.990
+[6,]   5  3.605   0.990
+Type 2: with drift no trend 
+     lag    ADF p.value
+[1,]   0  4.416   0.990
+[2,]   1 -0.887   0.739
+[3,]   2  0.401   0.981
+[4,]   3  2.325   0.990
+[5,]   4  2.864   0.990
+[6,]   5  4.068   0.990
+Type 3: with drift and trend 
+     lag    ADF p.value
+[1,]   0  4.415   0.990
+[2,]   1 -0.894   0.953
+[3,]   2  0.390   0.990
+[4,]   3  2.324   0.990
+[5,]   4  2.868   0.990
+[6,]   5  4.090   0.990
+---- 
+Note: in fact, p.value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+Phillips-Perron Unit Root Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+ lag Z_rho p.value
+   5 -54.2    0.01
+----- 
+ Type 2: with drift no trend 
+ lag Z_rho p.value
+   5 -62.9    0.01
+----- 
+ Type 3: with drift and trend 
+ lag Z_rho p.value
+   5 -63.7    0.01
+--------------- 
+Note: p-value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+KPSS Unit Root Test 
+alternative: nonstationary 
+ 
+Type 1: no drift no trend 
+ lag  stat p.value
+   4 0.309     0.1
+----- 
+ Type 2: with drift no trend 
+ lag   stat p.value
+   4 0.0429     0.1
+----- 
+ Type 1: with drift and trend 
+ lag   stat p.value
+   4 0.0303     0.1
+----------- 
+Note: p.value = 0.01 means p.value <= 0.01 
+    : p.value = 0.10 means p.value >= 0.10 
+
+
+
+##########################################
+Augmented Dickey-Fuller Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+     lag    ADF p.value
+[1,]   0  4.017   0.990
+[2,]   1 -0.726   0.419
+[3,]   2  0.249   0.715
+[4,]   3  1.972   0.988
+[5,]   4  2.494   0.990
+[6,]   5  3.504   0.990
+Type 2: with drift no trend 
+     lag    ADF p.value
+[1,]   0  4.464   0.990
+[2,]   1 -0.818   0.764
+[3,]   2  0.327   0.978
+[4,]   3  2.347   0.990
+[5,]   4  3.008   0.990
+[6,]   5  4.238   0.990
+Type 3: with drift and trend 
+     lag    ADF p.value
+[1,]   0  4.466    0.99
+[2,]   1 -0.817    0.96
+[3,]   2  0.333    0.99
+[4,]   3  2.352    0.99
+[5,]   4  3.014    0.99
+[6,]   5  4.240    0.99
+---- 
+Note: in fact, p.value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+Phillips-Perron Unit Root Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+ lag Z_rho p.value
+   5 -53.4    0.01
+----- 
+ Type 2: with drift no trend 
+ lag Z_rho p.value
+   5 -65.5    0.01
+----- 
+ Type 3: with drift and trend 
+ lag Z_rho p.value
+   5 -65.5    0.01
+--------------- 
+Note: p-value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+KPSS Unit Root Test 
+alternative: nonstationary 
+ 
+Type 1: no drift no trend 
+ lag  stat p.value
+   4 0.517     0.1
+----- 
+ Type 2: with drift no trend 
+ lag   stat p.value
+   4 0.0313     0.1
+----- 
+ Type 1: with drift and trend 
+ lag   stat p.value
+   4 0.0316     0.1
+----------- 
+Note: p.value = 0.01 means p.value <= 0.01 
+    : p.value = 0.10 means p.value >= 0.10 
+
+
+
+##########################################
+Augmented Dickey-Fuller Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+     lag  ADF p.value
+[1,]   0 10.6    0.99
+[2,]   1 13.2    0.99
+[3,]   2 15.8    0.99
+[4,]   3 20.9    0.99
+[5,]   4 26.0    0.99
+[6,]   5 34.1    0.99
+Type 2: with drift no trend 
+     lag  ADF p.value
+[1,]   0 10.6    0.99
+[2,]   1 13.1    0.99
+[3,]   2 15.8    0.99
+[4,]   3 20.9    0.99
+[5,]   4 26.0    0.99
+[6,]   5 34.1    0.99
+Type 3: with drift and trend 
+     lag  ADF p.value
+[1,]   0 10.6    0.99
+[2,]   1 13.1    0.99
+[3,]   2 15.8    0.99
+[4,]   3 20.8    0.99
+[5,]   4 26.0    0.99
+[6,]   5 34.0    0.99
+---- 
+Note: in fact, p.value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+Phillips-Perron Unit Root Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+ lag Z_rho p.value
+   5  -156    0.01
+----- 
+ Type 2: with drift no trend 
+ lag Z_rho p.value
+   5  -156    0.01
+----- 
+ Type 3: with drift and trend 
+ lag Z_rho p.value
+   5  -156    0.01
+--------------- 
+Note: p-value = 0.01 means p.value <= 0.01 
+
+
+
+##########################################
+KPSS Unit Root Test 
+alternative: nonstationary 
+ 
+Type 1: no drift no trend 
+ lag    stat p.value
+   4 0.00618     0.1
+----- 
+ Type 2: with drift no trend 
+ lag    stat p.value
+   4 0.00611     0.1
+----- 
+ Type 1: with drift and trend 
+ lag    stat p.value
+   4 0.00606     0.1
+----------- 
+Note: p.value = 0.01 means p.value <= 0.01 
+    : p.value = 0.10 means p.value >= 0.10 
+
+
+
+##########################################
+Series: CSUSHPINSA 
+ARIMA(3,1,2) with drift 
+
+Coefficients:
+         ar1     ar2      ar3     ma1     ma2   drift
+      0.8592  0.1036  -0.2281  0.6294  0.2962  0.3785
+s.e.  0.1446  0.2154   0.1135  0.1412  0.0789  0.1134
+
+sigma^2 estimated as 0.09747:  log likelihood=-97.53
+AIC=209.07   AICc=209.36   BIC=236.81
+
+z test of coefficients:
+
+     Estimate Std. Error  z value  Pr(>|z|)    
+ar1  1.225712   0.055041  22.2690 < 2.2e-16 ***
+ar2 -0.360678   0.080632  -4.4731 7.709e-06 ***
+ar3 -0.225372   0.052390  -4.3018 1.694e-05 ***
+ma1 -0.835304   0.029221 -28.5854 < 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+Call:
+arima(x = CSUSHPINSA, order = c(3, 2, 1))
+
+Coefficients:
+         ar1      ar2      ar3      ma1
+      1.2257  -0.3607  -0.2254  -0.8353
+s.e.  0.0550   0.0806   0.0524   0.0292
+
+sigma^2 estimated as 0.09024:  log likelihood = -84.75,  aic = 179.49
+
+Training set error measures:
+                       ME      RMSE       MAE         MPE      MAPE      MASE
+Training set 0.0005232603 0.2996659 0.1719374 0.003480077 0.1267506 0.2290857
+                     ACF1
+Training set -0.005799614
+[1] 2.526616
+[1] 2.179081
+Model RMSE: 2.18
+Model RMSE: 3.53
