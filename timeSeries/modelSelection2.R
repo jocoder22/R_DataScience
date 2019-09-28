@@ -25,8 +25,7 @@ colnames(teslaReturn) <- "Return"
 head(teslaReturn)
 
 
-# plot close price and Returns
-plot(tesla)
+# plot close price and Return
 plot(teslaReturn)
 acf2(teslaReturn)
 dev.off()
@@ -50,3 +49,30 @@ garchspec4 <- ugarchspec(mean.model = list(armaOrder=c(0,0), archm=TRUE, archpow
 
 params <- list(data=teslaReturn, n.start = 2000,
                  refit.window = "moving", refit.every = 100)
+
+
+# report(model1)
+# summary(model1)
+# coef(model1)
+# show(model1)
+
+betterModel <- function(model1, model2){
+  
+  result1 <- do.call(ugarchroll, c(model1, params));
+  result2 <- do.call(ugarchroll, c(model2, params));
+  
+  
+  pred1 <- data.frame(result1);
+  pred2 <- data.frame(result2);
+  
+  
+  e1 <- mean((pred1$Realized - pred1$Mu)^2);
+  e2 <- mean((pred2$Realized - pred2$Mu)^2);
+  
+  
+  
+  
+  
+  
+}
+
