@@ -22,10 +22,11 @@ endDate <- "2019-09-27"
 
 
 getSymbols("AAPL", src="yahoo", from=startDate, to=endDate)
+appleData <- AAPL[, "AAPL.Adjusted"] 
 
 
 # Calculate Apple returns
-apple <- CalculateReturns(AAPL[, "AAPL.Adjusted"])[-1]
+apple <- CalculateReturns(appleData)[-1]
 colnames(apple) <- "Returns"
 
 
@@ -53,7 +54,7 @@ vCK <- chaikinVolatility(AAPL[,c("AAPL.High", "AAPL.Low")])
 
 
 # plot the volatility
-# plot the annualised volatility
+# plot the volatility
 apple$sd <- sd(apple$Returns) * sqrt(252)
 plot(vCK)
 vCK$sd <- mean(na.omit(vCK$EMA))
@@ -69,3 +70,40 @@ addSeries(apple$sd, col = "red")
 skewness(na.omit(rollsd)) # 3.679407
 kurtosis(na.omit(rollsd)) # 34.19827
 acf2(rollsd)
+
+
+
+
+# plot the graphs
+par(mfrow = c(2,1))
+par(mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
+plot(appleData)
+plot(apple)
+
+# plot the acf and pacf
+acf2(apple)
+acf2(apple$Returns)
+acf2(apple$Returns^2)
+
+
+
+
+# quick check using auto arima
+auto.arima(apple)
+
+
+# formal testing for stationarity
+# using user defined fuction allTest
+allTest <- function(series){
+  x <- na.omit(series)
+  testVector <- c("adf", "pp", "kpss")
+  for (val in testVector){
+    stationary.test(series, method = val);
+    cat("\n\n\n##########################################\n")
+  }
+}
+
+
+allTest(apple$Returns)
+
+adf.test(apple$Returns)
