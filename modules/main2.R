@@ -107,3 +107,15 @@ allTest <- function(series){
 allTest(apple$Returns)
 
 adf.test(apple$Returns)
+
+
+
+# graph the distribution
+chart.Histogram(apple, methods = c("add.normal","add.density" ), 
+                colorset = c("gray","red","blue"), 
+                main="Empirical Distribution vs Normal Distribution")
+
+adfTest(apple$Returns)
+
+
+tseries::adf.test(apple$Returns)
