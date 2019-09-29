@@ -35,3 +35,18 @@ head(apple)
 str(apple)
 
 
+# get statistics
+summary(apple)
+psych::describe(apple)
+round(stat.desc(apple), 4)
+
+
+# Calculate daily volatility
+ohlc <- AAPL[,c("AAPL.Open", "AAPL.High", "AAPL.Low", "AAPL.Close")]
+ohlc2 <- AAPL[,"AAPL.Close"]
+vClose <- volatility(ohlc2, calc="close")
+vClose0 <- volatility(ohlc, calc="close", mean0=TRUE)
+vGK <- volatility(ohlc, calc="garman")
+vParkinson <- volatility(ohlc, calc="parkinson")
+vRS <- volatility(ohlc, calc="rogers")
+vCK <- chaikinVolatility(AAPL[,c("AAPL.High", "AAPL.Low")])
