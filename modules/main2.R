@@ -119,3 +119,30 @@ adfTest(apple$Returns)
 
 
 tseries::adf.test(apple$Returns)
+
+
+
+
+
+# model the data using fGarch::
+model1 <- garchFit(formula = ~ garch(3,0), data = apple$Returns, trace = F)
+summary(model1)
+
+
+model2 <- garchFit(formula = ~ arma(0,0) + garch(1, 2), data = apple$Returns, 
+                   trace = F, cond.dist="snorm")
+# 'arg' should be one of “norm”, “snorm”, “ged”, “sged”, “std”, “sstd”, “snig”, “QMLE”
+summary(model2)
+
+
+model3 <- garchFit(formula = ~ arma(0,0) + garch(1, 2), data = apple$Returns, 
+                   trace = F, cond.dist="sstd")
+summary(model3)
+
+coef(model2)
+mytable <- as.data.frame(coef(model3))
+mytable$model3 <- coef(model3)
+
+
+
+
