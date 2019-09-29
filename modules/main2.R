@@ -50,3 +50,22 @@ vGK <- volatility(ohlc, calc="garman")
 vParkinson <- volatility(ohlc, calc="parkinson")
 vRS <- volatility(ohlc, calc="rogers")
 vCK <- chaikinVolatility(AAPL[,c("AAPL.High", "AAPL.Low")])
+
+
+# plot the volatility
+# plot the annualised volatility
+apple$sd <- sd(apple$Returns) * sqrt(252)
+plot(vCK)
+vCK$sd <- mean(na.omit(vCK$EMA))
+lines(vCK$sd, col="red")
+addSeries(apple$sd, col = "green")
+
+
+
+# plot the annualised volatility
+rollsd <- rollapply(apple[,"Returns"], width =7 , FUN = "sd")
+plot(rollsd)
+addSeries(apple$sd, col = "red")
+skewness(na.omit(rollsd)) # 3.679407
+kurtosis(na.omit(rollsd)) # 34.19827
+acf2(rollsd)
