@@ -65,3 +65,30 @@ round(model2@fit$robust.matcoef, 5)
 round(model2@fit$matcoef, 5)
 
 
+
+par(mfrow = c(2,1))
+par(mar = c(1,1,1,1), oma = c(1, 1, 1, 1))
+
+
+
+
+
+
+library(fGarch)
+spec <- garchSpec(model=list(omega=0.001, ar=c(0.5, 0.2, -0.1),
+                             alpha=c(0.3, 0.2),
+                             beta=c(0.2, 0.1)))
+
+process <- garchSim(spec=spec, n=50000)
+plot(process)
+plot(diff(process))
+
+acf2(process)
+
+
+model1 <- garchFit(formula = ~ garch(3,0), data = process, trace = F)
+summary(model1)
+
+
+model2 <- garchFit(formula = ~ arma(3,0) + garch(2,2), data = process, trace = F)
+summary(model2)
