@@ -96,7 +96,8 @@ acf2(apple$Returns^2)
 
 
 # quick check using auto arima
-auto.arima(apple)
+auto.arima(apple$Returns)
+auto.arima(appleR, stationary = TRUE, seasonal = TRUE, ic="aic")
 
 
 
