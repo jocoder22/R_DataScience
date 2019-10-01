@@ -89,6 +89,7 @@ par(mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
 plot(appleData)
 plot(apple)
 
+
 # plot the acf and pacf
 acf2(apple)
 acf2(apple$Returns)
@@ -103,6 +104,7 @@ mod2 <- auto.arima(appleR, stationary = TRUE, seasonal = TRUE, ic="aic")
 tsdiag(mod2)
 
 mod3 <- sarima(appleR,0,0,0)
+mod3 <- sarima(appleR,5,0,0)
 ts.diag(mod3)
 ts.diag(mod1)
 
