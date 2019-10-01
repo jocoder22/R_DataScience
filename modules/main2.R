@@ -24,11 +24,20 @@ endDate <- "2019-09-27"
 getSymbols("AAPL", src="yahoo", from=startDate, to=endDate)
 appleData <- AAPL[, "AAPL.Adjusted"] 
 
+appleR <- dailyReturn(Ad(AAPL), type = "arithmetic")
+Lo(AAPL)
+closeC <- ClCl()
+
+leadd <- OHLC(AAPL)
+head(leadd)
 
 # Calculate Apple returns
 apple <- CalculateReturns(appleData)[-1]
 colnames(apple) <- "Returns"
 
+head(apple)
+head(appleR)
+head(closeC)
 
 
 # Explore the dataset
