@@ -9,6 +9,7 @@ library(fUnitRoots)
 library(tseries)
 library(PerformanceAnalytics)
 library(fGarch)
+library(astsa)
 
 # Dataset: Apple Stock Prices
 # Source: Yahoo Finance
@@ -92,14 +93,18 @@ plot(apple)
 acf2(apple)
 acf2(apple$Returns)
 acf2(apple$Returns^2)
+acf2(appleR)
 
 
 
 # quick check using auto arima
-auto.arima(apple$Returns)
-auto.arima(appleR, stationary = TRUE, seasonal = TRUE, ic="aic")
+mod1 <- auto.arima(apple$Returns)
+mod2 <- auto.arima(appleR, stationary = TRUE, seasonal = TRUE, ic="aic")
+tsdiag(mod2)
 
-
+mod3 <- sarima(appleR,0,0,0)
+ts.diag(mod3)
+ts.diag(mod1)
 
 # formal testing for stationarity
 # using user defined fuction allTest
@@ -134,14 +139,15 @@ tseries::adf.test(apple$Returns)
 
 
 # model the data using fGarch::
-model1 <- garchFit(formula = ~ garch(3,0), data = apple$Returns, trace = F)
+model1 <- garchFit(formula = ~ garch(5,0), data = apple$Returns, trace = F)
 summary(model1)
 
 
 model2 <- garchFit(formula = ~ arma(0,0) + garch(1, 2), data = apple$Returns, 
-                   trace = F, cond.dist="snorm")
+                   trace = F, cond.dist="norm")
 # 'arg' should be one of “norm”, “snorm”, “ged”, “sged”, “std”, “sstd”, “snig”, “QMLE”
 summary(model2)
+show(model2)
 
 
 model3 <- garchFit(formula = ~ arma(0,0) + garch(1, 2), data = apple$Returns, 
