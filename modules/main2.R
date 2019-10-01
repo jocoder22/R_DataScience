@@ -73,7 +73,6 @@ acf2(rollsd)
 
 
 
-
 # plot the graphs
 par(mfrow = c(2,1))
 par(mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
@@ -87,9 +86,9 @@ acf2(apple$Returns^2)
 
 
 
-
 # quick check using auto arima
 auto.arima(apple)
+
 
 
 # formal testing for stationarity
@@ -146,8 +145,6 @@ mytable$model3 <- coef(model3)
 
 
 # model using rugarch::
-
-
 garchspec <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
                         variance.model = list(model="sGARCH", garchOrder=c(1,2)),
                         distribution.model = "std")
