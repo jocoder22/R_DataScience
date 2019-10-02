@@ -6,6 +6,7 @@ library(quantmod, quietly = T)
 library(PerformanceAnalytics, quietly = T)
 library(forecast, quietly = T)
 library(xts, quietly = T)
+library(FinTS, quietly = T)
 
 
 
@@ -74,6 +75,11 @@ acf(abs(predError), main="ACF of Absolute Prediction Error")
 par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
 plot(appleR, main="Apple stock Returns")
 plot(rollVol, main="Apple stock Returns: 1 Month rolling Volatility")
+
+
+# compute formal statistical test: Autocorrelation and ARCH test
+Box.test(appleR^2, type = "Ljung-Box", lag = 30)
+ArchTest(appleR)
 
 sink()
 
