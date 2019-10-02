@@ -68,5 +68,12 @@ par(mfrow = c(2,1), mar = c(4,3,3,3), oma = c(1, 1, 1, 1))
 plot(abs(predError), main="Absolute Prediction Error")
 acf(abs(predError), main="ACF of Absolute Prediction Error")
 
+
+
+# plot the graphs
+par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
+plot(appleR, main="Apple stock Returns")
+plot(rollVol, main="Apple stock Returns: 1 Month rolling Volatility")
+
 sink()
 
