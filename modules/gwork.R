@@ -5,6 +5,7 @@
 library(quantmod, quietly = T)
 library(PerformanceAnalytics, quietly = T)
 library(forecast, quietly = T)
+library(xts, quietly = T)
 
 
 
@@ -52,10 +53,16 @@ acf2(appleR^2, main="Apple Stock Returns Squared")
 # Visualized distribution of rolling window volatility
 rollVol <- rollapply(appleR, width = 22 , FUN = "sd.annualized")
 rollVol <- na.omit(rollVol)
+names(rollVol) <- "rollingVol"
 
-plot(modelvol[, "Sigma"], main="New York Times Returns GARCH Volatility")
-lines(modelvol[, "hhh"], col="red")
 
+rollVol$longVol <- returnVolatility
+volplot <- plot(rollVol[, "rollingVol"], main="Apple Stock Returns Volatility")
+volplot <- addSeries(rollVol[, "longVol"], col="red")
+volplot
+
+
+plot the residuals
 
 
 sink()
