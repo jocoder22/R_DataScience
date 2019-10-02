@@ -2,8 +2,9 @@
 #########################################################################################
 ########## Analysis plan ################################################################
 # Load necessary packages
-library(quantmod)
-library(PerformanceAnalytics)
+library(quantmod, quietly = T)
+library(PerformanceAnalytics, quietly = T)
+library(forecast, quietly = T)
 
 
 
@@ -40,11 +41,21 @@ plot(appleR, main="Apple stock Returns")
 returnMean <- mean(appleR)
 returnVolatility <- sd(appleR)
 returnSkewness <- skewness(appleR)
-returnKurtosis <- kurtosi(appleR)
+returnKurtosis <- kurtosis(appleR)
 
 # plot acf and pacf of apple returns and squared returns
 acf2(appleR, main="Apple Stock Returns")
 acf2(appleR^2, main="Apple Stock Returns Squared")
+
+
+
+# Visualized distribution of rolling window volatility
+rollVol <- rollapply(appleR, width = 22 , FUN = "sd.annualized")
+rollVol <- na.omit(rollVol)
+
+plot(modelvol[, "Sigma"], main="New York Times Returns GARCH Volatility")
+lines(modelvol[, "hhh"], col="red")
+
 
 
 sink()
