@@ -31,8 +31,7 @@ colnames(apple) <- "Returns"
 
 
 # plot the graphs
-par(mfrow = c(2,1))
-par(mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
+par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
 plot(apple, main="Apple stock Adjusted Close price")
 plot(appleR, main="Apple stock Returns")
 
@@ -43,7 +42,9 @@ returnVolatility <- sd(appleR)
 returnSkewness <- skewness(appleR)
 returnKurtosis <- kurtosi(appleR)
 
-
+# plot acf and pacf of apple returns and squared returns
+acf2(appleR, main="Apple Stock Returns")
+acf2(appleR^2, main="Apple Stock Returns Squared")
 
 
 sink()
