@@ -62,8 +62,11 @@ volplot <- addSeries(rollVol[, "longVol"], col="red")
 volplot
 
 
-plot the residuals
-
+# plot the residuals
+predError <- appleR - returnMean
+par(mfrow = c(2,1), mar = c(4,3,3,3), oma = c(1, 1, 1, 1))
+plot(abs(predError), main="Absolute Prediction Error")
+acf(abs(predError), main="ACF of Absolute Prediction Error")
 
 sink()
 
