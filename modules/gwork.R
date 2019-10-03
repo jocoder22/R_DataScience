@@ -101,20 +101,25 @@ fit = garchAuto(appleR, cores=1, trace=TRUE)
 # model using rugarch::
 garchspec <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
                         variance.model = list(model="sGARCH", garchOrder=c(1,1)),
-                        distribution.model = "sstd")
+                        distribution.model = "norm")
 
 model4 <- ugarchfit(spec=garchspec, data=appleR)
 summary(model4)
 model4
 
 
-stdret2 <- residuals(model4, standardize = TRUE)
+stdret <- residuals(model4, standardize = TRUE)
 
 
 # plot the histograms
 chart.Histogram(stdret, methods = c("add.normal","add.density" ), 
                 colorset = c("gray","red","blue"), 
                 main="Model Predicted Residuals under Normal Distribution")
+
+
+chart.Histogram(appleR, methods = c("add.normal","add.density" ), 
+                colorset = c("gray","red","blue"), 
+                main="Apple Returns under Normal Distribution")
 
  
 sink()
