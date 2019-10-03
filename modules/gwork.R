@@ -106,6 +106,16 @@ garchspec <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
 model4 <- ugarchfit(spec=garchspec, data=appleR)
 summary(model4)
 model4
+
+
+stdret2 <- residuals(model4, standardize = TRUE)
+
+
+# plot the histograms
+chart.Histogram(stdret, methods = c("add.normal","add.density" ), 
+                colorset = c("gray","red","blue"), 
+                main="Model Predicted Residuals under Normal Distribution")
+
  
 sink()
 
