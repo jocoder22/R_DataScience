@@ -7,6 +7,10 @@ library(PerformanceAnalytics, quietly = T)
 library(forecast, quietly = T)
 library(xts, quietly = T)
 library(FinTS, quietly = T)
+library(fGarch, quietly = T)
+library(astsa, quietly = T)
+library(rugarch, quietly = T)
+library(forecast, quietly = T)
 
 
 
@@ -30,7 +34,7 @@ apple <- AAPL[, "AAPL.Adjusted"]
 
 # Calculate Apple returns
 appleR <- CalculateReturns(apple)[-1]
-colnames(apple) <- "Returns"
+colnames(appleR) <- "Returns"
 
 
 # plot the graphs
@@ -81,5 +85,30 @@ plot(rollVol, main="Apple stock Returns: 1 Month rolling Volatility")
 Box.test(appleR^2, type = "Ljung-Box", lag = 30)
 ArchTest(appleR)
 
+
+source(file.path(filepath, "modules","garchAuto.R"))
+
+# spy = getSymbols("SPY", auto.assign=FALSE) 
+# rets = ROC(Cl(spy), na.pad=FALSE)
+fit = garchAuto(appleR, cores=1, trace=TRUE)
+# spy = getSymbols("SPY", auto.assign=FALSE)
+# rets = ROC(Cl(spy), na.pad=FALSE)
+# fit = garchAuto(rets, cores=1, trace=TRUE)
+
+# Analyzing (5,2,1,1) with sged distribution done.Good model. AIC = -5.567287, forecast: 0.0024
+
+
+# model using rugarch::
+garchspec <- ugarchspec(mean.model = list(armaOrder=c(2,2)),
+                        variance.model = list(model="gjrGARCH", garchOrder=c(1,1)),
+                        distribution.model = "sstd")
+
+model4 <- ugarchfit(spec=garchspec, data=appleR)
+summary(model4)
+model4
+
 sink()
 
+
+
+ 

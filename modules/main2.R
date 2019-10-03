@@ -163,20 +163,20 @@ mytable$model3 <- coef(model3)
 
 
 # model using rugarch::
-garchspec <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
-                        variance.model = list(model="sGARCH", garchOrder=c(1,2)),
-                        distribution.model = "std")
+garchspec <- ugarchspec(mean.model = list(armaOrder=c(2,2)),
+                        variance.model = list(model="gjrGARCH", garchOrder=c(1,1)),
+                        distribution.model = "sstd")
 
-model4 <- ugarchfit(spec=garchspec, data=apple$Returns)
+model4 <- ugarchfit(spec=garchspec, data=appleR)
 summary(model4)
 model4
 
 
-uncov <- sqrt(coef(model4)[1]/(1 - sum(coef(model4)[2:5])))
-predvol <- xts(sqrt(252) * model4@fit$sigma, order.by = time(apple))
-uncon <- xts(rep(uncov, length(predvol)),  order.by = time(apple))
-plot(predvol)
-lines(uncon, type='l', col="red")
+# uncov <- sqrt(coef(model4)[1]/(1 - sum(coef(model4)[2:5])))
+# predvol <- xts(sqrt(252) * model4@fit$sigma, order.by = time(apple))
+# uncon <- xts(rep(uncov, length(predvol)),  order.by = time(apple))
+# plot(predvol)
+# lines(uncon, type='l', col="red")
 
 
 
