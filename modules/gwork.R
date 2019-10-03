@@ -99,14 +99,14 @@ fit = garchAuto(appleR, cores=1, trace=TRUE)
 
 
 # model using rugarch::
-garchspec <- ugarchspec(mean.model = list(armaOrder=c(2,2)),
-                        variance.model = list(model="gjrGARCH", garchOrder=c(1,1)),
+garchspec <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+                        variance.model = list(model="sGARCH", garchOrder=c(1,1)),
                         distribution.model = "sstd")
 
 model4 <- ugarchfit(spec=garchspec, data=appleR)
 summary(model4)
 model4
-
+ 
 sink()
 
 
