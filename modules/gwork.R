@@ -72,14 +72,14 @@ tseries::adf.test(appleReturns)
 auto.arima(appleReturns)
 
 # Visualized distribution of rolling window volatility
-rollVol <- rollapply(appleReturns, width = 22 , FUN = "sd.annualized")
+rollVol <- rollapply(appleReturns, width = 66 , FUN = "sd.annualized")
 rollVol <- na.omit(rollVol)
 names(rollVol) <- "rollingVol"
 
 
 rollVol$longVol <- returnVolatility
-volplot <- plot(rollVol[, "rollingVol"], main="Apple Stock Returns Volatility")
-volplot <- addSeries(rollVol[, "longVol"], col="red")
+volplot <- plot(rollVol[, "rollingVol"], main="Apple Stock quarterly Returns Volatility")
+# volplot <- addSeries(rollVol[, "longVol"], col="red")
 volplot
 
 
