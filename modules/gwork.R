@@ -24,7 +24,7 @@ sink(file.path(filepath, "modules", "submission22.doc"),
 # Frequency: Daily
 
 # Download datasets
-startDate <- "2010-01-01"
+startDate <- "2000-01-01"
 endDate <- "2019-09-27"
 
 
@@ -104,9 +104,11 @@ ArchTest(appleReturns)
 
 source(file.path(filepath, "modules","garchAuto.R"))
 
+
+auto.arima(appleReturns)
 # spy = getSymbols("SPY", auto.assign=FALSE)
 # rets = ROC(Cl(spy), na.pad=FALSE)
-fit = garchAuto(appleReturns, cores=1, trace=TRUE)
+# fit = garchAuto(appleReturns, cores=1, trace=TRUE)
 # spy = getSymbols("SPY", auto.assign=FALSE)
 # rets = ROC(Cl(spy), na.pad=FALSE)
 # fit = garchAuto(rets, cores=1, trace=TRUE)
@@ -115,9 +117,9 @@ fit = garchAuto(appleReturns, cores=1, trace=TRUE)
 #
 
 # model using rugarch::
-garchspec <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
+garchspec <- ugarchspec(mean.model = list(armaOrder=c(10,10)),
                         variance.model = list(model="sGARCH"),
-                        distribution.model = "sstd")
+                        distribution.model = "snorm")
 
 model4 <- ugarchfit(spec=garchspec, data=appleReturns)
 summary(model4)
