@@ -57,8 +57,8 @@ returnKurtosis
 
 # 
 # plot acf and pacf of apple returns and squared returns
-acf2(appleReturns, main="Apple Stock Returns")
-acf2(appleReturns^2, main=" Squared Apple Stock Returns")
+acf2(appleReturns, main=" Apple Stock Returns ")
+acf2(appleReturns^2, main=" Squared Apple Stock Returns ")
 
 frequency(apple)
 Box.test(appleReturns, type="Ljung-Box", lag=12)
