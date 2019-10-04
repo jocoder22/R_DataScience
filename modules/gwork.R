@@ -124,7 +124,7 @@ summary(model4)
 model4
 
 
-#  stdret <- residuals(model4, standardize = TRUE)
+ stdret <- residuals(model4, standardize = TRUE)
 #
 #
 # plot the histograms
