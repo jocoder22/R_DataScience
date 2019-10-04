@@ -24,7 +24,7 @@ sink(file.path(filepath, "modules", "submission22.doc"),
 # Frequency: Daily
 
 # Download datasets
-startDate <- "2000-01-01"
+startDate <- "2010-01-01"
 endDate <- "2019-09-27"
 
 
@@ -115,9 +115,9 @@ fit = garchAuto(appleReturns, cores=1, trace=TRUE)
 #
 
 # model using rugarch::
-garchspec <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
-                        variance.model = list(model="fGARCH", submodel="TGARCH"),
-                        distribution.model = "snorm")
+garchspec <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
+                        variance.model = list(model="sGARCH"),
+                        distribution.model = "sstd")
 
 model4 <- ugarchfit(spec=garchspec, data=appleReturns)
 summary(model4)
