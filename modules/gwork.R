@@ -66,21 +66,22 @@ Box.test(appleReturns^2, type="Ljung-Box", lag=12)
 
 ArchTest(coredata(appleReturns))
 adf.test(appleReturns)
-forecast::adf(appleReturns)
+
+
 tseries::adf.test(appleReturns)
 auto.arima(appleReturns)
-#
-# # Visualized distribution of rolling window volatility
-# rollVol <- rollapply(appleReturns, width = 22 , FUN = "sd.annualized")
-# rollVol <- na.omit(rollVol)
-# names(rollVol) <- "rollingVol"
-#
-#
-# rollVol$longVol <- returnVolatility
-# volplot <- plot(rollVol[, "rollingVol"], main="Apple Stock Returns Volatility")
-# volplot <- addSeries(rollVol[, "longVol"], col="red")
-# volplot
-#
+
+# Visualized distribution of rolling window volatility
+rollVol <- rollapply(appleReturns, width = 22 , FUN = "sd.annualized")
+rollVol <- na.omit(rollVol)
+names(rollVol) <- "rollingVol"
+
+
+rollVol$longVol <- returnVolatility
+volplot <- plot(rollVol[, "rollingVol"], main="Apple Stock Returns Volatility")
+volplot <- addSeries(rollVol[, "longVol"], col="red")
+volplot
+
 #
 # # plot the residuals
 # predError <- appleReturns - returnMean
