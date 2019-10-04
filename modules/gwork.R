@@ -82,61 +82,61 @@ volplot <- plot(rollVol[, "rollingVol"], main="Apple Stock Returns Volatility")
 volplot <- addSeries(rollVol[, "longVol"], col="red")
 volplot
 
-#
-# # plot the residuals
-# predError <- appleReturns - returnMean
-# par(mfrow = c(2,1), mar = c(4,3,3,3), oma = c(1, 1, 1, 1))
-# plot(abs(predError), main="Absolute Prediction Error")
-# acf(abs(predError), main="ACF of Absolute Prediction Error")
-#
-#
-#
-# # plot the graphs
-# par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
-# plot(appleReturns, main="Apple stock Returns")
-# plot(rollVol, main="Apple stock Returns: 1 Month rolling Volatility")
-#
-#
-# # compute formal statistical test: Autocorrelation and ARCH test
-# Box.test(appleReturns^2, type = "Ljung-Box", lag = 30)
-# ArchTest(appleReturns)
-#
-#
-# source(file.path(filepath, "modules","garchAuto.R"))
-#
-# # spy = getSymbols("SPY", auto.assign=FALSE)
-# # rets = ROC(Cl(spy), na.pad=FALSE)
-# fit = garchAuto(appleReturns, cores=1, trace=TRUE)
-# # spy = getSymbols("SPY", auto.assign=FALSE)
-# # rets = ROC(Cl(spy), na.pad=FALSE)
-# # fit = garchAuto(rets, cores=1, trace=TRUE)
-#
+
+# plot the residuals
+predError <- appleReturns - returnMean
+par(mfrow = c(2,1), mar = c(4,3,3,3), oma = c(1, 1, 1, 1))
+plot(abs(predError), main="Absolute Prediction Error")
+acf(abs(predError), main="ACF of Absolute Prediction Error")
+
+
+
+# plot the graphs
+par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
+plot(appleReturns, main="Apple stock Returns")
+plot(rollVol, main="Apple stock Returns: 1 Month rolling Volatility")
+
+
+# compute formal statistical test: Autocorrelation and ARCH test
+Box.test(appleReturns^2, type = "Ljung-Box", lag = 30)
+ArchTest(appleReturns)
+
+
+source(file.path(filepath, "modules","garchAuto.R"))
+
+# spy = getSymbols("SPY", auto.assign=FALSE)
+# rets = ROC(Cl(spy), na.pad=FALSE)
+fit = garchAuto(appleReturns, cores=1, trace=TRUE)
+# spy = getSymbols("SPY", auto.assign=FALSE)
+# rets = ROC(Cl(spy), na.pad=FALSE)
+# fit = garchAuto(rets, cores=1, trace=TRUE)
+
 # # Analyzing (5,2,1,1) with sged distribution done.Good model. AIC = -5.567287, forecast: 0.0024
 #
-#
-# # model using rugarch::
-# garchspec <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
-#                         variance.model = list(model="fGARCH", submodel="TGARCH"),
-#                         distribution.model = "snorm")
-#
-# model4 <- ugarchfit(spec=garchspec, data=appleReturns)
-# summary(model4)
-# model4
-#
-#
+
+# model using rugarch::
+garchspec <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+                        variance.model = list(model="fGARCH", submodel="TGARCH"),
+                        distribution.model = "snorm")
+
+model4 <- ugarchfit(spec=garchspec, data=appleReturns)
+summary(model4)
+model4
+
+
 #  stdret <- residuals(model4, standardize = TRUE)
 #
 #
-# # plot the histograms
-# chart.Histogram(stdret, methods = c("add.normal","add.density" ),
-#                 colorset = c("gray","red","blue"),
-#                 main="Model Predicted Residuals under Normal Distribution")
-#
-#
-# chart.Histogram(predError, methods = c("add.normal","add.density" ),
-#                 colorset = c("gray","red","blue"),
-#                 main="Apple Returns under Normal Distribution")
-#
+# plot the histograms
+chart.Histogram(stdret, methods = c("add.normal","add.density" ),
+                colorset = c("gray","red","blue"),
+                main="Model Predicted Residuals under Normal Distribution")
+
+
+chart.Histogram(predError, methods = c("add.normal","add.density" ),
+                colorset = c("gray","red","blue"),
+                main="Apple Returns under Normal Distribution")
+
 #
 sink()
 
