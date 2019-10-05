@@ -371,21 +371,22 @@ plot(forca,which=1)
 
 fit = ugarchfit(data=appleReturns, spec=garchspecA0, out.sample=100)
 forc = ugarchforecast(fit, n.ahead=100)
-round(fpm(forc), 5)
+r1 <- round(fpm(forc), 8)
+
 
 fit2 = ugarchfit(data=appleReturns, spec=garchspecA02, out.sample=100)
 forc2 = ugarchforecast(fit2, n.ahead=100)
-round(fpm(forc2), 5)
+r2 <- round(fpm(forc2), 8)
 
 
 fit3 = ugarchfit(data=appleReturns, spec=garchspecE, out.sample=100)
 forc3 = ugarchforecast(fit3, n.ahead=100)
-round(fpm(forc3), 5)
+r3 <- round(fpm(forc3), 8)
 
 
 fit4 = ugarchfit(data=appleReturns, spec=garchspecT, out.sample=100)
 forc4 = ugarchforecast(fit4, n.ahead=100)
-round(fpm(forc4), 5)
+r4 <- round(fpm(forc4), 8)
 
 sink()
 
