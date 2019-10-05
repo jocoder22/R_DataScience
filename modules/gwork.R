@@ -364,7 +364,8 @@ plot(A02)
 par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
 forca <- ugarchforecast(A02, n.ahead = 22)
 fitted(forca)
-plot(forca,which=1)
+for(x in c(1,3)){plot(forca, which=x)} 
+
 
 
 
@@ -379,14 +380,14 @@ forc2 = ugarchforecast(fit2, n.ahead=100)
 r2 <- round(fpm(forc2), 8)
 
 
-fit3 = ugarchfit(data=appleReturns, spec=garchspecE, out.sample=100)
-forc3 = ugarchforecast(fit3, n.ahead=100)
-r3 <- round(fpm(forc3), 8)
-
-
 fit4 = ugarchfit(data=appleReturns, spec=garchspecT, out.sample=100)
 forc4 = ugarchforecast(fit4, n.ahead=100)
 r4 <- round(fpm(forc4), 8)
+
+modelPerf <- data.frame(cbind(r1,r2,r4))
+names(modelPerf) <- c("Model 1", "Model 2", "Model 3")
+modelPerf
+
 
 sink()
 
