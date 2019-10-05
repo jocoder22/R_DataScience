@@ -24,7 +24,7 @@ sink(file.path(filepath, "modules", "submission22.doc"),
 # Frequency: Daily
 
 # Download datasets
-startDate <- "2000-01-01"
+startDate <- "2010-01-01"
 endDate <- "2019-09-27"
 
 
@@ -55,7 +55,13 @@ returnVolatility
 returnSkewness 
 returnKurtosis 
 
-# 
+
+# Perform adf test and Box-Test on Apple Returns
+tseries::adf.test(appleReturns)
+Box.test(appleReturns, type="Ljung-Box", lag=12)
+
+
+#########################################################
 # plot acf and pacf of apple returns and squared returns
 acf2(appleReturns, main=" Apple Stock Returns ")
 acf2(appleReturns^2, main=" Squared Apple Stock Returns ")
@@ -72,15 +78,16 @@ tseries::adf.test(appleReturns)
 auto.arima(appleReturns)
 
 # Visualized distribution of rolling window volatility
-rollVol <- rollapply(appleReturns, width = 66 , FUN = "sd.annualized")
-rollVol <- na.omit(rollVol)
-names(rollVol) <- "rollingVol"
+par(mfrow = c(3,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
+rollweekly <- rollapply(appleReturns, width = 5 , FUN = "sd.annualized")
+rollmonthly <- rollapply(appleReturns, width = 22 , FUN = "sd.annualized")
+rollquarterly <- rollapply(appleReturns, width = 65 , FUN = "sd.annualized")
 
 
-rollVol$longVol <- returnVolatility
-volplot <- plot(rollVol[, "rollingVol"], main="Apple Stock quarterly Returns Volatility")
-# volplot <- addSeries(rollVol[, "longVol"], col="red")
-volplot
+plot(rollweekly, main="Apple Stock Weekly Returns Volatility")
+plot(rollmonthly, main="Apple Stock Monthly Returns Volatility")
+plot(rollquarterly, main="Apple Stock Quarterly Returns Volatility")
+
 
 
 # plot the residuals
@@ -106,6 +113,7 @@ source(file.path(filepath, "modules","garchAuto.R"))
 
 
 auto.arima(appleReturns)
+autoarfima(appleReturns, ar.max = 5, ma.max=5, criterion = "AIC", method="full")
 # spy = getSymbols("SPY", auto.assign=FALSE)
 # rets = ROC(Cl(spy), na.pad=FALSE)
 # fit = garchAuto(appleReturns, cores=1, trace=TRUE)
@@ -117,16 +125,16 @@ auto.arima(appleReturns)
 #
 
 # model using rugarch::
-garchspec <- ugarchspec(mean.model = list(armaOrder=c(10,10)),
+garchspec <- ugarchspec(mean.model = list(armaOrder=c(2,1)),
                         variance.model = list(model="sGARCH"),
-                        distribution.model = "snorm")
+                        distribution.model = "sstd")
 
 model4 <- ugarchfit(spec=garchspec, data=appleReturns)
-summary(model4)
+# summary(model4)
 model4
 
 
- stdret <- residuals(model4, standardize = TRUE)
+stdret <- residuals(model4, standardize = TRUE)
 #
 #
 # plot the histograms
