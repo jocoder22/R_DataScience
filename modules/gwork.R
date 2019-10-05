@@ -106,18 +106,20 @@ acf2(appleReturnsSquared, main=" Squared Apple Stock Returns ")
 
 library(car)
 
-qqnormPlot(appleReturns)
-qqnormPlot(na.omit(rollweekly))
-qqghtPlot(appleReturns)
-qqghtPlot(na.omit(rollweekly))
+# plot the qqplots
+qqnormPlot(appleReturns, title=FALSE, main=" NORM QQ PLOT: Apple Returns")
+qqnormPlot(na.omit(rollweekly), title=FALSE,main="NORM QQ PLOT: Apple Returns Volatility")
+qqghtPlot(appleReturns,title=FALSE, pch=14, main="GHT QQ PLOT: Apple Returns")
+qqghtPlot(na.omit(rollweekly),title=FALSE, pch=14, main="GHT QQ PLOT: Apple Returns Volatility")
 
+# investigate the armaOrder with auto.arima() and autoarfima()
 auto.arima(appleReturns)
-
+autoarfima(appleReturns, ar.max = 3, ma.max=3, criterion = "HQIC", method="full")
 # source(file.path(filepath, "modules","garchAuto.R"))
 
 
 # auto.arima(appleReturns)
-autoarfima(appleReturns, ar.max = 3, ma.max=3, criterion = "HQIC", method="full")
+# autoarfima(appleReturns, ar.max = 3, ma.max=3, criterion = "HQIC", method="full")
 # spy = getSymbols("SPY", auto.assign=FALSE)
 # rets = ROC(Cl(spy), na.pad=FALSE)
 # fit = garchAuto(appleReturns, cores=1, trace=TRUE)
