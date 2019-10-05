@@ -8,9 +8,8 @@ library(forecast, quietly = T)
 library(xts, quietly = T)
 library(FinTS, quietly = T)
 library(fGarch, quietly = T)
-library(astsa, quietly = T)
 library(rugarch, quietly = T)
-library(forecast, quietly = T)
+library(car)
 
 
 
@@ -86,75 +85,310 @@ acf2(appleReturnsSquared, main=" Squared Apple Stock Returns ")
 
 
 
-
-
-# # plot the residuals
-# predError <- appleReturns - returnMean
-# par(mfrow = c(2,1), mar = c(4,3,3,3), oma = c(1, 1, 1, 1))
-# plot(abs(predError), main="Absolute Prediction Error")
-# acf(abs(predError), main="ACF of Absolute Prediction Error")
-
-
-
-# # plot the graphs
-# par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
-# plot(appleReturns, main="Apple stock Returns")
-# plot(rollVol, main="Apple stock Returns: 1 Month rolling Volatility")
-
-
-
-
-library(car)
-
-# plot the qqplots
+# plot the qqplots to investigate the model distribution
 qqnormPlot(appleReturns, title=FALSE, main=" NORM QQ PLOT: Apple Returns")
 qqnormPlot(na.omit(rollweekly), title=FALSE,main="NORM QQ PLOT: Apple Returns Volatility")
-qqghtPlot(appleReturns,title=FALSE, pch=14, main="GHT QQ PLOT: Apple Returns")
-qqghtPlot(na.omit(rollweekly),title=FALSE, pch=14, main="GHT QQ PLOT: Apple Returns Volatility")
+qqghtPlot(appleReturns, pch=14, sub="GHT QQ PLOT: Apple Returns")
+qqghtPlot(na.omit(rollweekly), pch=14, sub="GHT QQ PLOT: Apple Returns Volatility")
+
+
 
 # investigate the armaOrder with auto.arima() and autoarfima()
 auto.arima(appleReturns)
-autoarfima(appleReturns, ar.max = 3, ma.max=3, criterion = "HQIC", method="full")
-# source(file.path(filepath, "modules","garchAuto.R"))
+# Series: appleReturns 
+# ARIMA(0,0,0) with non-zero mean
+
+autoarfima(appleReturns, ar.max = 4, ma.max=4, criterion = "HQIC", method="full")
+# Mean Model	: ARFIMA(3,0,3)
+# Distribution	: norm 
 
 
-# auto.arima(appleReturns)
-# autoarfima(appleReturns, ar.max = 3, ma.max=3, criterion = "HQIC", method="full")
-# spy = getSymbols("SPY", auto.assign=FALSE)
-# rets = ROC(Cl(spy), na.pad=FALSE)
-# fit = garchAuto(appleReturns, cores=1, trace=TRUE)
-# spy = getSymbols("SPY", auto.assign=FALSE)
-# rets = ROC(Cl(spy), na.pad=FALSE)
-# fit = garchAuto(rets, cores=1, trace=TRUE)
 
-# # Analyzing (5,2,1,1) with sged distribution done.Good model. AIC = -5.567287, forecast: 0.0024
-#
-# 
-# # model using rugarch::
-# garchspec <- ugarchspec(mean.model = list(armaOrder=c(2,1)),
-#                         variance.model = list(model="sGARCH"),
-#                         distribution.model = "sstd")
-# 
-# model4 <- ugarchfit(spec=garchspec, data=appleReturns)
-# # summary(model4)
-# model4
-# 
-# 
-# stdret <- residuals(model4, standardize = TRUE)
-# #
-# #
-# # plot the histograms
-# chart.Histogram(stdret, methods = c("add.normal","add.density" ),
-#                 colorset = c("gray","red","blue"),
-#                 main="Model Predicted Residuals under Normal Distribution")
-# 
-# 
-# chart.Histogram(predError, methods = c("add.normal","add.density" ),
-#                 colorset = c("gray","red","blue"),
-#                 main="Apple Returns under Normal Distribution")
-# 
-# #
+# create model specs  
+garchspec1 <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
+                         variance.model = list(model="sGARCH"),
+                         distribution.model = "norm")
+
+garchspec2 <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
+                         variance.model = list(model="sGARCH"),
+                         distribution.model = "std")
+
+garchspec3 <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
+                         variance.model = list(model="gjrGARCH"),
+                         distribution.model = "sstd")
+
+garchspec4 <- ugarchspec(mean.model = list(armaOrder=c(0,0), archm=TRUE, archpow=2),
+                         variance.model = list(model="gjrGARCH"),
+                         distribution.model = "sstd")
+
+garchspec5 <- ugarchspec(mean.model = list(armaOrder=c(0,0), archm=TRUE, archpow=2),
+                         variance.model = list(model="gjrGARCH"),
+                         distribution.model = "ghyp")
+
+model1 <- ugarchfit(data=appleReturns, spec=garchspec1)
+model2 <- ugarchfit(data=appleReturns, spec=garchspec2)
+model3 <- ugarchfit(data=appleReturns, spec=garchspec3)
+model4 <- ugarchfit(data=appleReturns, spec=garchspec4)
+model5 <- ugarchfit(data=appleReturns, spec=garchspec5)
+
+
+
+# calculate the standard residuals
+resid1 <- residuals(model1, standardize = TRUE)
+resid2 <- residuals(model2, standardize = TRUE)
+resid3 <- residuals(model3, standardize = TRUE)
+resid4 <- residuals(model4, standardize = TRUE)
+resid5 <- residuals(model5, standardize = TRUE)
+
+
+# plot the returns and residuals
+dev.off()
+par(mfrow=c(2,1))
+par(mar = c(1,1,1,1), oma = c(1, 1, 1, 1))
+plot(appleReturns, main="Apple Daily Returns")
+plot(resid1, main="Residual Model 1")
+
+
+# check correlations
+acf(appleReturns, main="ACF Apple Daily Returns")
+acf(abs(resid1), main="ACF Residual Model 1")
+
+
+# Box test on absolute residuals 
+Box.test(abs(resid1), 22, type = "Ljung-Box")
+Box.test(abs(resid2), 22, type = "Ljung-Box")
+Box.test(abs(resid3), 22, type = "Ljung-Box")
+# Box.test(abs(resid3), 22, type = "Ljung-Box")$p.value
+Box.test(abs(resid4), 22, type = "Ljung-Box")
+Box.test(abs(resid5), 22, type = "Ljung-Box")
+
+
+modelSelection <- function(m1, m2){
+  res1 <- residuals(m1);
+  res2 <- residuals(m2);
+  rms1 <- mean(res1^2); 
+  rms2 <- mean(res2^2);
+  
+  lik1 <- likelihood(m1);
+  lik2 <- likelihood(m2);
+  
+  n1 <- length(coef(m1));
+  n2 <- length(coef(m2));
+  
+  aic1 <- infocriteria(m1)["Akaike",];
+  aic2 <- infocriteria(m2)["Akaike",];
+  
+  bic1 <- infocriteria(m1)["Bayes",];
+  bic2 <- infocriteria(m2)["Bayes",];
+  
+  m11 <- deparse(substitute(m1));
+  m22 <- deparse(substitute(m2));
+  
+  resid1 <- residuals(m1, standardize = TRUE)
+  resid2 <- residuals(m2, standardize = TRUE)
+  bmol1 <- Box.test(abs(resid1), 22, type = "Ljung-Box")$p.value;
+  bmol2 <- Box.test(abs(resid2), 22, type = "Ljung-Box")$p.value;
+  
+  cat(sprintf("Ljung Box p-value for %s is %.3f\n", m11, bmol1))
+  cat(sprintf("Ljung Box p-value for %s is %.3f\n", m22, bmol2))
+  cat("Based on RMSE: ")
+  if (rms1 > rms2){
+    cat(sprintf("%s with %s parameter is better\n", m22, n2));
+  }
+  else cat(sprintf("%s with %s parameter is better\n", m11, n1));
+  
+  
+  cat("Based on Likelihood: ")
+  if (lik1 > lik2){
+    cat(sprintf("%s with %s parameter is better\n", m11, n1));
+  }
+  else cat(sprintf("%s with %s parameter is better\n", m22, n2));
+  
+  cat("Based on Akaike Criteria (AIC): ")
+  if (aic2 > aic1){
+    cat(sprintf("%s with %s parameter is better\n", m11, n1));
+  }
+  else cat(sprintf("%s with %s parameter is better\n", m22, n2));
+  
+  
+  cat("Based on Bayes Creteria (BIC): ")
+  if (bic2 > bic1){
+    cat(sprintf("%s with %s parameter is better\n", m11, n1));
+  }
+  else cat(sprintf("%s with %s parameter is better\n", m22, n2));
+  
+}
+
+modelSelection(model1, model3)
+modelSelection(model2, model3)
+modelSelection(model4, model3)
+modelSelection(model5, model3)
+# model3 is the winner here!
+
+
+
+# model specification
+garchspecAR22 <- ugarchspec(mean.model = list(armaOrder=c(2,2)),
+                           variance.model = list(model="gjrGARCH"),
+                           distribution.model = "sstd")
+garchspecAR23 <- ugarchspec(mean.model = list(armaOrder=c(2,3)),
+                            variance.model = list(model="gjrGARCH"),
+                            distribution.model = "sstd")
+garchspecAR24 <- ugarchspec(mean.model = list(armaOrder=c(2,4)),
+                            variance.model = list(model="gjrGARCH"),
+                            distribution.model = "sstd")
+garchspecAR32 <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+                            variance.model = list(model="gjrGARCH"),
+                            distribution.model = "sstd")
+garchspecAR33 <- ugarchspec(mean.model = list(armaOrder=c(3,3)),
+                            variance.model = list(model="gjrGARCH"),
+                            distribution.model = "sstd")
+garchspecAR34 <- ugarchspec(mean.model = list(armaOrder=c(3,4)),
+                            variance.model = list(model="gjrGARCH"),
+                            distribution.model = "sstd")
+
+
+ar22 <- ugarchfit(data=appleReturns, spec=garchspecAR22)
+ar23 <- ugarchfit(data=appleReturns, spec=garchspecAR23)
+ar24 <- ugarchfit(data=appleReturns, spec=garchspecAR24)
+ar32 <- ugarchfit(data=appleReturns, spec=garchspecAR32)
+ar33 <- ugarchfit(data=appleReturns, spec=garchspecAR33)
+ar34 <- ugarchfit(data=appleReturns, spec=garchspecAR34)
+
+modelSelection(ar22, ar32)
+modelSelection(ar23, ar32)
+modelSelection(ar24, ar32)
+modelSelection(ar33, ar32)
+modelSelection(ar34, ar32)
+modelSelection(ar32, model3)
+
+# armOrder(3,2) is better
+
+
+garchspecA0 <- ugarchspec(mean.model = list(armaOrder=c(2,3)),
+                            variance.model = list(model="gjrGARCH"),
+                            distribution.model = "sstd", fixed.pars = list(alpha1=0))
+A0 <- ugarchfit(data=appleReturns, spec=garchspecA0)
+
+garchspecA02 <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+                          variance.model = list(model="gjrGARCH"),
+                          distribution.model = "sstd", fixed.pars = list(alpha1=0))
+A02 <- ugarchfit(data=appleReturns, spec=garchspecA0)
+
+modelSelection(A02, ar32)
+modelSelection(A0, A02)
+# A02 better
+
+
+
+
+# fit different variance model
+garchspecI<- ugarchspec(mean.model = list(armaOrder=c(2,3)),
+                            variance.model = list(model="iGARCH"),
+                            distribution.model = "sstd")
+garchspecS <- ugarchspec(mean.model = list(armaOrder=c(2,3)),
+                            variance.model = list(model="sGARCH"),
+                            distribution.model = "sstd")
+garchspecE <- ugarchspec(mean.model = list(armaOrder=c(2,3)),
+                            variance.model = list(model="eGARCH"),
+                            distribution.model = "sstd")
+garchspecT <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+                            variance.model = list(model="fGARCH", submodel="TGARCH"),
+                            distribution.model = "sstd")
+
+I <- ugarchfit(data=appleReturns, spec=garchspecI)
+S <- ugarchfit(data=appleReturns, spec=garchspecS)
+E <- ugarchfit(data=appleReturns, spec=garchspecE)
+TT <- ugarchfit(data=appleReturns, spec=garchspecT)
+
+modelSelection(E, TT)
+modelSelection(S, TT)
+modelSelection(I, TT)
+# TT is better!
+modelSelection(A02, TT)
+modelSelection(A0, TT)
+modelSelection(model3, TT)
+
+# E, TT, A0, A02
+
+
+# Backtesting
+
+modelBackTesting <- function(mod1, mod2, ddata){
+  
+  start <- length(ddata) - 1000;
+  
+  params <- list(data=ddata, n.start = start,
+                 refit.window = "moving", refit.every = 200)
+  
+  result1 <- do.call(ugarchroll, c(mod1, params));
+  result2 <- do.call(ugarchroll, c(mod2, params));
+  
+  
+  pred1 <- as.data.frame(result1);
+  pred2 <- as.data.frame(result2);
+  
+  
+  e1 <- mean((pred1$Realized - pred1$Mu)^2);
+  e2 <- mean((pred2$Realized - pred2$Mu)^2);
+  
+  m11 <- deparse(substitute(mod1));
+  m22 <- deparse(substitute(mod2));
+  
+  
+  if (e1 > e2){
+    cat(sprintf("%s is the better model.\n", m22));
+  }
+  else cat(sprintf("%s is the better model.\n", m11));
+  
+  cat(sprintf("%s RMSE: %s\n", m11, e1));
+  cat(sprintf("%s RMSE: %s\n", m22, e2))
+}
+
+
+# garchspecE,  garchspecT, garchspecA02, garchspecA0
+modelBackTesting(garchspecA02, garchspecA0, appleReturns)
+modelBackTesting(garchspecA02, garchspecT, appleReturns)
+modelBackTesting(garchspecA02, garchspecE, appleReturns)
+modelBackTesting(garchspecA02, garchspec3, appleReturns)
+ 
+
+# show and plot the preferred model
+show(A02)
+A02
+par(mfrow = c(2,2), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
+plot(A02)
+
+
+# forecast next 22 apple daily returns
+par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
+forca <- ugarchforecast(A02, n.ahead = 22)
+fitted(forca)
+plot(forca,which=1)
+
+
+
+
+fit = ugarchfit(data=appleReturns, spec=garchspecA0, out.sample=100)
+forc = ugarchforecast(fit, n.ahead=100)
+round(fpm(forc), 5)
+
+fit2 = ugarchfit(data=appleReturns, spec=garchspecA02, out.sample=100)
+forc2 = ugarchforecast(fit2, n.ahead=100)
+round(fpm(forc2), 5)
+
+
+fit3 = ugarchfit(data=appleReturns, spec=garchspecE, out.sample=100)
+forc3 = ugarchforecast(fit3, n.ahead=100)
+round(fpm(forc3), 5)
+
+
+fit4 = ugarchfit(data=appleReturns, spec=garchspecT, out.sample=100)
+forc4 = ugarchforecast(fit4, n.ahead=100)
+round(fpm(forc4), 5)
+
 sink()
 
 
 
+ 
