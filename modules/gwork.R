@@ -10,7 +10,7 @@ library(FinTS, quietly = T)
 library(fGarch, quietly = T)
 library(rugarch, quietly = T)
 library(car)
-
+library(nortest)
 
 
 filepath <- getwd()
@@ -92,6 +92,25 @@ qqghtPlot(appleReturns, pch=14, sub="GHT QQ PLOT: Apple Returns")
 qqghtPlot(na.omit(rollweekly), pch=14, sub="GHT QQ PLOT: Apple Returns Volatility")
 
 
+
+# more plot to investigate the underlying distribution
+par(mfrow = c(2,1), mar = c(4,4,3,3), oma = c(1, 1, 1, 1))
+applenorm<-(appleReturns-mean(appleReturns))/sd(appleReturns) 
+qqnorm(applenorm) 
+abline(0,1) 
+
+chart.Histogram(z.norm, methods = c("add.normal","add.density" ), 
+                colorset = c("gray","red","blue"), 
+                main="Returns under Normal Distribution")
+
+
+
+# statistical test for normality
+sf.test(coredata(appleReturns))
+ad.test(coredata(appleReturns))
+cvm.test(coredata(appleReturns))
+lillie.test(coredata(appleReturns))
+pearson.test(coredata(appleReturns))
 
 # investigate the armaOrder with auto.arima() and autoarfima()
 auto.arima(appleReturns)
@@ -357,8 +376,8 @@ modelBackTesting(garchspecA02, garchspec3, appleReturns)
 show(A02)
 A02
 par(mfrow = c(2,2), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
-plot(A02)
-
+# plot(A02)
+for(x in c(1:12)){plot(A02, which=x)} 
 
 # forecast next 22 apple daily returns
 par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
