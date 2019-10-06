@@ -237,6 +237,8 @@ modelSelection <- function(m1, m2){
   }
   else cat(sprintf("%s with %s parameters is better\n", m22, n2));
   
+  cat("\n\n\n");
+  
 }
 
 modelSelection(model1, model3)
@@ -285,19 +287,15 @@ modelSelection(ar32, model3)
 # armOrder(3,2) is better
 
 
-garchspecA0 <- ugarchspec(mean.model = list(armaOrder=c(2,3)),
-                            variance.model = list(model="gjrGARCH"),
-                            distribution.model = "sstd", fixed.pars = list(alpha1=0))
+garchspecA0 <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+                          variance.model = list(model="gjrGARCH"),
+                          distribution.model = "std")
 A0 <- ugarchfit(data=appleReturns, spec=garchspecA0)
 
-garchspecA02 <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
-                          variance.model = list(model="gjrGARCH"),
-                          distribution.model = "sstd", fixed.pars = list(alpha1=0))
-A02 <- ugarchfit(data=appleReturns, spec=garchspecA0)
 
-modelSelection(A02, ar32)
-modelSelection(A0, A02)
-# A02 better
+
+modelSelection(A0, ar32)
+# A0 better
 
 
 
@@ -328,10 +326,10 @@ modelSelection(S, TT)
 modelSelection(I, TT)
 # TT is better!
 modelSelection(A02, TT)
-modelSelection(A0, TT)
-modelSelection(model3, TT)
+modelSelection(ar32, TT)
 
-# E, TT, A0, A02
+
+# E, TT, A0, AR32
 
 
 # Backtesting
@@ -364,14 +362,15 @@ modelBackTesting <- function(mod1, mod2, ddata){
   else cat(sprintf("%s is the better model.\n", m11));
   
   cat(sprintf("%s RMSE: %s\n", m11, e1));
-  cat(sprintf("%s RMSE: %s\n", m22, e2))
+  cat(sprintf("%s RMSE: %s\n", m22, e2));
+  cat("\n\n\n")
 }
 
 
 # garchspecE,  garchspecT, garchspecA02, garchspecA0
 modelBackTesting(garchspecA02, garchspecA0, appleReturns)
 modelBackTesting(garchspecA02, garchspecT, appleReturns)
-modelBackTesting(garchspecA02, garchspecE, appleReturns)
+modelBackTesting(garchspecAR32, garchspecE, appleReturns)
 modelBackTesting(garchspecA0, garchspec3, appleReturns)
  
 
