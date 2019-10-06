@@ -117,7 +117,8 @@ auto.arima(appleReturns)
 # Series: appleReturns 
 # ARIMA(0,0,0) with non-zero mean
 
-autoarfima(appleReturns, ar.max = 4, ma.max=4, criterion = "HQIC", method="full")
+autoarfima(appleReturns, ar.max = 2, ma.max=2, distribution.model="sstd",
+           criterion = "HQIC", method="full")
 # Mean Model	: ARFIMA(3,0,3)
 # Distribution	: norm 
 
@@ -212,29 +213,29 @@ modelSelection <- function(m1, m2){
   cat(sprintf("Ljung Box p-value for %s is %.3f\n", m22, bmol2))
   cat("Based on RMSE: ")
   if (rms1 > rms2){
-    cat(sprintf("%s with %s parameter is better\n", m22, n2));
+    cat(sprintf("%s with %s parameters is better\n", m22, n2));
   }
-  else cat(sprintf("%s with %s parameter is better\n", m11, n1));
+  else cat(sprintf("%s with %s parameters is better\n", m11, n1));
   
   
   cat("Based on Likelihood: ")
   if (lik1 > lik2){
-    cat(sprintf("%s with %s parameter is better\n", m11, n1));
+    cat(sprintf("%s with %s parameters is better\n", m11, n1));
   }
-  else cat(sprintf("%s with %s parameter is better\n", m22, n2));
+  else cat(sprintf("%s with %s parameters is better\n", m22, n2));
   
   cat("Based on Akaike Criteria (AIC): ")
   if (aic2 > aic1){
-    cat(sprintf("%s with %s parameter is better\n", m11, n1));
+    cat(sprintf("%s with %s parameters is better\n", m11, n1));
   }
-  else cat(sprintf("%s with %s parameter is better\n", m22, n2));
+  else cat(sprintf("%s with %s parameters is better\n", m22, n2));
   
   
-  cat("Based on Bayes Creteria (BIC): ")
+  cat("Based on Bayes Criteria (BIC): ")
   if (bic2 > bic1){
-    cat(sprintf("%s with %s parameter is better\n", m11, n1));
+    cat(sprintf("%s with %s parameters is better\n", m11, n1));
   }
-  else cat(sprintf("%s with %s parameter is better\n", m22, n2));
+  else cat(sprintf("%s with %s parameters is better\n", m22, n2));
   
 }
 
@@ -301,19 +302,21 @@ modelSelection(A0, A02)
 
 
 
+
 # fit different variance model
-garchspecI<- ugarchspec(mean.model = list(armaOrder=c(2,3)),
-                            variance.model = list(model="iGARCH"),
-                            distribution.model = "sstd")
-garchspecS <- ugarchspec(mean.model = list(armaOrder=c(2,3)),
-                            variance.model = list(model="sGARCH"),
-                            distribution.model = "sstd")
-garchspecE <- ugarchspec(mean.model = list(armaOrder=c(2,3)),
-                            variance.model = list(model="eGARCH"),
-                            distribution.model = "sstd")
+garchspecI<- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+                        variance.model = list(model="iGARCH"),
+                        distribution.model = "std")
+garchspecS <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+                         variance.model = list(model="sGARCH"),
+                         distribution.model = "std")
+garchspecE <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+                         variance.model = list(model="eGARCH"),
+                         distribution.model = "std")
 garchspecT <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
-                            variance.model = list(model="fGARCH", submodel="TGARCH"),
-                            distribution.model = "sstd")
+                         variance.model = list(model="fGARCH", submodel="TGARCH"),
+                         distribution.model = "std")
+
 
 I <- ugarchfit(data=appleReturns, spec=garchspecI)
 S <- ugarchfit(data=appleReturns, spec=garchspecS)
@@ -369,7 +372,7 @@ modelBackTesting <- function(mod1, mod2, ddata){
 modelBackTesting(garchspecA02, garchspecA0, appleReturns)
 modelBackTesting(garchspecA02, garchspecT, appleReturns)
 modelBackTesting(garchspecA02, garchspecE, appleReturns)
-modelBackTesting(garchspecA02, garchspec3, appleReturns)
+modelBackTesting(garchspecA0, garchspec3, appleReturns)
  
 
 # show and plot the preferred model
@@ -382,7 +385,7 @@ for(x in c(1:12)){plot(A02, which=x)}
 # forecast next 22 apple daily returns
 par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
 forca <- ugarchforecast(A02, n.ahead = 22)
-fitted(forca)
+forca
 for(x in c(1,3)){plot(forca, which=x)} 
 
 
@@ -410,6 +413,7 @@ modelPerf
 
 sink()
 
+A02
 
 
  
