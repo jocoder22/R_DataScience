@@ -14,7 +14,7 @@ library(nortest)
 
 
 filepath <- getwd()
-sink(file.path(filepath, "modules", "submission22.doc"),  
+sink(file.path(filepath, "modules", "submission222.doc"),  
      append=FALSE, split=FALSE, type = c("output", "message"))
 
 
@@ -277,41 +277,41 @@ ar32 <- ugarchfit(data=appleReturns, spec=garchspecAR32)
 ar33 <- ugarchfit(data=appleReturns, spec=garchspecAR33)
 ar34 <- ugarchfit(data=appleReturns, spec=garchspecAR34)
 
-modelSelection(ar22, ar32)
-modelSelection(ar23, ar32)
-modelSelection(ar24, ar32)
-modelSelection(ar33, ar32)
-modelSelection(ar34, ar32)
-modelSelection(ar32, model3)
-
-# armOrder(3,2) is better
 
 
-garchspecA0 <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+modelSelection(ar24, ar33)
+modelSelection(ar34, ar24)
+modelSelection(ar24, ar33)
+
+
+# armOrder(2,4) is better
+
+
+garchspecA0 <- ugarchspec(mean.model = list(armaOrder=c(2,4)),
                           variance.model = list(model="gjrGARCH"),
                           distribution.model = "std")
 A0 <- ugarchfit(data=appleReturns, spec=garchspecA0)
+A0
 
 
-
-modelSelection(A0, ar32)
+modelSelection(A0, ar24)
 # A0 better
-
-
+A0
+ar24
 
 
 
 # fit different variance model
-garchspecI<- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+garchspecI<- ugarchspec(mean.model = list(armaOrder=c(2,4)),
                         variance.model = list(model="iGARCH"),
                         distribution.model = "std")
-garchspecS <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+garchspecS <- ugarchspec(mean.model = list(armaOrder=c(2,4)),
                          variance.model = list(model="sGARCH"),
                          distribution.model = "std")
-garchspecE <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+garchspecE <- ugarchspec(mean.model = list(armaOrder=c(2,4)),
                          variance.model = list(model="eGARCH"),
                          distribution.model = "std")
-garchspecT <- ugarchspec(mean.model = list(armaOrder=c(3,2)),
+garchspecT <- ugarchspec(mean.model = list(armaOrder=c(2,4)),
                          variance.model = list(model="fGARCH", submodel="TGARCH"),
                          distribution.model = "std")
 
@@ -325,11 +325,13 @@ modelSelection(E, TT)
 modelSelection(S, TT)
 modelSelection(I, TT)
 # TT is better!
-modelSelection(A02, TT)
-modelSelection(ar32, TT)
 
 
-# E, TT, A0, AR32
+modelSelection(A0, TT)
+modelSelection(ar24, TT)
+
+# Out best three models for backtesting and diagnostic analysis
+# TT, A0, AR32
 
 
 # Backtesting
@@ -366,53 +368,56 @@ modelBackTesting <- function(mod1, mod2, ddata){
   cat("\n\n\n")
 }
 
+# TT, A0, AR24
 
 # garchspecE,  garchspecT, garchspecA02, garchspecA0
-modelBackTesting(garchspecA02, garchspecA0, appleReturns)
-modelBackTesting(garchspecA02, garchspecT, appleReturns)
-modelBackTesting(garchspecAR32, garchspecE, appleReturns)
-modelBackTesting(garchspecA0, garchspec3, appleReturns)
+modelBackTesting(garchspecA0, garchspecAR24, appleReturns)
+modelBackTesting(garchspecA0, garchspecT, appleReturns)
+
  
 
-# show and plot the preferred model
-show(A02)
-A02
+# show and plot the preferred model: A0
+show(A0)
+A0
 par(mfrow = c(2,2), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
-# plot(A02)
-for(x in c(1:12)){plot(A02, which=x)} 
+plot(A0)
+for(x in c(1:12)){plot(A0, which=x)} 
 
 # forecast next 22 apple daily returns
 par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
-forca <- ugarchforecast(A02, n.ahead = 22)
-forca
+forca <- ugarchforecast(A0, n.ahead = 22)
+
+print("##################################")
+dev.off()
+plot(forca)
 for(x in c(1,3)){plot(forca, which=x)} 
 
 
 
 
-
+# In-sample validation testing using ugarchforecast
 fit = ugarchfit(data=appleReturns, spec=garchspecA0, out.sample=100)
 forc = ugarchforecast(fit, n.ahead=100)
 r1 <- round(fpm(forc), 8)
 
 
-fit2 = ugarchfit(data=appleReturns, spec=garchspecA02, out.sample=100)
+fit2 = ugarchfit(data=appleReturns, spec=garchspecAR24, out.sample=100)
 forc2 = ugarchforecast(fit2, n.ahead=100)
 r2 <- round(fpm(forc2), 8)
 
 
-fit4 = ugarchfit(data=appleReturns, spec=garchspecT, out.sample=100)
-forc4 = ugarchforecast(fit4, n.ahead=100)
-r4 <- round(fpm(forc4), 8)
+fit3 = ugarchfit(data=appleReturns, spec=garchspecT, out.sample=100)
+forc3 = ugarchforecast(fit3, n.ahead=100)
+r3 <- round(fpm(forc3), 8)
 
-modelPerf <- data.frame(cbind(r1,r2,r4))
+modelPerf <- data.frame(cbind(r1,r2,r3))
 names(modelPerf) <- c("Model 1", "Model 2", "Model 3")
 modelPerf
 
 
 sink()
 
-A02
+
 
 
  
