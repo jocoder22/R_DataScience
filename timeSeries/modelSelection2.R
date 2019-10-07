@@ -89,4 +89,5 @@ betterModel <- function(mod1, mod2, ddata){
   cat("\n\n\n")
 }
 
+
 betterModel(model4, model3, teslaReturn)
