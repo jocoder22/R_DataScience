@@ -83,7 +83,10 @@ betterModel <- function(mod1, mod2, ddata){
   }
   else cat(sprintf("%s is the better model.\n", m11));
   
+  cat(sprintf("%s RMSE: %s\n", m11, e1));
+  cat(sprintf("%s RMSE: %s\n", m22, e2));
   
+  cat("\n\n\n")
 }
 
 betterModel(model4, model3, teslaReturn)
