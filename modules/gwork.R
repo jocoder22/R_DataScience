@@ -22,7 +22,16 @@ library(fGarch, quietly = T)
 library(rugarch, quietly = T)
 library(car)
 library(nortest)
-
+library(readxl, quietly = T)
+library(vars, quietly = T)
+library(timeSeries, quietly = T)
+library(dplyr, quietly = T)
+library(aTSA, quietly = T)
+library(urca, quietly = T)
+library(tsDyn, quietly = T)
+#library(pdR, quietly = T)
+# graphics.off()
+# par("mar")
 
 filepath <- getwd()
 sink(file.path(filepath, "modules", "submission222.doc"),  
@@ -436,6 +445,7 @@ modelPerf
 ######################################################################
 ######################################################################
 
+par(mar=c(1,1,1,1))
 beerdata <- read_excel("H:\\Google Drive\\Learning\\Econ-Fin\\MScFE\\610_Econometrics\\A5-GWA\\BEER_Data_Clean.xlsx")
 currdata <- read_excel("H:\\Google Drive\\Learning\\Econ-Fin\\MScFE\\610_Econometrics\\A5-GWA\\CNDOLL_Data.xlsx")
 
