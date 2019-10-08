@@ -163,7 +163,7 @@ pacf(CSUSHPINSA_sta)
 
 
 sarima(CSUSHPINSA,2,2,1,1,1,1,12)
-sarima(CSUSHPINSA,3,2,0,1,1,1,12)
+sarima(CSUSHPINSA,3,2,1,1,1,1,12)
 # 
 # $ttable
 #         Estimate     SE   t.value  p.value
@@ -226,3 +226,13 @@ sarima(CSUSHPINSA,3,2,0,1,1,1,12)
 # 
 # $BIC
 # [1] 0.543003
+
+
+arima_model2 <- arima(trainset, c(3,2,0),seasonal = list(order = c(1,1,1), period = 12))
+# arima_model2 <- arima(trainset, c(3,2,3),seasonal = list(order = c(1,1,1), period = 12))
+arima_model2 <- arima(trainset, c(2,2,1),seasonal = list(order = c(1,1,1), period = 12))
+
+
+
+
+arima_model2 <- arima(trainset, c(3,2,3),seasonal = list(order = c(1,1,1), period = 12))
