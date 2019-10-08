@@ -1,6 +1,17 @@
 #########################################################################################
 #########################################################################################
-########## Analysis plan ################################################################
+##########            Analysis plan                  ####################################
+#########################################################################################
+
+
+
+######################################################################
+######################################################################
+######                                                  ##############
+######    section 3.2.1.1 and 3.2.1.1                   ##############
+######                                                  ##############
+######################################################################
+######################################################################
 # Load necessary packages
 library(quantmod, quietly = T)
 library(PerformanceAnalytics, quietly = T)
@@ -35,7 +46,7 @@ apple <- AAPL[, "AAPL.Adjusted"]
 appleReturns <- CalculateReturns(apple)[-1]
 colnames(appleReturns) <- "Returns"
 
-
+head(appleReturns)
 # plot the graphs
 par(mfrow = c(2,1), mar = c(2,3,3,3), oma = c(1, 1, 1, 1))
 plot(apple, main="Apple stock Adjusted Close price")
@@ -413,6 +424,183 @@ r3 <- round(fpm(forc3), 8)
 modelPerf <- data.frame(cbind(r1,r2,r3))
 names(modelPerf) <- c("Model 1", "Model 2", "Model 3")
 modelPerf
+
+
+
+
+######################################################################
+######################################################################
+######                                                  ##############
+######    section 3.2.2.4                               ##############
+######                                                  ##############
+######################################################################
+######################################################################
+
+beerdata <- read_excel("H:\\Google Drive\\Learning\\Econ-Fin\\MScFE\\610_Econometrics\\A5-GWA\\BEER_Data_Clean.xlsx")
+currdata <- read_excel("H:\\Google Drive\\Learning\\Econ-Fin\\MScFE\\610_Econometrics\\A5-GWA\\CNDOLL_Data.xlsx")
+
+
+
+# Convert and clean up dates
+beer_dates <- c(beerdata$Date)
+beerdata$Date <- as.Date(as.yearqtr(beer_dates, format="Q%q%y%y"), frac = 1)
+curr_dates <- c(currdata$Date)
+currdata$Date <- as.Date(as.yearqtr(curr_dates, format="Q%q%y%y"), frac = 1)
+beerdata <- left_join(beerdata, currdata, by=c("Date","Date"))
+
+# Clean up column names
+colnames(beerdata)[colnames(beerdata)=="CNXTW..RF"] <- "CNXTWRF"
+colnames(beerdata)[colnames(beerdata)=="USM2....B"] <- "USM2B"
+colnames(beerdata)[colnames(beerdata)=="CNM2....B"] <- "CNM2B"
+
+# Prepare data for analysis. 
+# All data expressed in log differentials 
+beerdata$lnomq <- log(beerdata$`CNDOLL$I`)
+beerdata$ldm2 <- log(beerdata$`CNM2B`*beerdata$`CNDOLL$I`) - log(beerdata$`USM2B`)
+beerdata$ldcpi <- log(beerdata$`CNOCFRCPE`) - log(beerdata$`USOCFRCPE`)
+beerdata$dr <- (beerdata$`CNGBILL3`) - (beerdata$`USGBILL3`)
+beerdata$ldprod <- log(beerdata$CNPRODVTQ*beerdata$`CNDOLL$I`) - 
+  log(beerdata$`USOPHBS.G`)
+df <- data.frame("Date" = beerdata$Date, "lnomq" = beerdata$lnomq
+                 ,"ldm2" = beerdata$ldm2,"ldcpi" = beerdata$ldcpi
+                 , "dr" = beerdata$dr, "ldprod" = beerdata$ldprod)
+rownames(df) <- df$Date
+d_lnomq <- diff(beerdata$lnomq, trim=TRUE)
+d_ldm2 <- diff(beerdata$ldm2, trim=TRUE)
+d_ldcpi <- diff(beerdata$ldcpi, trim=TRUE)
+d_dr <- diff(beerdata$dr, trim=TRUE)
+d_ldprod <- diff(beerdata$ldprod, trim=TRUE)
+
+#Create the endogenous and exogenous variable matrices
+df_end <- data.frame("Date" = df$Date, "lnomq" = df$lnomq
+                     ,"ldm2" = df$ldm2,"ldcpi" = df$ldcpi)
+rownames(df_end) <- df_end$Date
+df_exo <- data.frame("Date" = df$Date, "dr" = df$dr, "ldprod" = df$ldprod)
+rownames(df_exo) <- df_exo$Date
+df <- subset(df, select = -c(Date))
+df_end <- subset(df_end, select = -c(Date))
+df_exo <- subset(df_exo, select = -c(Date))
+df_pre <- df[c(1:64),]
+df_end_pre <- df_end[c(1:64),]
+df_exo_pre <- df_exo[c(1:64),]
+
+# We take a first look at the dataset.
+
+# Explore the dataset
+head(df)
+str(df)
+summary(df)
+class(df)
+
+# using composite test
+allTest <- function(xx){
+  x <- na.omit(xx)
+  testVector <- c("adf", "pp", "kpss")
+  for (val in testVector){
+    stationary.test(x, method = val);
+    cat("\n\n\n##########################################\n")
+  }
+}
+allTest(df$lnomq)
+
+# simple correlations
+cor(df)
+
+# A first look at the correlation matrix yields some strong positive linear
+# relationships between the exchange rates and other variables, except for
+# interest rates.
+
+#Plot the series
+plot(df$lnomq)
+plot(df$ldm2)
+plot(df$ldcpi)
+plot(df$dr)
+plot(df$ldprod)
+
+#Plot ACF and PACF
+acf(df$lnomq)
+pacf(df$lnomq)
+acf(df$ldm2)
+pacf(df$ldm2)
+acf(df$ldcpi)
+pacf(df$ldcpi)
+acf(df$dr)
+pacf(df$dr)
+acf(df$ldprod)
+pacf(df$ldprod)
+
+# We plot the ACF and PACF all variables and notice that all variables decay slowly.
+
+# Implement Augmented Dickey-Fuller test
+adf.test(df$lnomq)
+adf.test(df$ldm2)
+adf.test(df$ldcpi)
+adf.test(df$dr)
+adf.test(df$ldprod)
+
+# We fit a VAR Model with labour productivity and interest rates as exogenous 
+# variables. The estimation results suggest up to 3 lags are significant and
+# should be included. 
+
+# estimate a Vector Auto Regression
+VAR_model <- VAR(df_end,lag.max=12,type=c("const"),ic="AIC", exogen=df_exo)
+summary(VAR_model)
+
+# We also plot the impulse response functions and the forecast error variance
+# decomposition of the fitted VAR model. The impulse response function of the 
+# variables don't reveal any significant spikes. 
+
+# compute and plot the impulse response functions 
+VAR_irf <- irf(VAR_model,n.ahead = 19,boot = TRUE, ci = 0.95) 
+plot(VAR_irf)
+
+# compute and plot the forecast error variance decomposition
+VAR_fevd <- fevd(VAR_model,n.ahead=19)
+plot(VAR_fevd)
+
+resids = residuals(VAR_model)
+resid1 = resids[,1]
+resid2 = resids[,2]
+
+# view cross correlogram:
+
+ccf(resid1, resid2, lag.max=18, type = "correlation", plot=TRUE)
+
+# The cross correlogram looks normal.
+
+# We run the VARselect function with a model with a constant and a model with both 
+# constant and trend. We see that 12 lags are appropriate in each case but we will
+# have to analyze the model results to determine the optimal lags. 
+
+# VARselect(df_end, lag.max=12, type=c("const"), exogen=df_exo)
+VARselect(df_end, lag.max=12, type=c("both"), exogen=df_exo)
+VARselect(df_end, lag.max=12, type=c("const"), exogen=df_exo)
+
+# Next, we implement a Johansen test for co-integration to determine the optimal
+# order of co-integration. All tests suggest r = 1 is appropriate.
+
+# Johansen test for co-integration
+jotest = ca.jo(df_end, type="eigen", K=12, ecdet="const", spec="longrun")
+summary(jotest)
+jotest2 = ca.jo(df_end, type="trace", K=12, ecdet="const", spec="longrun")
+summary(jotest2)
+
+# Next, we fit VEC Models with a constant and both constant and trend:
+
+# Fit co-integrated VECM
+# Contentious model #1 with both constant and trend, and pre-crisis dataset:
+VECM_fit = VECM(df_end, 12, r=1, include="both"
+                , estim="ML", LRinclude="both", exogen=df_exo)
+summary(VECM_fit)
+# Contentious (optimal) model #2 with constant and exogenous variables:
+VECM_fit = VECM(df_end,3, r=1, include="const"
+                , estim="ML", LRinclude="const", exogen=df_exo)
+summary(VECM_fit)
+
+
+# lnomq     ldm2    ldcpi    const
+# r1     1 -3.83587 6.695509 16.01606
+#
 
 
 sink()
