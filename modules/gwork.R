@@ -145,6 +145,12 @@ autoarfima(appleReturns, ar.max = 2, ma.max=2, distribution.model="sstd",
 
 
 # create model specs  
+#################################################################################
+####
+####         Please note: some models had convergence problems and dropped
+####
+#################################################################################
+
 garchspec1 <- ugarchspec(mean.model = list(armaOrder=c(0,0)),
                          variance.model = list(model="sGARCH"),
                          distribution.model = "norm")
@@ -164,6 +170,14 @@ garchspec4 <- ugarchspec(mean.model = list(armaOrder=c(0,0), archm=TRUE, archpow
 garchspec5 <- ugarchspec(mean.model = list(armaOrder=c(0,0), archm=TRUE, archpow=2),
                          variance.model = list(model="gjrGARCH"),
                          distribution.model = "ghyp")
+
+
+#################################################################################
+####
+####         Please note: some models had convergence problems and dropped
+####
+#################################################################################
+
 
 model1 <- ugarchfit(data=appleReturns, spec=garchspec1)
 model2 <- ugarchfit(data=appleReturns, spec=garchspec2)
@@ -261,6 +275,8 @@ modelSelection <- function(m1, m2){
   
 }
 
+
+
 modelSelection(model1, model3)
 modelSelection(model2, model3)
 modelSelection(model4, model3)
@@ -270,6 +286,7 @@ modelSelection(model5, model3)
 
 
 # model specification
+
 garchspecAR22 <- ugarchspec(mean.model = list(armaOrder=c(2,2)),
                            variance.model = list(model="gjrGARCH"),
                            distribution.model = "sstd")
@@ -289,6 +306,13 @@ garchspecAR34 <- ugarchspec(mean.model = list(armaOrder=c(3,4)),
                             variance.model = list(model="gjrGARCH"),
                             distribution.model = "sstd")
 
+
+
+#################################################################################
+####
+####         Please note: some models had convergence problems and dropped
+####
+#################################################################################
 
 ar22 <- ugarchfit(data=appleReturns, spec=garchspecAR22)
 ar23 <- ugarchfit(data=appleReturns, spec=garchspecAR23)
@@ -335,6 +359,13 @@ garchspecT <- ugarchspec(mean.model = list(armaOrder=c(2,4)),
                          variance.model = list(model="fGARCH", submodel="TGARCH"),
                          distribution.model = "std")
 
+
+
+#################################################################################
+####
+####         Please note: some models had convergence problems and dropped
+####
+#################################################################################
 
 I <- ugarchfit(data=appleReturns, spec=garchspecI)
 S <- ugarchfit(data=appleReturns, spec=garchspecS)
@@ -391,6 +422,12 @@ modelBackTesting <- function(mod1, mod2, ddata){
 # TT, A0, AR24
 
 # garchspecE,  garchspecT, garchspecA02, garchspecA0
+#################################################################################
+####
+####         Please note: some models had convergence problems and dropped
+####
+#################################################################################
+
 modelBackTesting(garchspecA0, garchspecAR24, appleReturns)
 modelBackTesting(garchspecA0, garchspecT, appleReturns)
 
