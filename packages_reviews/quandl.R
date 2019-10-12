@@ -8,4 +8,5 @@ data2 <- Quandl("WIKI/FB", type = "xts")
 head(data)
 
 plot(data2$`Adj. Close`)
+plot(data2$Open)
 
