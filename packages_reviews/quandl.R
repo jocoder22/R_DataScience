@@ -99,6 +99,11 @@ head(Facebook_AdjCloseLater)
 
 
 
+# Calculate returns
+Facebook2 <- Quandl("WIKI/FB.11", transform = "rdiff", type = "xts")
+head(Facebook2)
+plot(Facebook2)
+
 
 Quandl("FRED/GDP", start_date=startdate, end_date=enddate)
 
