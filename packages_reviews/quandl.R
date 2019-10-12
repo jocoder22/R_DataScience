@@ -9,4 +9,5 @@ head(data)
 
 plot(data2$`Adj. Close`)
 plot(data2$Open)
+plot(data2$High)
 
