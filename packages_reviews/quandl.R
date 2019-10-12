@@ -1,6 +1,7 @@
 library(Quandl)
 library(PerformanceAnalytics)
 library(timeSeries)
+library(xts)
 
 startdate = "2009-01-01"
 enddate = "2018-12-31"
@@ -41,19 +42,47 @@ head(appleGDP)
 
 # so we use aggregation: collapse
 # “daily”, “weekly”, “monthly”, “quarterly”, “annual”
+# quarterly etc. takes value of the last date in the peroid
 appleGDP <- Quandl(c("FRED/GDP", "WIKI/AAPL"), 
                    start_date=startdate, end_date=enddate, collapse = "quarterly")
-head(appleGDP)
-
 
 
 # get the dataset separately
-apple <- Quandl("WIKI/AAPL", start_date=startdate, end_date=enddate)
-GDP <- Quandl("FRED/GDP", start_date=startdate, end_date=enddate)
-head(GDP)
-head(apple)
+apple <- Quandl("WIKI/AAPL", start_date=startdate, end_date=enddate, type="xts")
+GDP <- Quandl("FRED/GDP", start_date=startdate, end_date=enddate, type="xts")
 
-appleQ 
+
+
+# format the date
+index(GDP) <- as.Date(index(GDP), format = "%Y-%b-%d")
+# index(GDP) <- as.yearmon(index(GDP))
+head(GDP)
+# apple quarterly aggregation for subset
+appleQ_AdjClose <- apply.quarterly(apple$`Adj. Close`, mean, na.rm=TRUE)
+
+
+# Create regular xts series with the start and end dates
+start  <- start(apple)
+end  <- end(GDP)
+rindex <- seq(from = start, to = end, by = "day")
+
+# Create a zero-width xts object
+regular  <- xts(, order.by = rindex )
+
+
+appleGdp2  <-  merge(GDP, appleQ_AdjClose, fill = na.locf)
+head(appleGdp2)
+apple44 <-  appleGdp2[index(appleQ_AdjClose)]  
+
+head(apple44)
+
+
+
+# from last forward
+apple55  <- na.locf(merge(GDP, appleQ_AdjClose),
+                    fromLast = TRUE, na.rm = FALSE)[index(GDP)]
+
+head(apple55)
 
 # use apply.quarterly on apple data
 appleQ <- 
