@@ -54,9 +54,11 @@ GDP <- Quandl("FRED/GDP", start_date=startdate, end_date=enddate, type="xts")
 
 
 # format the date
-index(GDP) <- as.Date(index(GDP), format = "%Y-%b-%d")
 # index(GDP) <- as.yearmon(index(GDP))
+index(GDP) <- as.Date(index(GDP), format = "%Y-%b-%d")
 head(GDP)
+
+
 # apple quarterly aggregation for subset
 appleQ_AdjClose <- apply.quarterly(apple$`Adj. Close`, mean, na.rm=TRUE)
 
@@ -70,25 +72,33 @@ rindex <- seq(from = start, to = end, by = "day")
 regular  <- xts(, order.by = rindex )
 
 
-appleGdp2  <-  merge(GDP, appleQ_AdjClose, fill = na.locf)
-head(appleGdp2)
-apple44 <-  appleGdp2[index(appleQ_AdjClose)]  
 
+# merge both timeseries datasets
+appleGdp2  <-  merge(GDP, appleQ_AdjClose, fill = na.locf)
+apple44 <-  appleGdp2[index(appleQ_AdjClose)]  
 head(apple44)
 
 
 
-# from last forward
+# frorm last moving forward
 apple55  <- na.locf(merge(GDP, appleQ_AdjClose),
                     fromLast = TRUE, na.rm = FALSE)[index(GDP)]
 
 head(apple55)
 
-# use apply.quarterly on apple data
-appleQ <- 
+
+
+
 # Specify a particular column
-Facebook_AdjClose <- Quandl("WIKI/FB.11", type = "xts")
-head(Facebook_AdjClose)
+Facebook_AdjCloseDirect <- Quandl("WIKI/FB.11", type = "xts")
+head(Facebook_AdjCloseDirect)
+
+Facebook<- Quandl("WIKI/FB", type = "xts")
+Facebook_AdjCloseLater  <-  Facebook$`Adj. Close` 
+head(Facebook_AdjCloseLater)
+
+
+
 
 Quandl("FRED/GDP", start_date=startdate, end_date=enddate)
 
