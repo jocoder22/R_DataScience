@@ -109,13 +109,17 @@ head(Facebook2)
 plot(Facebook2)
 
 
-Quandl("FRED/GDP", start_date=startdate, end_date=enddate)
 
+# query for 'Bitcoin' within the Quandl database:
+query1 <- Quandl.search(query = "Bitcoin", page = 120, silent = FALSE)
 
+# see the outcomes
+str(query1)
+query1$dataset_code
+query1$database_code
 
-plot(data2$`Adj. Close`)
-plot(data2$Open)
-plot(data2$High)
+# pulll the dataset
+bitCoin <- Quandl("BCHAIN/TOTBC", start_date=startdate, end_date=enddate)
 
 
 
