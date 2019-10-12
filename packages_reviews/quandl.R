@@ -31,6 +31,32 @@ head(Facebook$`Adj. Close`)
 
 
 
+# Both data had difference frequency
+# GDP is done quaarterly but apple is done daily
+appleGDP <- Quandl(c("FRED/GDP", "WIKI/AAPL"), 
+                   start_date=startdate, end_date=enddate)
+head(appleGDP)
+
+
+
+# so we use aggregation: collapse
+# “daily”, “weekly”, “monthly”, “quarterly”, “annual”
+appleGDP <- Quandl(c("FRED/GDP", "WIKI/AAPL"), 
+                   start_date=startdate, end_date=enddate, collapse = "quarterly")
+head(appleGDP)
+
+
+
+# get the dataset separately
+apple <- Quandl("WIKI/AAPL", start_date=startdate, end_date=enddate)
+GDP <- Quandl("FRED/GDP", start_date=startdate, end_date=enddate)
+head(GDP)
+head(apple)
+
+appleQ 
+
+# use apply.quarterly on apple data
+appleQ <- 
 # Specify a particular column
 Facebook_AdjClose <- Quandl("WIKI/FB.11", type = "xts")
 head(Facebook_AdjClose)
