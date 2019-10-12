@@ -2,6 +2,7 @@ library(Quandl)
 library(PerformanceAnalytics)
 library(timeSeries)
 library(xts)
+library(quantmod)
 
 startdate = "2009-01-01"
 enddate = "2018-12-31"
@@ -100,7 +101,10 @@ head(Facebook_AdjCloseLater)
 
 
 # Calculate returns
-Facebook2 <- Quandl("WIKI/FB.11", transform = "rdiff", type = "xts")
+# “cumul” gives the cumulative sum, and “rdiff_from” gives each value 
+# as the percent difference between itself and the last value in the series. 
+# “diff”, “rdiff”, “normalize”, “cumul”, “rdiff_from”
+Facebook2 <- Quandl("WIKI/FB.11", transform = "rdieff", type = "xts")
 head(Facebook2)
 plot(Facebook2)
 
