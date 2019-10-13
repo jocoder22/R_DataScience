@@ -29,6 +29,11 @@ plot(log_returns, col="red", ylab="Index LOg REturns", xlab="Year",
         main="Log Returns of Major European stock indexes")
 
 
+plot(returns, col=4:7, ylab="Index Simple REturns", xlab="Year",
+        main="Simple Returns of Major European stock indexes")
+
+
+
 # Plot graphs again
 par(mfrow=c(1,1))
 ts.plot(log_returns, col=4:7, ylab="Index LOg REturns", xlab="Year",
