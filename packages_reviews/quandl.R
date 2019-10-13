@@ -119,7 +119,11 @@ query1$dataset_code
 query1$database_code
 
 # pulll the dataset
-bitCoin <- Quandl("BCHAIN/TOTBC", start_date=startdate, end_date=enddate)
+bitCoin <- Quandl("BCHAIN/TOTBC", start_date=startdate, end_date=enddate, type="ts")
 
 
 
+time(bitCoin)
+frequency(bitCoin)
+cycle(bitCoin)
+deltat(bitCoin)
