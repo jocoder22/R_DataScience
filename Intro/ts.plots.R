@@ -77,3 +77,6 @@ for(col in colnames(log_returns)){
 
 par(mfrow=c(1,1))
 
+# plot pairs relationship
+pairs(returns)
+pairs(log_returns)
