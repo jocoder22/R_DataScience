@@ -80,3 +80,15 @@ par(mfrow=c(1,1))
 # plot pairs relationship
 pairs(returns)
 pairs(log_returns)
+
+
+# Compute covariance and correlations
+# Covariance depends on the units while correlation is unitless
+returns2  <- returns
+cov(returns)
+cor(returns)
+
+
+cov(log_returns)
+cor(log_returns) 
+cor(log_returns) == cor(returns)
