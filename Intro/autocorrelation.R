@@ -14,7 +14,7 @@ stocks <- Ad(merge(AMZN, AAPL, TSLA, MSFT))
 returns  <- returns0(EuStockMarkets)
 len <- length(EuStockMarkets[, 1]) 
 
-
+periodicity(amazon)
 
 # Compute correlations with lag 1
 cor(EuStockMarkets[-len, 1], EuStockMarkets[-1, 1])
