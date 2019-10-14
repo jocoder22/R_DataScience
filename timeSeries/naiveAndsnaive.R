@@ -1,10 +1,41 @@
 library(forecast)
 library(quantmod)
+library(Quandl)
+
+
+startdate = "1946-01-01"
+enddate = "2018-12-31"
+
+
+gdp <- Quandl("FRED/GDP", start_date=startdate, type="ts")
+
+
+
+trainsize  <- as.integer((length(gdp) * 0.8))
+atrain  <- subset(gdp, end = trainsize)
+h1  <- as.integer(length(gdp) - trainsize)
+
+model1  <- naive(atrain, h = h1)
+model2  <-  snaive(atrain, h = h1)
+model3 <- tsCV(atrain, forecastfunction = naive, h = h1)
+
+accuracy(model1, gdp)["Test set", "MAPE"]
+accuracy(model2, gdp)["Test set", "MAPE"]
+accuracy(model3, gdp)["Test set", "MAPE"]
+
+
+
+
+
+
 
 apple  <- getSymbols("AAPL", auto.assign = FALSE)$`AAPL.Adjusted`
 amazon  <- getSymbols("AMZN", auto.assign = F)$`AMZN.Adjusted`
 
 
-model1  <- naive(apple)
-model2  <-  snaive(apple)
-model3 <- tsCV(apple, forecastfunction = naive, h = 8)
+apple <- Quandl("WIKI/AAPL", type = "ts")
+amazon <- Quandl("WIKI/AMZN", type = "ts")
+facebook <- Quandl("WIKI/FB", type = "ts")
+head(facebook)
+
+amatrain  <- window(amazon, end = "2019-01-10")
