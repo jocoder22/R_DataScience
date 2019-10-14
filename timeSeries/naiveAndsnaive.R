@@ -39,3 +39,4 @@ facebook <- Quandl("WIKI/FB", type = "ts")
 head(facebook)
 
 amatrain  <- window(amazon, end = "2019-01-10")
+h2  <- as.integer(length(amazon) - length(amatrain))
