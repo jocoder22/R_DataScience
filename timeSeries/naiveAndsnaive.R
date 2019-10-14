@@ -3,14 +3,15 @@ library(quantmod)
 library(Quandl)
 
 
+# set the dates
 startdate = "1946-01-01"
 enddate = "2018-12-31"
 
-
+# download gdp data
 gdp <- Quandl("FRED/GDP", start_date=startdate, type="ts")
 
 
-
+# Split data into training set
 trainsize  <- as.integer((length(gdp) * 0.8))
 atrain  <- subset(gdp, end = trainsize)
 h1  <- as.integer(length(gdp) - trainsize)
