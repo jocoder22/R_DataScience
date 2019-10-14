@@ -16,10 +16,14 @@ trainsize  <- as.integer((length(gdp) * 0.8))
 atrain  <- subset(gdp, end = trainsize)
 h1  <- as.integer(length(gdp) - trainsize)
 
+
+# Build the models
 model1  <- naive(atrain, h = h1)
 model2  <-  snaive(atrain, h = h1)
 model3 <- tsCV(atrain, forecastfunction = naive, h = h1)
 
+
+# Check accuracy
 accuracy(model1, gdp)["Test set", "MAPE"]
 accuracy(model2, gdp)["Test set", "MAPE"]
 accuracy(model3, gdp)["Test set", "MAPE"]
