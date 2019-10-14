@@ -34,14 +34,30 @@ accuracy(model3, gdp)["Test set", "MAPE"]
 
 
 
-apple  <- getSymbols("AAPL", auto.assign = FALSE)$`AAPL.Adjusted`
-amazon  <- getSymbols("AMZN", auto.assign = F)$`AMZN.Adjusted`
+# apple  <- getSymbols("AAPL", auto.assign = FALSE)$`AAPL.Adjusted`
+# amazon  <- getSymbols("AMZN", auto.assign = F)$`AMZN.Adjusted`
 
 
-apple <- Quandl("WIKI/AAPL", type = "ts")
-amazon <- Quandl("WIKI/AMZN", type = "ts")
-facebook <- Quandl("WIKI/FB", type = "ts")
+apple <- Quandl("WIKI/AAPL", collapse = "monthly", type = "ts")
+
+facebook <- Quandl("WIKI/FB", collapse = "monthly", type = "xts")
 head(facebook)
 
-amatrain  <- window(amazon, end = "2019-01-10")
-h2  <- as.integer(length(amazon) - length(amatrain))
+
+
+
+amazon <- Quandl("WIKI/AMZN.11", collapse = "monthly", type = "xts")
+head(amazon)
+amatrain  <- window(amazon, start = "1997-05-01", end = "2017-01-01")
+head(amatrain)
+h2  <- length(amazon) - length(amatrain)
+
+
+model2  <-  tsCV(amatrain, forecastfunction = snaive, h = h2)
+model3 <- tsCV(amatrain, forecastfunction = naive, h = h2)
+
+
+# Check accuracy
+accuracy(model1, amazon)["Test set", "MAPE"]
+accuracy(model2, amazon)["Test set", "MAPE"]
+accuracy(model3, amazon)["Test set", "MAPE"]
