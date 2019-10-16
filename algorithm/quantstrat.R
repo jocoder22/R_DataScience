@@ -24,24 +24,24 @@ library(timeSeries, quietly = TRUE)
 
 # Download stocks
 tickers  <- "AMZN"
-initDate  <- "2008-01-10"
-fromDate  <-  "2010-01-10"
+initDate  <- "2008-01-01"
+fromDate  <-  "2010-01-01"
 toDate  <-  "2019-10-15"
 
-amazon  <- getSymbols(tickers, from=initDate, auto.assign = FALSE, src =  "yahoo", adjust =  TRUE)
+getSymbols(tickers, from=initDate, src =  "yahoo", adjust =  TRUE)
 
 
 # plot the close price 
-plot(Cl(amazon), main = "Amazon Close prices")
+plot(Cl(AMZN), main = "Amazon Close prices")
 
 
 # add indicators
-lines(SMA(Cl(amazon), n = 200), col = "blue")
-lines(SMA(Cl(amazon), n = 50), col = "red")
+lines(SMA(Cl(AMZN), n = 200), col = "blue")
+lines(SMA(Cl(AMZN), n = 50), col = "red")
 
 
-lines(RSI(Cl(amazon), n = 126), col = "yellow")
-lines(RSI(Cl(amazon), n = 5), col = "green")
+lines(RSI(Cl(AMZN), n = 126), col = "yellow")
+lines(RSI(Cl(AMZN), n = 5), col = "green")
 
 
 
@@ -51,6 +51,18 @@ lines(RSI(Cl(amazon), n = 5), col = "green")
 ########
 ###########################################################
 
+# Clean up the environment
+# rm(strategy.st)
+try(rm("account.st","portfolio.st", "strategy.st"),silent=TRUE)  
+
+# .blotter <- new.env()
+# .strategy <- new.env()
+
+if (!exists('.blotter')) .blotter <- new.env()
+if (!exists('.strategy')) .strategy <- new.env()
+
+
+
 # Set the timezone to UTC
 Sys.setenv(TZ="UTC")
 
@@ -58,18 +70,33 @@ Sys.setenv(TZ="UTC")
 currency("USD")
 
 # initialize the stock
-stock("amazon", currency="USD", multiplier=1)
+stock("AMZN", currency="USD", multiplier=1)
 
 # Define your trade size and initial equity
 tradesize <- 1000000
 initeq <- 1000000
 
 # Define the names of strategy, portfolio and account
-# account.am <- portfolio.am <- strategy.am <- "algorithm1"
-strategy.am <- "algorithm1"
-portfolio.am <- "algorithm1"
-account.am <- "algorithm1"
+# account.st<- portfolio.st<- strategy.st<- "algorithm1"
+strategy.st <- "algorithm1"
+portfolio.st <- "algorithm1"
+account.st <- "algorithm1"
 
 # Remove the existing strategy if it exists
-rm.strat(strategy.am)
+# rm.strat(strategy.am)
 
+
+#############################################################
+######### Initialize the portfolio
+#############################################################
+
+initPortf(portfolio.st, symbols = "AMZN", initDate = initDate, currency = "USD")
+
+# Initialize the account
+initAcct(account.st, portfolios = portfolio.st, initDate = initDate, currency = "USD", initEq = initeq)
+
+# Initialize the orders
+initOrders(portfolio.st, initDate = initDate)
+
+# Store the strategy
+strategy(strategy.st, store = TRUE)
