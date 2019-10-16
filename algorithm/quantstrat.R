@@ -42,3 +42,33 @@ lines(SMA(Cl(amazon), n = 50), col = "red")
 
 lines(RSI(Cl(amazon), n = 126), col = "yellow")
 lines(RSI(Cl(amazon), n = 5), col = "green")
+
+
+
+###########################################################
+########
+########   Setup for quantstrat
+########
+###########################################################
+
+# Set the timezone to UTC
+Sys.setenv(TZ="UTC")
+
+# Set the currency to USD 
+currency("USD")
+
+# initialize the stock
+stock("amazon", currency="USD", multiplier=1)
+
+# Define your trade size and initial equity
+tradesize <- 1000000
+initeq <- 1000000
+
+# Define the names of strategy, portfolio and account
+strategy.am <- "algorithm1"
+portfolio.am <- "algorithm1"
+account.am <- "algorithm1"
+
+# Remove the existing strategy if it exists
+rm.strat(strategy.am)
+
