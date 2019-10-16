@@ -19,3 +19,14 @@ library(blotter, quietly = TRUE)
 library(TTR, quietly = TRUE)
 library(tseries, quietly = TRUE)
 library(timeSeries, quietly = TRUE)
+
+
+
+# Download stocks
+tickers = "AMZN"
+initDate  <- "2008-01-10"
+fromDate  <-  "2010-01-10"
+toDate  <-  "2019-10-15"
+
+getSymbols(tickers, from=initDate, src =  "yahoo", adjust =  TRUE)
+
