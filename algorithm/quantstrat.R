@@ -65,6 +65,7 @@ tradesize <- 1000000
 initeq <- 1000000
 
 # Define the names of strategy, portfolio and account
+# account.am <- portfolio.am <- strategy.am <- "algorithm1"
 strategy.am <- "algorithm1"
 portfolio.am <- "algorithm1"
 account.am <- "algorithm1"
