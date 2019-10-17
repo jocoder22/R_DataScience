@@ -49,6 +49,17 @@ vtable <- data.frame(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC)
 
 
 
+
+for(val in c(1 : dim(vtable)[2])){
+  par(mfrow=c(2,1))
+  plot(index(ohlc), ohlc[,4], type="l",main = "Amazon Close Price", ylab="Price", xlab="Date")
+  string="Volatility plot for {colnames(vtable)[val]}."
+  plot(index(ohlc),vtable[,val], type="l", main=glue(string), 
+       ylab="Volatility", col = val, xlab="Date")
+}
+
+
+
 # plot the close price 
 plot(Cl(AMZN), main = "Amazon Close prices")
 
