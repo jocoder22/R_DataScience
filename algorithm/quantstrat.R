@@ -171,7 +171,7 @@ add.indicator(strategy = strategy.one,
 # Add an RSI 3 indicator to strategy.one
 add.indicator(strategy = strategy.one, 
               
-              # Add the RSI 3 function
+              # Add the RSI function
               name = "RSI", 
               
               # Create a lookback period
@@ -184,7 +184,7 @@ add.indicator(strategy = strategy.one,
 # Add an RSI 6 indicator to strategy.one
 add.indicator(strategy = strategy.one, 
               
-              # Add the RSI 3 function
+              # Add the RSI function
               name = "RSI", 
               
               # Create a lookback period
@@ -215,13 +215,22 @@ RSI_dynamic <- function(price, n1, n2) {
 
 
 
-# Add this function as RSI_3_4 to your strategy with n1 = 3 and n2 = 4
-add.indicator(strategy.one, name = "RSI_dynamic", arguments = list(price = quote(Cl(mktdata)),
-                                                                   n1 = 2, n2 = 5), label = "RSI_3_4")
+# Add this function as RSI_dynamic to your strategy with n1 = 2 and n2 = 5
+add.indicator(strategy = strategy.one, 
+              
+              # Add the RSI_dynamic function
+              name = "RSI_dynamic", 
+              
+              # Create a lookback periods
+              arguments = list(price = quote(Cl(AMZN)), n1 = 2, n2 = 5), 
+              
+              # Label your indicator RSI_2.5
+              label = "RSI_2.5")
+
 
 
 # Declare the smaRatio function
-smaRatio <- function(HLC, navg = 2, percentlookback = 84) {
+smaRatio <- function(HLC, navg = 2, percentlookback = 200) {
   
   # Compute the ratio between closing prices to the sum of high and low
   ratio <- Cl(HLC)/((Hi(HLC) + Lo(HLC)))
@@ -237,6 +246,22 @@ smaRatio <- function(HLC, navg = 2, percentlookback = 84) {
   
   return(result)
 }
+
+
+
+# Add this function as smaRatio to your strategy with navg = 3, percentlookback = 84
+add.indicator(strategy = strategy.one, 
+              
+              # Add the smaRatio function
+              name = "smaRatio", 
+              
+              # Create a lookback periods and percentlookback
+              arguments = list(price = quote(Cl(AMZN)), navg = 3, percentlookback = 84), 
+              
+              # Label your indicator sma_3.84
+              label = "sma_3.84")
+
+
 
 
 
