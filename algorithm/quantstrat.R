@@ -28,7 +28,7 @@ initDate  <- "2008-01-01"
 fromDate  <-  "2010-01-01"
 toDate  <-  "2019-10-15"
 
-getSymbols(tickers, from=initDate, src =  "yahoo", adjust =  TRUE)
+getSymbols(tickers, from=initDate, to=toDate, src =  "yahoo", adjust =  TRUE)
 
 
 # plot the close price 
@@ -53,7 +53,7 @@ lines(RSI(Cl(AMZN), n = 5), col = "green")
 
 # Clean up the environment
 # rm(strategy.st)
-try(rm("account.st","portfolio.st", "strategy.st"),silent=TRUE)  
+try(rm("account.one","portfolio.one", "strategy.one"), silent=TRUE)  
 
 # .blotter <- new.env()
 # .strategy <- new.env()
@@ -78,9 +78,9 @@ initeq <- 1000000
 
 # Define the names of strategy, portfolio and account
 # account.st<- portfolio.st<- strategy.st<- "algorithm1"
-strategy.st <- "algorithm1"
-portfolio.st <- "algorithm1"
-account.st <- "algorithm1"
+strategy.one <- "algorithm1"
+portfolio.one <- "algorithm1"
+account.one <- "algorithm1"
 
 # Remove the existing strategy if it exists
 # rm.strat(strategy.am)
@@ -90,13 +90,71 @@ account.st <- "algorithm1"
 ######### Initialize the portfolio
 #############################################################
 
-initPortf(portfolio.st, symbols = "AMZN", initDate = initDate, currency = "USD")
+initPortf(portfolio.one, symbols = "AMZN", initDate = initDate, currency = "USD")
 
 # Initialize the account
-initAcct(account.st, portfolios = portfolio.st, initDate = initDate, currency = "USD", initEq = initeq)
+initAcct(account.one, portfolios = portfolio.one, initDate = initDate, currency = "USD", initEq = initeq)
 
 # Initialize the orders
-initOrders(portfolio.st, initDate = initDate)
+initOrders(portfolio.one, initDate = initDate)
 
 # Store the strategy
-strategy(strategy.st, store = TRUE)
+strategy(strategy.one, store = TRUE)
+
+
+
+#############################################################
+######### Add trading indicators to the strategy
+#############################################################
+
+# Add a 200-day SMA indicator to strategy.one
+add.indicator(strategy = strategy.one, 
+              
+              # Add the SMA function
+              name = "SMA", 
+              
+              # Create a lookback period
+              arguments = list(x=quote(Cl(AMZN)), n = 200), 
+              
+              # Label your indicator SMA200
+              label = "SMA200")
+
+
+# Add a 50-day SMA indicator to strategy.one
+add.indicator(strategy = strategy.one, 
+              
+              # Add the SMA function
+              name = "SMA", 
+              
+              # Create a lookback period
+              arguments = list(x=quote(Cl(AMZN)), n = 50), 
+              
+              # Label your indicator SMA200
+              label = "SMA50")
+
+
+#############################################################
+######### Initialize 
+#############################################################
+
+
+
+
+
+
+
+
+#############################################################
+######### Initialize the portfolio
+#############################################################
+
+
+
+
+
+
+
+
+#############################################################
+######### Initialize the portfolio
+#############################################################
