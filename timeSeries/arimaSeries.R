@@ -4,6 +4,16 @@ library(tseries)
 library(aTSA)
 library(astsa)
 
+
+# Compute the k
+findK  <- function(HLC){
+  n  <- dim(HLC)[1]
+  f  <-  frequency(HLC)
+  k  <- 12 * (n / 100) ^ 0.25
+  return(floor(k))
+}
+
+
 # explore the time series dataset 
 start(sunspots) # shows the start time
 end(sunspots)   # shows the end time
