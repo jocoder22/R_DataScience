@@ -19,6 +19,7 @@ library(blotter, quietly = TRUE)
 library(TTR, quietly = TRUE)
 library(tseries, quietly = TRUE)
 library(timeSeries, quietly = TRUE)
+library(glue, quietly = T)
 
 
 
@@ -29,6 +30,23 @@ fromDate  <-  "2010-01-01"
 toDate  <-  "2019-10-15"
 
 getSymbols(tickers, from=initDate, to=toDate, src =  "yahoo", adjust =  TRUE)
+
+
+# estimated volatility
+# using volatility() from TTR package
+# first form the ohlc object
+ohlc <- OHLC(AMZN)
+vClose <- volatility(ohlc, calc="close")
+vClose0 <- volatility(ohlc, calc="close", mean0=TRUE)
+vGK <- volatility(ohlc, calc="garman")
+vParkinson <- volatility(ohlc, calc="parkinson")
+vRS <- volatility(ohlc, calc="rogers")
+vGKy <- volatility(ohlc, calc="gk.yz")
+vYZ <- volatility(ohlc, calc="yang.zhang")
+vMC <- chaikinVolatility(ohlc[,2:3])    #(GSPC[,c("GSPC.High", "GSPC.Low")])
+
+vtable <- data.frame(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC)
+
 
 
 # plot the close price 
