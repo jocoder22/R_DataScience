@@ -59,6 +59,11 @@ for(val in c(1 : dim(vtable)[2])){
 }
 
 
+# Plot multiplot
+par(mfrow=c(1,1))
+plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), multi.panel = TRUE)
+plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC))
+
 
 # plot the close price 
 plot(Cl(AMZN), main = "Amazon Close prices")
