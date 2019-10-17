@@ -61,8 +61,9 @@ for(val in c(1 : dim(vtable)[2])){
 
 # Plot multiplot
 par(mfrow=c(1,1))
-plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), multi.panel = TRUE)
-plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC))
+plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), 
+     main = "Price Volatililty", multi.panel = TRUE)
+plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), main = "Price Volatililty")
 
 
 # plot the close price 
