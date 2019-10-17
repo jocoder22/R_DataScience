@@ -52,7 +52,7 @@ lines(RSI(Cl(AMZN), n = 5), col = "green")
 ###########################################################
 
 # Clean up the environment
-# rm(strategy.st)
+# rm(strategy.one)
 try(rm("account.one","portfolio.one", "strategy.one"), silent=TRUE)  
 
 # .blotter <- new.env()
@@ -77,7 +77,7 @@ tradesize <- 1000000
 initeq <- 1000000
 
 # Define the names of strategy, portfolio and account
-# account.st<- portfolio.st<- strategy.st<- "algorithm1"
+# account.st<- portfolio.st<- strategy.one<- "algorithm1"
 strategy.one <- "algorithm1"
 portfolio.one <- "algorithm1"
 account.one <- "algorithm1"
@@ -133,6 +133,78 @@ add.indicator(strategy = strategy.one,
               label = "SMA50")
 
 
+# Add an RSI 3 indicator to strategy.one
+add.indicator(strategy = strategy.one, 
+              
+              # Add the RSI 3 function
+              name = "RSI", 
+              
+              # Create a lookback period
+              arguments = list(price = quote(Cl(AMZN)), n = 3), 
+              
+              # Label your indicator RSI_3
+              label = "RSI_3")
+
+
+# Add an RSI 6 indicator to strategy.one
+add.indicator(strategy = strategy.one, 
+              
+              # Add the RSI 3 function
+              name = "RSI", 
+              
+              # Create a lookback period
+              arguments = list(price = quote(Cl(AMZN)), n = 6), 
+              
+              # Label your indicator RSI_6
+              label = "RSI_6")
+
+
+
+# Write the RSI_dynamic function
+RSI_dynamic <- function(price, n1, n2) {
+  
+  # RSI1 takes an input of the price and n1
+  RSI1 <- RSI(price = price, n = n1)
+  
+  # RSI2 takes an input of the price and n2
+  RSI2 <- RSI(price = price, n = n2)
+  
+  # RSI_avg is the third of the sum of RSI1 and RSI2
+  RSIavg <- (RSI1 + RSI2)/3
+  
+  # Name the column as RSI_avg
+  colnames(RSIavg) <- "RSI_Avg"
+  
+  return(RSIavg)
+}
+
+
+
+# Add this function as RSI_3_4 to your strategy with n1 = 3 and n2 = 4
+add.indicator(strategy.one, name = "RSI_dynamic", arguments = list(price = quote(Cl(mktdata)),
+                                                                   n1 = 2, n2 = 5), label = "RSI_3_4")
+
+
+# Declare the smaRatio function
+smaRatio <- function(HLC, navg = 2, percentlookback = 84) {
+  
+  # Compute the ratio between closing prices to the sum of high and low
+  ratio <- Cl(HLC)/((Hi(HLC) + Lo(HLC)))
+  
+  # Smooth out the ratio outputs using a moving average
+  avgratio <- SMA(ratio, n = navg)
+  
+  # Convert ratio into a 0-100 value using runPercentRank()
+  result <- runPercentRank(avgratio, n = percentlookback, exact.multiplier = 1) * 100
+  
+  # Name the column as sma_Ratio
+  colnames(result) <- "sma_Ratio"
+  
+  return(result)
+}
+
+
+
 #############################################################
 ######### Initialize 
 #############################################################
@@ -158,3 +230,21 @@ add.indicator(strategy = strategy.one,
 #############################################################
 ######### Initialize the portfolio
 #############################################################
+
+
+
+
+
+
+
+
+
+
+findK  <- function(HLC){
+  n  <- dim(HLC)[1]
+  f  <-  frequency(HLC)
+  k  <- 12 * (n / 100) ^ 0.25
+  return(floor(k))
+}
+findK(AMZN)
+dim(AMZN)
