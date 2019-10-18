@@ -149,7 +149,7 @@ add.indicator(strategy = strategy.one,
               name = "SMA", 
               
               # Create a lookback period
-              arguments = list(x=quote(Cl(AMZN)), n = 200), 
+              arguments = list(x=quote(Cl(mktdata)), n = 200), 
               
               # Label your indicator SMA200
               label = "SMA200")
@@ -162,7 +162,7 @@ add.indicator(strategy = strategy.one,
               name = "SMA", 
               
               # Create a lookback period
-              arguments = list(x=quote(Cl(AMZN)), n = 50), 
+              arguments = list(x=quote(Cl(mktdata)), n = 50), 
               
               # Label your indicator SMA200
               label = "SMA50")
@@ -175,7 +175,7 @@ add.indicator(strategy = strategy.one,
               name = "RSI", 
               
               # Create a lookback period
-              arguments = list(price = quote(Cl(AMZN)), n = 3), 
+              arguments = list(price = quote(Cl(mktdata)), n = 3), 
               
               # Label your indicator RSI_3
               label = "RSI_3")
@@ -188,7 +188,7 @@ add.indicator(strategy = strategy.one,
               name = "RSI", 
               
               # Create a lookback period
-              arguments = list(price = quote(Cl(AMZN)), n = 6), 
+              arguments = list(price = quote(Cl(mktdata)), n = 6), 
               
               # Label your indicator RSI_6
               label = "RSI_6")
@@ -216,13 +216,13 @@ RSI_dynamic <- function(price, n1, n2) {
 
 
 # Add this function as RSI_dynamic to your strategy with n1 = 2 and n2 = 5
-add.indicator(strategy = strategy.one, 
+add.indicator(strategy.one, 
               
               # Add the RSI_dynamic function
               name = "RSI_dynamic", 
               
               # Create a lookback periods
-              arguments = list(price = quote(Cl(AMZN)), n1 = 2, n2 = 5), 
+              arguments = list(price = quote(Cl(mktdata)), n1 = 2, n2 = 5), 
               
               # Label your indicator RSI_2.5
               label = "RSI_2.5")
@@ -233,38 +233,39 @@ add.indicator(strategy = strategy.one,
 smaRatio <- function(HLC, navg = 2, percentlookback = 200) {
   
   # Compute the ratio between closing prices to the sum of high and low
-  ratio <- Cl(HLC)/((Hi(HLC) + Lo(HLC)))
+  ratio <- Cl(HLC)/(Hi(HLC) + Lo(HLC))
   
   # Smooth out the ratio outputs using a moving average
   avgratio <- SMA(ratio, n = navg)
   
   # Convert ratio into a 0-100 value using runPercentRank()
-  result <- runPercentRank(avgratio, n = percentlookback, exact.multiplier = 1) * 100
+  resultgg <- runPercentRank(avgratio, n = percentlookback, exact.multiplier = 1) * 100
   
   # Name the column as sma_Ratio
-  colnames(result) <- "sma_Ratio"
+  colnames(resultgg) <- "sma_Ratio"
   
-  return(result)
+  return(resultgg)
 }
 
 
 
 # Add this function as smaRatio to your strategy with navg = 3, percentlookback = 84
-add.indicator(strategy = strategy.one, 
+add.indicator(strategy.one, 
               
               # Add the smaRatio function
               name = "smaRatio", 
               
               # Create a lookback periods and percentlookback
-              arguments = list(price = quote(Cl(AMZN)), navg = 3, percentlookback = 84), 
+              arguments = list(HLC = quote(HLC(mktdata)), navg = 3, percentlookback = 84), 
               
               # Label your indicator sma_3.84
               label = "sma_3.84")
 
 
 
-
-
+test  <-  applyIndicators(strategy = strategy.one, mktdata = OHLC(AMZN))
+head(test)
+tail(test)
 #############################################################
 ######### Initialize 
 #############################################################
