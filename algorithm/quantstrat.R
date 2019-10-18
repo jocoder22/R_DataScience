@@ -299,7 +299,7 @@ add.indicator(strategy = strategy.one,
 
 
 
-
+# https://www.howtobuildsoftware.com/index.php/how-do/bNZc/r-quantstrat-quanstrat-strategy-error
 findK  <- function(HLC){
   n  <- dim(HLC)[1]
   f  <-  frequency(HLC)
