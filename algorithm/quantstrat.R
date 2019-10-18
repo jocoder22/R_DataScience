@@ -263,9 +263,12 @@ add.indicator(strategy.one,
 
 
 
+# Test the indicators
 test  <-  applyIndicators(strategy = strategy.one, mktdata = OHLC(AMZN))
 head(test)
 tail(test)
+
+
 #############################################################
 ######### Initialize 
 #############################################################
