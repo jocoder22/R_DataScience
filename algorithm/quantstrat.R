@@ -178,7 +178,7 @@ add.indicator(strategy = strategy.one,
               arguments = list(price = quote(Cl(mktdata)), n = 3), 
               
               # Label your indicator RSI_3
-              label = "RSI_3")
+              label = "RSI3")
 
 
 # Add an RSI 6 indicator to strategy.one
@@ -191,7 +191,7 @@ add.indicator(strategy = strategy.one,
               arguments = list(price = quote(Cl(mktdata)), n = 6), 
               
               # Label your indicator RSI_6
-              label = "RSI_6")
+              label = "RSI6")
 
 
 
@@ -208,7 +208,7 @@ RSI_dynamic <- function(price, n1, n2) {
   RSIavg <- (RSI1 + RSI2)/3
   
   # Name the column as RSI_avg
-  colnames(RSIavg) <- "RSI_Avg"
+  colnames(RSIavg) <- "AvgRSI"
   
   return(RSIavg)
 }
@@ -225,7 +225,7 @@ add.indicator(strategy.one,
               arguments = list(price = quote(Cl(mktdata)), n1 = 2, n2 = 5), 
               
               # Label your indicator RSI_2.5
-              label = "RSI_2.5")
+              label = "2.5")
 
 
 
@@ -242,7 +242,7 @@ smaRatio <- function(HLC, navg = 2, percentlookback = 200) {
   resultgg <- runPercentRank(avgratio, n = percentlookback, exact.multiplier = 1) * 100
   
   # Name the column as sma_Ratio
-  colnames(resultgg) <- "sma_Ratio"
+  colnames(resultgg) <- "smaRatio"
   
   return(resultgg)
 }
@@ -259,7 +259,7 @@ add.indicator(strategy.one,
               arguments = list(HLC = quote(HLC(mktdata)), navg = 3, percentlookback = 84), 
               
               # Label your indicator sma_3.84
-              label = "sma_3.84")
+              label = "3.84")
 
 
 
@@ -299,6 +299,24 @@ add.signal(strategy.one, name = "sigCrossover",
            # Label this signal shortRun
            label = "shortRun")
 
+
+# Add sigThreshold which specifies that DVO_2_126 must be less than 20, label it longthreshold
+add.signal(strategy.st, name = "sigThreshold", 
+           
+           # Use the DVO_2_126 column
+           arguments = list(column = "DVO_2_126", 
+                            
+                            # The threshold is 20
+                            threshold = 20, 
+                            
+                            # We want the oscillator to be under this value
+                            relationship = "lt", 
+                            
+                            # We're interested in every instance that the oscillator is less than 20
+                            cross = FALSE), 
+           
+           # Label it longthreshold
+           label = "longthreshold")
 
 #############################################################
 ######### Initialize the portfolio
