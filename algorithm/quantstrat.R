@@ -287,7 +287,17 @@ add.signal(strategy.one, name = "sigComparison",
 
 
 
-
+# Add a sigCrossover checking when SMA50 less than SMA200, call it shortRun
+add.signal(strategy.one, name = "sigCrossover", 
+           
+           # Eelationship between the SMA50 and the SMA200
+           arguments = list(columns = c("SMA50", "SMA200"), 
+                            
+                            # When the SMA50 is less than the SMA200
+                            relationship = "lt"),
+           
+           # Label this signal shortRun
+           label = "shortRun")
 
 
 #############################################################
