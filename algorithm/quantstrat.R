@@ -270,10 +270,20 @@ tail(test)
 
 
 #############################################################
-######### Initialize 
+######### Add signals to the strategy
 #############################################################
 
-
+# Add a sigComparison to check when SMA50 greater than SMA200, call it longRun
+add.signal(strategy.one, name = "sigComparison", 
+           
+           # The relationship between the SMA50 and the SMA200
+           arguments = list(columns = c("SMA50", "SMA200"), 
+                            
+                            # When the SMA50 is greater than the SMA200
+                            relationship = "gt"),
+           
+           # Label this signal longRun
+           label = "longRun")
 
 
 
