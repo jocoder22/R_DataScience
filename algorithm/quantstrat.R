@@ -118,7 +118,7 @@ portfolio.one <- "algorithm1"
 account.one <- "algorithm1"
 
 # Remove the existing strategy if it exists
-# rm.strat(strategy.am)
+rm.strat(strategy.one)
 
 
 #############################################################
@@ -300,11 +300,31 @@ add.signal(strategy.one, name = "sigCrossover",
            label = "shortRun")
 
 
-# Add sigThreshold which specifies that DVO_2_126 must be less than 20, label it longthreshold
-add.signal(strategy.st, name = "sigThreshold", 
+
+# Add sigThreshold which specifies that sma_Ratio.3.84 must be greater than 80, label it shortthreshold
+add.signal(strategy.one, name = "sigThreshold", 
            
            # Use the DVO_2_126 column
-           arguments = list(column = "DVO_2_126", 
+           arguments = list(column = "smaRatio.3.84", 
+                            
+                            # The threshold is 80
+                            threshold = 80, 
+                            
+                            # We want the oscillator to be under this value
+                            relationship = "gt", 
+                            
+                            # We're interested in every instance that the oscillator is greater than 80
+                            cross = FALSE), 
+           
+           # Label it shortthreshold
+           label = "shortthreshold")
+
+
+# Add sigThreshold which specifies that sma_Ratio.3.84 must be less than 20, label it longthreshold
+add.signal(strategy.one, name = "sigThreshold", 
+           
+           # Use the DVO_2_126 column
+           arguments = list(column = "smaRatio.3.84", 
                             
                             # The threshold is 20
                             threshold = 20, 
@@ -317,6 +337,23 @@ add.signal(strategy.st, name = "sigThreshold",
            
            # Label it longthreshold
            label = "longthreshold")
+
+
+
+# Add a sigFormula signal to your code specifying that both longfilter and longthreshold must be TRUE, label it longentry
+add.signal(strategy.one, name = "sigFormula",
+           
+           # Specify that longfilter and longthreshold must be TRUE
+           arguments = list(formula = "longRun & longthreshold", 
+                            
+                            # Specify that cross must be TRUE
+                            cross = TRUE),
+           
+           # Label it longentry
+           label = "longentry")
+
+
+
 
 #############################################################
 ######### Initialize the portfolio
