@@ -338,7 +338,10 @@ add.signal(strategy.one, name = "sigThreshold",
            # Label it longthreshold
            label = "longthreshold")
 
-
+test2 <- applyIndicators(strategy.one, mktdata = OHLC(AMZN))
+test3 <- applySignals(strategy = strategy.one, mktdata = test2)
+head(test3)
+tail(test3)
 
 # Add a sigFormula signal to your code specifying that both longfilter and longthreshold must be TRUE, label it longentry
 add.signal(strategy.one, name = "sigFormula",
