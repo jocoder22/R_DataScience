@@ -31,13 +31,13 @@ initDate  <- "2008-01-01"
 fromDate  <-  "2010-01-01"
 toDate  <-  "2019-10-15"
 
-stock  <- getSymbols(tickers, from=initDate, to=toDate, auto.assign = FALSE, src =  "yahoo", adjust =  TRUE)
+stockTrade  <- getSymbols(tickers, from=initDate, to=toDate, auto.assign = FALSE, src =  "yahoo", adjust =  TRUE)
 
 
 # estimated volatility
 # using volatility() from TTR package
 # first form the ohlc object
-ohlc <- OHLC(stock)
+ohlc <- OHLC(stockTrade)
 vClose <- volatility(ohlc, calc="close")
 vClose0 <- volatility(ohlc, calc="close", mean0=TRUE)
 vGK <- volatility(ohlc, calc="garman")
@@ -74,16 +74,16 @@ plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), main = "Price
 
 
 # plot the close price 
-plot(Cl(stock), main = "Amazon Close prices")
+plot(Cl(stockTrade), main = "Amazon Close prices")
 
 
 # add indicators
-lines(SMA(Cl(stock), n = 200), col = "blue")
-lines(SMA(Cl(stock), n = 50), col = "red")
+lines(SMA(Cl(stockTrade), n = 200), col = "blue")
+lines(SMA(Cl(stockTrade), n = 50), col = "red")
 
 
-lines(RSI(Cl(stock), n = 126), col = "yellow")
-lines(RSI(Cl(stock), n = 5), col = "green")
+lines(RSI(Cl(stockTrade), n = 126), col = "yellow")
+lines(RSI(Cl(stockTrade), n = 5), col = "green")
 
 
 
