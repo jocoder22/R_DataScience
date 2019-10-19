@@ -20,7 +20,9 @@ library(TTR, quietly = TRUE)
 library(tseries, quietly = TRUE)
 library(timeSeries, quietly = TRUE)
 library(glue, quietly = T)
-
+library(fpp2, quietly = TRUE)
+library(ggplot2, quietly = TRUE)
+library(forecast, quietly = TRUE)
 
 
 # Download stocks
@@ -29,13 +31,13 @@ initDate  <- "2008-01-01"
 fromDate  <-  "2010-01-01"
 toDate  <-  "2019-10-15"
 
-getSymbols(tickers, from=initDate, to=toDate, src =  "yahoo", adjust =  TRUE)
+stock  <- getSymbols(tickers, from=initDate, to=toDate, auto.assign = FALSE, src =  "yahoo", adjust =  TRUE)
 
 
 # estimated volatility
 # using volatility() from TTR package
 # first form the ohlc object
-ohlc <- OHLC(AMZN)
+ohlc <- OHLC(stock)
 vClose <- volatility(ohlc, calc="close")
 vClose0 <- volatility(ohlc, calc="close", mean0=TRUE)
 vGK <- volatility(ohlc, calc="garman")
@@ -45,7 +47,7 @@ vGKy <- volatility(ohlc, calc="gk.yz")
 vYZ <- volatility(ohlc, calc="yang.zhang")
 vMC <- chaikinVolatility(ohlc[,2:3])    #(GSPC[,c("GSPC.High", "GSPC.Low")])
 
-vtable <- data.frame(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC)
+vtable <- merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC)
 
 
 
@@ -59,10 +61,12 @@ for(val in c(1 : dim(vtable)[2])){
 }
 
 
+autoplot(vtable)
+plot()
 # Plot multiplot
 par(mfrow=c(1,1))
 plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), 
-     main = "Price Volatililty", multi.panel = TRUE)
+     main = "Price Volatililty", multi.panel = TRUE, facets = TRUE)
 plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), main = "Price Volatililty")
 
 
@@ -338,10 +342,6 @@ add.signal(strategy.one, name = "sigThreshold",
            # Label it longthreshold
            label = "longthreshold")
 
-test2 <- applyIndicators(strategy.one, mktdata = OHLC(AMZN))
-test3 <- applySignals(strategy = strategy.one, mktdata = test2)
-head(test3)
-tail(test3)
 
 # Add a sigFormula signal to your code specifying that both longfilter and longthreshold must be TRUE, label it longentry
 add.signal(strategy.one, name = "sigFormula",
@@ -357,29 +357,171 @@ add.signal(strategy.one, name = "sigFormula",
 
 
 
-
-#############################################################
-######### Initialize the portfolio
-#############################################################
-
-
-
-
-
-
+test2 <- applyIndicators(strategy.one, mktdata = OHLC(AMZN))
+test3 <- applySignals(strategy = strategy.one, mktdata = test2)
+head(test3)
+tail(test3)
 
 
 #############################################################
-######### Initialize the portfolio
+#########  Implement Rules
 #############################################################
 
 
 
+osMaxDollar  <-  function(data, timestamp, orderqty, ordertype, orderside,
+                           portfolio, symbol, prefer = "Open", tradeSize,
+                           maxSize, integerQty = TRUE, ...) {
+  
+    pos <- getPosQty(portfolio, symbol, timestamp)
+    
+    if(prefer == "Close") {
+      price <- as.numeric(Cl(mktdata[timestamp,]))
+    } else {
+      price <- as.numeric(Op(mktdata[timestamp,]))
+    }
+    
+    posVal <- pos*price
+    
+    if (orderside=="short") {
+      dollarsToTransact <- max(tradeSize, maxSize-posVal)
+      #If our position is profitable, we don't want to cover needlessly.
+      if(dollarsToTransact > 0) {dollarsToTransact = 0}
+    } else {
+      dollarsToTransact <- min(tradeSize, maxSize-posVal)
+      #If our position is profitable, we don't want to sell needlessly.
+      if(dollarsToTransact < 0) {dollarsToTransact = 0}
+    }
+    
+    qty <- dollarsToTransact/price
+    
+    if(integerQty) {
+      qty <- trunc(qty)
+    }
+    return(qty)
+}
+
+# Fill in the rule's type as exit
+add.rule(strategy.one, name = "ruleSignal", 
+         arguments = list(sigcol = "shortRun", sigval = TRUE, orderqty = "all", 
+                          ordertype = "market", orderside = "long", 
+                          replace = FALSE, prefer = "Open"), 
+         type = "exit")
+
+
+
+# Create an entry rule of 1 share when all conditions line up to enter into a position
+add.rule(strategy.one, name = "ruleSignal", 
+         
+         # Use the longentry column as the sigcol
+         arguments=list(sigcol = "longRun", 
+                        
+                        # Set sigval to TRUE
+                        sigval = TRUE, 
+                        
+                        # Set orderqty to 1
+                        # orderqty = 1,
+                        # Use the osFUN called osMaxDollar
+                        osFUN = osMaxDollar,
+                        
+                        # Use a market type of order
+                        ordertype = "market",
+                        
+                        tradeSize = tradesize,
+                        
+                        # The maxSize argument should be equal to tradesize as well
+                        maxSize = tradesize,
+                        
+                        # Take the long orderside
+                        orderside = "long",
+                        
+                        # Do not replace other signals
+                        replace = FALSE, 
+                        
+                        # Buy at the next day's opening price
+                        prefer = "Open"),
+         
+         # This is an enter type rule, not an exit
+         type = "enter")
+
+
+pos <- getPosQty(portfolio.one, "AMZN", timestamp)
+pos
+#############################################################
+######### Run our strategy
+#############################################################
+
+
+# Use applyStrategy() to apply your strategy. Save this to out
+out <- applyStrategy(strategy = strategy.one, portfolios = portfolio.one)
+
+# Update your portfolio (portfolio.st)
+updatePortf(portfolio.one)
+daterange <- time(getPortfolio(portfolio.one)$summary)[-1]
+
+# Update your account (account.st)
+updateAcct(account.one, daterange)
+updateEndEq(account.one)
+
+
+
+#############################################################
+######### Evaluate our strategy
+#############################################################
+
+# Get the tradeStats for your portfolio
+tstats <- tradeStats(Portfolios = portfolio.one)
+tstats2  <- t(tstats) 
+View(tstats)
+# Print the profit factor
+tstats$Profit.Factor
+tstats$Percent.Positive
+View(getOrderBook(portfolio = portfolio.one))
+oderBook  <-  as.data.frame(getOrderBook(portfolio = portfolio.one)[["algorithm1"]][["AMZN"]])
+
+
+
+#############################################################
+######### Evaluate our strategy
+#############################################################
+chart.Posn(Portfolio = portfolio.one, Symbol = "AMZN")
+
+
+
+# Compute the SMA50
+sma50 <- SMA(x = Cl(AMZN), n = 50)
+
+# Compute the SMA200
+sma200 <- SMA(x = Cl(AMZN), n = 200)
+
+# Compute the DVO_2_126 with an navg of 2 and a percentlookback of 126
+dvo <- smaRatio(HLC = HLC(AMZN), navg = 3, percentlookback = 84)
+
+# Recreate the chart.Posn of the strategy from the previous exercise
+chart.Posn(Portfolio = portfolio.one, Symbol = "AMZN")
+
+# Overlay the SMA50 on your plot as a blue line
+add_TA(sma50, on = 1, col = "blue")
+
+# Overlay the SMA200 on your plot as a red line
+add_TA(sma200, on = 1, col = "red")
+
+# Add the DVO_2_126 to the plot in a new window
+add_TA(dvo)
 
 
 
 
 
+portpl <- .blotter$portfolio.algorithm1$summary$Net.Trading.PL
+SharpeRatio.annualized(portpl, geometric=FALSE)
+
+
+# Get instrument returns
+instrets <- PortfReturns(portfolio.one)
+
+# Compute Sharpe ratio from returns
+SharpeRatio.annualized(instrets, geometric = FALSE)
 
 # https://www.howtobuildsoftware.com/index.php/how-do/bNZc/r-quantstrat-quanstrat-strategy-error
 findK  <- function(HLC){
