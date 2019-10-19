@@ -60,9 +60,12 @@ for(val in c(1 : dim(vtable)[2])){
        ylab="Volatility", col = val, xlab="Date")
 }
 
-
+# plot the graphs
+autoplot(vtable)
 autoplot(vtable)
 plot()
+
+
 # Plot multiplot
 par(mfrow=c(1,1))
 plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), 
@@ -71,16 +74,16 @@ plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), main = "Price
 
 
 # plot the close price 
-plot(Cl(AMZN), main = "Amazon Close prices")
+plot(Cl(stock), main = "Amazon Close prices")
 
 
 # add indicators
-lines(SMA(Cl(AMZN), n = 200), col = "blue")
-lines(SMA(Cl(AMZN), n = 50), col = "red")
+lines(SMA(Cl(stock), n = 200), col = "blue")
+lines(SMA(Cl(stock), n = 50), col = "red")
 
 
-lines(RSI(Cl(AMZN), n = 126), col = "yellow")
-lines(RSI(Cl(AMZN), n = 5), col = "green")
+lines(RSI(Cl(stock), n = 126), col = "yellow")
+lines(RSI(Cl(stock), n = 5), col = "green")
 
 
 
