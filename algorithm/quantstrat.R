@@ -47,9 +47,10 @@ vGKy <- volatility(ohlc, calc="gk.yz")
 vYZ <- volatility(ohlc, calc="yang.zhang")
 vMC <- chaikinVolatility(ohlc[,2:3])    #(GSPC[,c("GSPC.High", "GSPC.Low")])
 
+
+# Merge and replace NA
 vtable <- merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC)
-
-
+vtable[is.na(vtable)] <- 0
 
 
 for(val in c(1 : dim(vtable)[2])){
