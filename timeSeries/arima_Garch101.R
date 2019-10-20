@@ -3,13 +3,15 @@ require(PerformanceAnalytics)
 require(astsa)
 require(tseries)
 require(forecast)
-getSymbols("^FTSE")
+
+
+
+ticker_s <- "MSFT" ##"^FTSE"
+stock  <- getSymbols(ticker_s, auto.assign = FALSE) %>% Ad()
  
-ft = diff(Cl(FTSE))
+ft = na.omit(diff(stock))
 
-
-
-plot(Cl(FTSE))
+plot(ft)
 plot(ft)
     
 
@@ -74,4 +76,8 @@ ft.garch
 acf2(ft.res)
 
 
+ppp  <- auto.arima(ft, stepwise = FALSE)
 auto.arima(ft, stepwise = FALSE)
+ppp$arma
+  
+ppp$arma
