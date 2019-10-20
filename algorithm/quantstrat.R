@@ -19,7 +19,7 @@ library(blotter, quietly = TRUE)
 library(TTR, quietly = TRUE)
 library(tseries, quietly = TRUE)
 library(timeSeries, quietly = TRUE)
-library(glue, quietly = T)
+library(glue, quietly = TRUE)
 library(fpp2, quietly = TRUE)
 library(ggplot2, quietly = TRUE)
 library(forecast, quietly = TRUE)
@@ -28,10 +28,10 @@ library(forecast, quietly = TRUE)
 # Download stocks
 tickers  <- "AMZN"
 initDate  <- "2008-01-01"
-fromDate  <-  "2010-01-01"
 toDate  <-  "2019-10-15"
 
-stockTrade  <- getSymbols(tickers, from=initDate, to=toDate, auto.assign = FALSE, src =  "yahoo", adjust =  TRUE)
+stockTrade  <- getSymbols(tickers, from=initDate, to=toDate,  auto.assign = FALSE,
+                          src =  "yahoo", adjust =  TRUE)
 
 
 # estimated volatility
@@ -55,16 +55,16 @@ vtable[is.na(vtable)] <- 0
 
 for(val in c(1 : dim(vtable)[2])){
   par(mfrow=c(2,1))
-  plot(index(ohlc), ohlc[,4], type="l",main = "Amazon Close Price", ylab="Price", xlab="Date")
+  plot(index(ohlc), ohlc[,4], type="l",main = paste(tickers, "Close Price", ylab="Price", xlab="Date"))
   string="Volatility plot for {colnames(vtable)[val]}."
   plot(index(ohlc),vtable[,val], type="l", main=glue(string), 
        ylab="Volatility", col = val, xlab="Date")
 }
 
 # plot the graphs
+autoplot(vtable, facets = TRUE)
 autoplot(vtable)
-autoplot(vtable)
-plot()
+
 
 
 # Plot multiplot
@@ -75,7 +75,7 @@ plot(merge(vClose, vClose0, vGK, vParkinson, vRS, vGKy, vYZ, vMC), main = "Price
 
 
 # plot the close price 
-plot(Cl(stockTrade), main = "Amazon Close prices")
+plot(Cl(stockTrade), main = paste(tickers, "Close prices"))
 
 
 # add indicators
@@ -94,8 +94,25 @@ lines(RSI(Cl(stockTrade), n = 5), col = "green")
 ########
 ###########################################################
 
+# Download stocks
+tickers  <- "JPM" # "AMZN" #"SPY" #
+initDate  <- "2008-01-01"
+fromDate  <-  "2010-01-01"
+toDate  <-  "2019-10-15"
+
+getSymbols(tickers, from=fromDate,   src =  "yahoo", adjust =  TRUE)
+stockTrade  <- getSymbols(tickers, from=fromDate,  auto.assign = FALSE,
+                          src =  "yahoo", adjust =  TRUE)
+
+
+###########################################################
+########
+########   Setup for quantstrat
+########
+###########################################################
+
 # Clean up the environment
-# rm(strategy.one)
+rm(strategy.one)
 try(rm("account.one","portfolio.one", "strategy.one"), silent=TRUE)  
 
 # .blotter <- new.env()
@@ -113,7 +130,7 @@ Sys.setenv(TZ="UTC")
 currency("USD")
 
 # initialize the stock
-stock("AMZN", currency="USD", multiplier=1)
+stock(tickers, currency="USD", multiplier=1)
 
 # Define your trade size and initial equity
 tradesize <- 1000000
@@ -133,7 +150,7 @@ rm.strat(strategy.one)
 ######### Initialize the portfolio
 #############################################################
 
-initPortf(portfolio.one, symbols = "AMZN", initDate = initDate, currency = "USD")
+initPortf(portfolio.one, symbols = tickers, initDate = initDate, currency = "USD")
 
 # Initialize the account
 initAcct(account.one, portfolios = portfolio.one, initDate = initDate, currency = "USD", initEq = initeq)
@@ -272,7 +289,7 @@ add.indicator(strategy.one,
 
 
 # Test the indicators
-test  <-  applyIndicators(strategy = strategy.one, mktdata = OHLC(AMZN))
+test  <-  applyIndicators(strategy = strategy.one, mktdata = OHLC(stockTrade))
 head(test)
 tail(test)
 
@@ -361,7 +378,7 @@ add.signal(strategy.one, name = "sigFormula",
 
 
 
-test2 <- applyIndicators(strategy.one, mktdata = OHLC(AMZN))
+test2 <- applyIndicators(strategy.one, mktdata = OHLC(stockTrade))
 test3 <- applySignals(strategy = strategy.one, mktdata = test2)
 head(test3)
 tail(test3)
@@ -449,8 +466,8 @@ add.rule(strategy.one, name = "ruleSignal",
          type = "enter")
 
 
-pos <- getPosQty(portfolio.one, "AMZN", timestamp)
-pos
+# pos <- getPosQty(portfolio.one, tickers, timestamp)
+# pos
 #############################################################
 ######### Run our strategy
 #############################################################
@@ -477,32 +494,34 @@ updateEndEq(account.one)
 tstats <- tradeStats(Portfolios = portfolio.one)
 tstats2  <- t(tstats) 
 View(tstats)
+
+
 # Print the profit factor
 tstats$Profit.Factor
 tstats$Percent.Positive
 View(getOrderBook(portfolio = portfolio.one))
-oderBook  <-  as.data.frame(getOrderBook(portfolio = portfolio.one)[["algorithm1"]][["AMZN"]])
+oderBook  <-  as.data.frame(getOrderBook(portfolio = portfolio.one)[["algorithm1"]][[tickers]])
 
 
 
 #############################################################
 ######### Evaluate our strategy
 #############################################################
-chart.Posn(Portfolio = portfolio.one, Symbol = "AMZN")
 
+chart.Posn(Portfolio = portfolio.one, Symbol = tickers)
 
 
 # Compute the SMA50
-sma50 <- SMA(x = Cl(AMZN), n = 50)
+sma50 <- SMA(x = Cl(stockTrade), n = 50)
 
 # Compute the SMA200
-sma200 <- SMA(x = Cl(AMZN), n = 200)
+sma200 <- SMA(x = Cl(stockTrade), n = 200)
 
 # Compute the DVO_2_126 with an navg of 2 and a percentlookback of 126
-dvo <- smaRatio(HLC = HLC(AMZN), navg = 3, percentlookback = 84)
+dvo <- smaRatio(HLC = HLC(stockTrade), navg = 3, percentlookback = 84)
 
 # Recreate the chart.Posn of the strategy from the previous exercise
-chart.Posn(Portfolio = portfolio.one, Symbol = "AMZN")
+chart.Posn(Portfolio = portfolio.one, Symbol = tickers)
 
 # Overlay the SMA50 on your plot as a blue line
 add_TA(sma50, on = 1, col = "blue")
@@ -516,7 +535,7 @@ add_TA(dvo)
 
 
 
-
+# get the net trading returns
 portpl <- .blotter$portfolio.algorithm1$summary$Net.Trading.PL
 SharpeRatio.annualized(portpl, geometric=FALSE)
 
@@ -527,6 +546,13 @@ instrets <- PortfReturns(portfolio.one)
 # Compute Sharpe ratio from returns
 SharpeRatio.annualized(instrets, geometric = FALSE)
 
+
+
+
+
+
+
+
 # https://www.howtobuildsoftware.com/index.php/how-do/bNZc/r-quantstrat-quanstrat-strategy-error
 findK  <- function(HLC){
   n  <- dim(HLC)[1]
@@ -534,5 +560,5 @@ findK  <- function(HLC){
   k  <- 12 * (n / 100) ^ 0.25
   return(floor(k))
 }
-findK(AMZN)
-dim(AMZN)
+findK(stockTrade)
+dim(stockTrade)
