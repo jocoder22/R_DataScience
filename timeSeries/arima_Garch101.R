@@ -14,8 +14,8 @@ plot(ft)
     
 
 autoArima2 <- function(xtsx){  
-    ft <- as.numeric(xtsx)
-    ft <- ft[!is.na(ft)]
+    fttt <- as.numeric(xtsx)
+    fttt <- fttt[!is.na(ft)]
     
     final.aic <- Inf
     final.order <- c(0,0,0)
@@ -30,7 +30,7 @@ autoArima2 <- function(xtsx){
     
     
     
-        arimaFit = tryCatch(arima(ft, order=c(p, d, q)),
+        arimaFit = tryCatch(arima(fttt, order=c(p, d, q)),
                         error=function( err ) FALSE,
                         warning=function( err ) FALSE )
 
@@ -48,7 +48,7 @@ autoArima2 <- function(xtsx){
          # 
     }
     
-    final.arima <- arima(ft, order=final.order)
+    final.arima <- arima(fttt, order=final.order)
     cat("Final ARIMA Order:\n ArmaOrder[",final.order[1],",",final.order[2],",", 
         final.order[3],"]\n\n")
     
