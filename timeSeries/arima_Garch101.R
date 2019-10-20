@@ -66,7 +66,7 @@ autoArima2 <- function(xtsx){
 
 
 
-autoArima2(ftrt)
+autoArima2(ft)
 ft.garch <- garch(ft, trace=F)
 ft.res <- ft.garch$res[-1]
 ft.garch
