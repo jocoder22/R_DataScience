@@ -5,12 +5,12 @@ require(tseries)
 require(forecast)
 getSymbols("^FTSE")
  
-ftrt = diff(Cl(FTSE))
+ft = diff(Cl(FTSE))
 
 
 
 plot(Cl(FTSE))
-aplot(ftrt)
+plot(ft)
     
 
 autoArima2 <- function(xtsx){  
