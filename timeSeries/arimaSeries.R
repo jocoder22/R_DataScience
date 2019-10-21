@@ -1,15 +1,20 @@
 # load requried library  
 # install.packages('astsa')
-library(tseries)
-library(aTSA)
-library(astsa)
+library(tseries, quietly = TRUE)
+library(aTSA, quietly = TRUE)
+library(astsa, quietly = TRUE)
 
 
 # Compute the k
 findK  <- function(HLC){
   n  <- dim(HLC)[1]
   f  <-  frequency(HLC)
-  k  <- 12 * (n / 100) ^ 0.25
+  
+  if (f == 1){
+    f = 252
+  }
+  
+  k  <- int(f * (n / 100) ^ 0.25)
   return(floor(k))
 }
 
