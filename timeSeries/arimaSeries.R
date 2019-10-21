@@ -90,6 +90,7 @@ allTest <- function(x){
 }
 
 
+
 # Apply composite test
 allTest(without_seasons)
 allTest(sunspots)
