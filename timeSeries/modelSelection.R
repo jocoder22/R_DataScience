@@ -1,3 +1,4 @@
+
 ###########################################################
 # Here we explore Garch-in-mean model using rugarch package
 library(quantmod, quietly = T)
