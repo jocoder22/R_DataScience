@@ -7,16 +7,27 @@ library(astsa, quietly = TRUE)
 
 # Compute the k
 findK  <- function(HLC){
-  n  <- dim(HLC)[1]
+  
+  if(is.null(dim(HLC))){
+    n  <- length(HLC)
+  }else{
+    
+    n  <- dim(HLC)[1]
+  }
+
+  
   f  <-  frequency(HLC)
   
   if (f == 1){
     f = 252
   }
   
-  k  <- int(f * (n / 100) ^ 0.25)
-  return(floor(k))
+  k  <- (f * (n / 100)) ^ 0.25
+  
+  return (floor(k))
 }
+
+
 
 
 # explore the time series dataset 
@@ -24,6 +35,9 @@ start(sunspots) # shows the start time
 end(sunspots)   # shows the end time
 frequency(sunspots)   # shows the reoccuring frequency
 
+
+length(sunspots)
+findK(sunspots)
 
 # deltat is the fraction of the sampling period between successive observations; 
 # e.g., 1/12 for monthly data
