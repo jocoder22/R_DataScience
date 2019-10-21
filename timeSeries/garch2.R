@@ -1,7 +1,7 @@
 # Here we explore Autocorrelation of volatility 
 library(quantmod, quietly = T)
-library(PerformanceAnalytics)
-library(rugarch)
+library(PerformanceAnalytics, quietly = TRUE)
+library(rugarch, quietly = TRUE)
 
 # download dataset
 getSymbols("JPM", src="yahoo")
