@@ -534,7 +534,6 @@ add_TA(dvo)
 
 
 
-
 # get the net trading returns
 portpl <- .blotter$portfolio.algorithm1$summary$Net.Trading.PL
 SharpeRatio.annualized(portpl, geometric=FALSE)
