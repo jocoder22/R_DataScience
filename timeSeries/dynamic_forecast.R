@@ -2,6 +2,10 @@ library(forecast)
 library(tseries)
 
 
-# Using the AirPassengers datasets
+# Using the EuStockMarkets datasets
 # plot the series
-ap  <- AirPassengers
+ap  <- EuStockMarkets
+
+autoplot(ap, facets = TRUE)
+
+auto.arima(ap)
