@@ -6,6 +6,8 @@ library(rugarch, quietly = TRUE)
 # download dataset
 getSymbols("JPM", src="yahoo")
 
+
+
 # select required feature the Adjusted close
 jpClose <- Ad(JPM)
 
