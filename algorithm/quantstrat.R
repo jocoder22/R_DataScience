@@ -34,6 +34,7 @@ stockTrade  <- getSymbols(tickers, from=initDate, to=toDate,  auto.assign = FALS
                           src =  "yahoo", adjust =  TRUE)
 
 
+
 # estimated volatility
 # using volatility() from TTR package
 # first form the ohlc object
