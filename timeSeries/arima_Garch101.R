@@ -15,6 +15,7 @@ plot(ft)
 plot(ft)
     
 
+
 autoArima2 <- function(xtsx){  
     fttt <- as.numeric(xtsx)
     fttt <- fttt[!is.na(ft)]
