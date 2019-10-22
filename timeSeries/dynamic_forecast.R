@@ -4,8 +4,10 @@ library(tseries)
 
 # Using the EuStockMarkets datasets
 # plot the series
-ap  <- EuStockMarkets
+eu  <- EuStockMarkets
 
-autoplot(ap, facets = TRUE)
+autoplot(eu, facets = TRUE)
 
-auto.arima(ap)
+
+# fit the model with xreg
+model1  <- auto.arima(eu[, "DAX"], xreg = eu[, c(2:4)], stationary = TRUE)
