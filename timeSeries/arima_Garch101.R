@@ -50,6 +50,7 @@ autoArima2 <- function(xtsx){
          # 
     }
     
+    
     final.arima <- arima(fttt, order=final.order)
     cat("Final ARIMA Order:\n ArmaOrder[",final.order[1],",",final.order[2],",", 
         final.order[3],"]\n\n")
