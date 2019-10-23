@@ -9,7 +9,8 @@ num_cores  <- detectCores(logical = FALSE)
 cll <- makeCluster(num_cores)
 
 
-stdev  <- function(series){
+stdev  <- function(num){
+  series <- rnorm(num)
   sd(series)
 }
 
@@ -20,11 +21,11 @@ n_number_reps <- 100000
 # calculate the standard deviation
 # time the process
 t0  <- Sys.time()
-std <- clusterApply(cll, x = rep(n_number_reps, number_rep),
+std <- clusterApply(cll, x = rep(n_number_reps, number_reps),
                     fun = stdev)
 
 t1  <- Sys.time()
 
 print(t1 - t0)
 
-hist(std)
+hist(unlist(std))
