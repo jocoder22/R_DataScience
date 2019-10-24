@@ -1,4 +1,5 @@
 library(parallel)
+library(microbenchmark)
 
 
 set.seed(10)
@@ -63,3 +64,30 @@ print(t5 - t4)
 
 # plot the outcome
 hist(res)
+
+
+# set up the sequential model
+sd_squential <- function(n, m){
+  
+  result <- rep(NA, m)
+  
+  for(i in seq_len(m)) {
+ 
+    res[i] <- sd(rnorm(n))
+  }
+  
+}
+
+
+
+
+sd_squential <- function(n, m){
+  
+  result <- rep(NA, m)
+  
+  for(i in seq_len(m)) {
+    
+    res[i] <- sd(rnorm(n))
+  }
+  
+}
