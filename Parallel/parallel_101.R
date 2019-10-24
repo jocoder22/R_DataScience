@@ -66,6 +66,11 @@ print(t5 - t4)
 hist(res)
 
 
+
+# create n, m
+n  <- 4e7
+m <- 10
+
 # set up the sequential model
 sd_squential <- function(n, m){
   
@@ -73,7 +78,9 @@ sd_squential <- function(n, m){
   
   for(i in seq_len(m)) {
  
-    res[i] <- sd(rnorm(n))
+    # result[i] <- sd(rnorm(n))
+    
+    result[i] <- stdev(n)
   }
   
 }
@@ -88,3 +95,26 @@ sd_parallel <- function(n, m){
   clusterApply(cll, x = cllr, fun = stdev)
   
 }
+
+
+# create sapply sequential model
+sapply_squential <- function(n, m){
+  
+  spp <- rep(n, m)
+  
+  sapply(spp, stdev)
+  
+}
+
+
+# compute benchmark
+microbenchmark(
+  
+  sd_squential(n, m),
+  sd_parallel(n, m),
+  sapply_squential(n, m),
+  
+  times = 1,
+  
+  unit = "s"
+)
