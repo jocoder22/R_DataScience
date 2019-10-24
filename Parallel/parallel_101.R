@@ -80,14 +80,11 @@ sd_squential <- function(n, m){
 
 
 
+# create parallel model
+sd_parallel <- function(n, m){
+  
+  cllr <- rep(n, m)
 
-sd_squential <- function(n, m){
-  
-  result <- rep(NA, m)
-  
-  for(i in seq_len(m)) {
-    
-    res[i] <- sd(rnorm(n))
-  }
+  clusterApply(cll, x = cllr, fun = stdev)
   
 }
