@@ -5,7 +5,7 @@ library(microbenchmark)
 set.seed(10)
 
 # check the number of cores
-num_cores  <- detectCores(logical = FALSE)
+num_cores  <- detectCores(logical = TRUE)
 
 
 # create the cluster
@@ -117,4 +117,5 @@ microbenchmark(
   times = 1,
   
   unit = "s"
+  
 )
