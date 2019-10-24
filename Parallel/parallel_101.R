@@ -5,8 +5,8 @@ library(microbenchmark)
 set.seed(10)
 
 # check the number of cores
-num_cores  <- detectCores(logical = TRUE)
-
+# num_cores  <- detectCores(logical = TRUE)
+num_cores  <- detectCores(logical = FALSE)
 
 # create the cluster
 cll <- makeCluster(num_cores)
