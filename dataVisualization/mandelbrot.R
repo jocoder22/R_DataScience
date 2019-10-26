@@ -9,8 +9,6 @@ xc <- complex(real = rep(seq(-2.6, 1.5, length.out = xdx), each = ydy),
               imag = rep(seq(-1.9, 1.3, length.out = ydy), xdx))
 
 
-
-
 xc <- matrix(xc, ydy, xdx)
 zz <- 0
 xxx <- array(0, c(ydy, xdx, 40))
