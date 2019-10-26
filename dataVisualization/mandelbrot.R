@@ -14,6 +14,7 @@ xc <- complex(real = rep(seq(-2.6, 1.5, length.out = xdx), each = ydy),
 xc <- matrix(xc, ydy, xdx)
 zz <- 0
 xxx <- array(0, c(ydy, xdx, 40))
+
 for(nk in 1:40){
   
   zz <-  zz^2 + xc
