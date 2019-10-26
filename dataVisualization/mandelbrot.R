@@ -1,4 +1,8 @@
 library(caTools)
+
+filepath <- getwd()
+filename <- file.path(filepath, "R_DataScience", "dataVisualization", "MyMandelbrot.git")
+     
 myjet.colors <-  colorRampPalette(c("black", "green","red", "blue", "#007FFF", "cyan", "#7FFF7F",
                                     "yellow", "#FF7F00", "red", "#7F0000"))
 
@@ -20,4 +24,8 @@ for(nk in 1:40){
   
 }
 
-write.gif(xxx, "MyMandelbrot.git", col = myjet.colors, delay = 110)
+
+
+write.gif(xxx, filename, col = myjet.colors, delay = 110)
+
+
