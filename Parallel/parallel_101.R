@@ -120,3 +120,26 @@ microbenchmark(
   unit = "s"
   
 )
+
+
+library(caTools)
+jet.colors <-  colorRampPalette(c("black", "green","red", "blue", "#007FFF", "cyan", "#7FFF7F",
+                                 "yellow", "#FF7F00", "red", "#7F0000"))
+
+dx <- 1500
+dy <- 1400
+
+c <- complex(real = rep(seq(-2.6, 1.5, length.out = dx), each = dy),
+             imag = rep(seq(-1.9, 1.3, length.out = dy), dx))
+
+c <- matrix(c, dy, dx)
+z <- 0
+x <- array(0, c(dy, dx, 40))
+for(k in 1:40){
+  
+  z <-  z^2 + c
+  x[, , k] <- exp(-abs(z))
+  
+}
+
+write.gif(x, "Mandelbrot.git", col = jet.colors, delay = 130)
