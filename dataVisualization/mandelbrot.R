@@ -1,7 +1,7 @@
 library(caTools)
 
-filepath <- getwd()
-filename <- file.path(filepath, "R_DataScience", "dataVisualization", "MyMandelbrot.git")
+path <- getwd()
+filepath <- file.path(filepath, "R_DataScience", "dataVisualization")
      
 myjet.colors <-  colorRampPalette(c("black", "green","red", "blue", "#007FFF", "cyan", "#7FFF7F",
                                     "yellow", "#FF7F00", "red", "#7F0000"))
@@ -11,6 +11,7 @@ ydy <- 2400
 
 xc <- complex(real = rep(seq(-2.6, 1.5, length.out = xdx), each = ydy),
               imag = rep(seq(-1.9, 1.3, length.out = ydy), xdx))
+
 
 
 xc <- matrix(xc, ydy, xdx)
@@ -25,7 +26,6 @@ for(nk in 1:40){
 }
 
 
-
+filename  <- file.path(filepath, "MyMandelbrot.git")
 write.gif(xxx, filename, col = myjet.colors, delay = 110)
-
 
