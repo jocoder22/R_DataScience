@@ -55,7 +55,7 @@ clusterEvalQ(workers3, {library(janeaustenr)
     unique()  %>% as.character()
   inside <- "Inside Variable"})
 
-clusterExport(workers3, "book_pers")
+clusterExport(workers3, c("book_pers", "book_emma"))
 clusterCall(workers3, function(i) austenbooks()[i], -4)
 clusterCall(workers3, function() austen_books())
 clusterCall(workers3, function() print(emma))
@@ -65,3 +65,6 @@ clusterCall(workers3, function() print(inside))
 
 # Stop the cluster
 stopCluster(workers3)
+
+
+print(rep(1000,20))
