@@ -38,3 +38,30 @@ clusterCall(workers, function(i) emma[i], 15:18)
 stopCluster(workers)
 
 
+
+# create the book_ variables on the master
+book_emma  <- janeaustenr::emma
+book_pers  <- janeaustenr::persuasion
+
+
+# create cluster of  3 parallel workers
+workers3 <- makeCluster(3)
+
+# using clusterEvalQ to initialize and load clusters with functions and library from the master
+
+clusterEvalQ(workers3, {library(janeaustenr)
+  library(stringr)
+  austenbooks <- function() austen_books()$book %>%
+    unique()  %>% as.character()
+  inside <- "Inside Variable"})
+
+clusterExport(workers3, "book_pers")
+clusterCall(workers3, function(i) austenbooks()[i], -4)
+clusterCall(workers3, function() austen_books())
+clusterCall(workers3, function() print(emma))
+clusterCall(workers3, function() print(book_pers))
+clusterCall(workers3, function() print(inside))
+
+
+# Stop the cluster
+stopCluster(workers3)
