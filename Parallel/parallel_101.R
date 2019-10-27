@@ -115,10 +115,11 @@ microbenchmark(
   sd_parallel(n, m),
   sapply_squential(n, m),
   
-  times = 1,
+  times = 2,
   
   unit = "s"
   
 )
+
 
 
