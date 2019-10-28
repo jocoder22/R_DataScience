@@ -4,7 +4,7 @@ library(PerformanceAnalytics, quietly = TRUE)
 library(ROI, quietly = TRUE)
 library(timeSeries)
 library(tseries)
-library(PortfolioAnalytics)
+
 
 
 # Download stocks
