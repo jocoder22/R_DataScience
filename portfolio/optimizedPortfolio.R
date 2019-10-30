@@ -5,7 +5,7 @@ library(ROI, quietly = TRUE)
 library(timeSeries)
 library(tseries)
 library(xts)
-library(xtsExtra)
+
 
 # Download stocks
 tickers = c('AMZN','AAPL','MSFT',"SPY", "AGG", "VNQ", "GSG","JPM", "^GSPC")
@@ -91,3 +91,42 @@ sum(optimized3$pw > .01)
 optimized1$ps
 optimized2$ps
 optimized3$ps
+
+
+
+# plot porfolio gross returns
+# investing one dollar
+grossR <- 1 + portfolioReturn
+
+
+# Future returns 
+futureR <- cumprod(grossR)
+
+plot(futureR,legend.loc = "topleft", main="Future Returns")
+
+
+# compute the optimium portfolio
+opt_port <- portfolio.optim(portfolioReturn, shorts = TRUE)
+
+# compute optimized return
+opt_port_returns <- as.xts(opt_port$px, order.by = index(portfolioReturn))
+
+
+# Future returns 
+future_m <- cumprod(1 + portfolioRowMean)
+future_opt <- cumprod(1 + opt_port_returns)
+
+# compare with mean portfolio returns
+par(mfrow=c(2,1))
+future_merge <- merge(future_m, future_opt)
+colnames(future_merge) <- c("Future Portofolio Mean Returns", "Future Optimized Portfolio Returns")
+add_lowPer <- merge(future_merge, futureR[, 6:9])
+plot(add_lowPer, main="Mean Portofolio Returns vs. Optimized Portfolio Returns",
+     legend.loc = "topleft")
+
+# add amazon stock returns
+add_amazon <- merge(future_merge, futureR[, "AMZN"])
+plot(add_amazon, main="Mean Portofolio Returns vs. Optimized Portfolio Returns",
+     legend.loc = "topleft")
+
+par(mfrow=c(1,1))
