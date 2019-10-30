@@ -21,3 +21,16 @@ colnames(portfolio) <- names
 # compute return of assets
 portfolioReturn <- Return.calculate(portfolio)[-1]
 num <- ncol(portfolio)
+
+
+
+# compute the optimium portfolio
+opt_port <- portfolio.optim(portfolioReturn)
+opt_weights <- opt_port$pw
+
+# Assign asset names
+names(opt_weights) <- colnames(portfolioReturn)
+
+# Bar plot of opt_weights
+barplot(opt_weights)
+
