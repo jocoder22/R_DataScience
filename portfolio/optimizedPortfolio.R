@@ -56,3 +56,31 @@ portfolio_10 <- portfolio.optim(portfolioReturn, pm = 1.1 * mean(portfolioReturn
 portfolio_mean$ps
 portfolio_10$ps
 
+
+
+
+
+
+# Calculate the proportion increase in standard deviation
+(portfolio_10$ps - portfolio_mean$ps) / (portfolio_mean$ps)
+
+
+# Measure the effects of changes in max weights 
+# Create vectors of maximum weights
+max_weights100 <- rep(1, ncol(portfolioReturn))
+max_weights50 <- rep(0.5, ncol(portfolioReturn))
+max_weights25 <- rep(0.23, ncol(portfolioReturn))
+
+# Create an optimum portfolio with max weights of 100%
+optimized1 <- portfolio.optim(portfolioReturn, reshigh = max_weights100)
+
+# Create an optimum portfolio with max weights of 50%
+optimized2 <- portfolio.optim(portfolioReturn, reshigh = max_weights50)
+
+# Create an optimum portfolio with max weights of 25%
+optimized3 <- portfolio.optim(portfolioReturn, reshigh = max_weights25)
+
+# Calculate how many assets have a weight that is greater than 1% for each portfolio
+sum(optimized1$pw > .01)
+sum(optimized2$pw > .01)
+sum(optimized3$pw > .01)
