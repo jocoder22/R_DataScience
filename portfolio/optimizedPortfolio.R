@@ -84,3 +84,9 @@ optimized3 <- portfolio.optim(portfolioReturn, reshigh = max_weights25)
 sum(optimized1$pw > .01)
 sum(optimized2$pw > .01)
 sum(optimized3$pw > .01)
+
+
+# Print portfolio volatilites 
+optimized1$ps
+optimized2$ps
+optimized3$ps
