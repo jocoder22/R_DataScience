@@ -43,3 +43,16 @@ plot(opt_port_returns,col=2, main="Optimized Portfolio Returns")
 
 dev.off()
 
+
+
+# Changing the target returns 
+# Create portfolio with target return of average returns 
+portfolio_mean <- portfolio.optim(portfolioReturn, pm = mean(portfolioReturn))
+
+# Create portfolio with target return 10% greater than average returns
+portfolio_10 <- portfolio.optim(portfolioReturn, pm = 1.1 * mean(portfolioReturn))
+
+# Print the standard deviations of both portfolios
+portfolio_mean$ps
+portfolio_10$ps
+
