@@ -45,10 +45,9 @@ barplot(opt_weights)
 opt_port_returns <- as.xts(opt_port$px, order.by = index(portfolioReturn))
 par(mfrow=c(2,1))
 plot(portfolioRowMean, main="Average Portfolio Returns")
-plot(opt_port_returns,col=2, main="Optimized Portfolio Returns")
+plot(opt_port_returns, col=2, main="Optimized Portfolio Returns")
 
 par(mfrow=c(1,1))
-
 
 
 # Changing the target returns 
