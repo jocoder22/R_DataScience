@@ -23,6 +23,12 @@ portfolioReturn <- Return.calculate(portfolio)[-1]
 num <- ncol(portfolio)
 
 
+# compute the average returns
+row_mean <- apply(portfolioReturn, 1, mean)
+portfolioRowMean <- as.xts(row_mean, order.by = index(portfolioReturn))
+colnames(portfolioRowMean) <- "RowMeans"
+plot(portfolioRowMean, legend.loc = "topright")
+
 
 # compute the optimium portfolio
 opt_port <- portfolio.optim(portfolioReturn)
@@ -41,7 +47,7 @@ par(mfrow=c(2,1))
 plot(portfolioRowMean, main="Average Portfolio Returns")
 plot(opt_port_returns,col=2, main="Optimized Portfolio Returns")
 
-dev.off()
+par(mfrow=c(1,1))
 
 
 
@@ -55,10 +61,6 @@ portfolio_10 <- portfolio.optim(portfolioReturn, pm = 1.1 * mean(portfolioReturn
 # Print the standard deviations of both portfolios
 portfolio_mean$ps
 portfolio_10$ps
-
-
-
-
 
 
 # Calculate the proportion increase in standard deviation
