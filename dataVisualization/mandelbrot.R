@@ -1,7 +1,7 @@
 library(caTools)
 
 path <- getwd()
-filepath <- file.path(filepath, "R_DataScience", "dataVisualization")
+filepath <- file.path(path, "R_DataScience", "dataVisualization")
      
 myjet.colors <-  colorRampPalette(c("black", "green","red", "blue", "#007FFF", "cyan", "#7FFF7F",
                                     "yellow", "#FF7F00", "red", "#7F0000"))
