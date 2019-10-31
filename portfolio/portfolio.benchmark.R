@@ -5,7 +5,7 @@ library(ROI, quietly = TRUE)
 library(timeSeries)
 library(tseries)
 library(xts)
-library(xtsExtra)
+
 
 # Download stocks
 tickers = c('AMZN','AAPL','MSFT',"SPY", "AGG", "VNQ", "GSG","JPM", "^GSPC")
