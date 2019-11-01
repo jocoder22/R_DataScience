@@ -72,6 +72,7 @@ moments_meucci <- set.portfolio.moments(R = returns, portfolio = pf_spec, method
 moments_boudt$sigma == extractCovariance(fitss)
 
 
+# view mean and standard deviations
 moments_boudt$mu; moments_boudt$sigma
 moments_meucci$mu; moments_meucci$sigma
 moments_bk$mu; moments_bk$sigma
