@@ -6,7 +6,7 @@ library(timeSeries, quietly = TRUE)
 library(tseries, quietly = TRUE)
 library(xts, quietly = TRUE)
 library(PortfolioAnalytics, quietly = TRUE)
-
+library(MASS, quietly = TRUE)
 
 # load the portfolio returns
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -48,3 +48,26 @@ opt_pfr <- Return.portfolio(returns, weights = extractWeights(opt_port))
 
 # plot portfolio perfomance
 charts.PerformanceSummary(opt_pfr, mar = c(4,4,0,0), oma = c(1, 0, 0, 0))
+
+
+# Print the portfolio specification object
+print(pf_spec)
+
+
+# Design assets moments
+# Fit a statistical factor model with k = 3 factors to the asset returns
+fitss <- statistical.factor.model(R = returns, k = 4)
+
+# compute the portfolio moments using the "boudt" method with k = 4 factors
+moments_boudt <- set.portfolio.moments(R = returns, portfolio = pf_spec, method = "boudt", k = 4)
+moments_bk <- set.portfolio.moments(R = returns, portfolio = pf_spec, method = "black_litterman")
+moments_meucci <- set.portfolio.moments(R = returns, portfolio = pf_spec, method = "meucci")
+
+
+# Check if the covariance matrix extracted from the model fit is equal to the estimate in `moments_boudt`
+moments_boudt$sigma == extractCovariance(fitss)
+
+
+moments_boudt
+moments_meucci
+moments_bk
