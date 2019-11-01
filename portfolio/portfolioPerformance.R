@@ -31,3 +31,13 @@ pf_spec <- add.objective(portfolio = pf_spec, type = "return", name = "mean")
 opt_port <- optimize.portfolio(R = returns, portfolio = pf_spec, optimize_method = "ROI")
 
 
+# view the portfolio specification and optimium 
+print(pf_spec)
+print(opt_port)
+
+
+# Extract the optimal weights
+extractWeights(opt_port)
+
+# Chart the optimal weights
+chart.Weights(opt_port)
