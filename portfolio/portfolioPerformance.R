@@ -6,3 +6,28 @@ library(timeSeries, quietly = TRUE)
 library(tseries, quietly = TRUE)
 library(xts, quietly = TRUE)
 library(PortfolioAnalytics, quietly = TRUE)
+
+
+# load the portfolio returns
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+returns <- readRDS("Returns.rds")
+head(returns)
+
+# Specify the portfolio optimization
+pf_spec <- portfolio.spec(colnames(returns))
+
+
+# add constraints 
+pf_spec  <- add.constraint(portfolio = pf_spec, type = "full_investment")
+pf_spec <- add.constraint(portfolio = pf_spec, type = "long_only")
+
+
+# add objectives
+pf_spec <- add.objective(portfolio = pf_spec, type = "risk", name = "StdDev")
+pf_spec <- add.objective(portfolio = pf_spec, type = "return", name = "mean")
+
+
+# solve the portfolio optimization
+opt_port <- optimize.portfolio(R = returns, portfolio = pf_spec, optimize_method = "ROI")
+
+
