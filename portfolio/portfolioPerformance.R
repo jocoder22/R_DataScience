@@ -55,16 +55,20 @@ print(pf_spec)
 
 
 # Design assets moments
-# Fit a statistical factor model with k = 3 factors to the asset returns
+# Fit a statistical factor model with k = 4 factors to the asset returns
 fitss <- statistical.factor.model(R = returns, k = 4)
 
 # compute the portfolio moments using the "boudt" method with k = 4 factors
 moments_boudt <- set.portfolio.moments(R = returns, portfolio = pf_spec, method = "boudt", k = 4)
+
+# compute the portfolio moments using the "black_litterman" method 
 moments_bk <- set.portfolio.moments(R = returns, portfolio = pf_spec, method = "black_litterman")
+
+# compute the portfolio moments using the "meucci" method 
 moments_meucci <- set.portfolio.moments(R = returns, portfolio = pf_spec, method = "meucci")
 
 
-# Check if the covariance matrix extracted from the model fit is equal to the estimate in `moments_boudt`
+# Check if the covariance matrix extracted from the model fit is equal to the estimate in moments_boudt
 moments_boudt$sigma == extractCovariance(fitss)
 
 
