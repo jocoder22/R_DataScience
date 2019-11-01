@@ -46,5 +46,5 @@ chart.Weights(opt_port)
 # compute portfolio returns
 opt_pfr <- Return.portfolio(returns, weights = extractWeights(opt_port))
 
-
+# plot portfolio perfomance
 charts.PerformanceSummary(opt_pfr, mar = c(4,4,0,0), oma = c(1, 0, 0, 0))
