@@ -41,3 +41,10 @@ extractWeights(opt_port)
 
 # Chart the optimal weights
 chart.Weights(opt_port)
+
+
+# compute portfolio returns
+opt_pfr <- Return.portfolio(returns, weights = extractWeights(opt_port))
+
+
+charts.PerformanceSummary(opt_pfr, mar = c(4,4,0,0), oma = c(1, 0, 0, 0))
