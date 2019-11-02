@@ -20,6 +20,8 @@ bondprice <- function(p, cr, ttm, y){
 }
 
 
+
+
 bondprice(1100, 0.051, 10, 0.07)
 
 

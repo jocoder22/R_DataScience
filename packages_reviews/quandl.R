@@ -7,7 +7,7 @@ library(quantmod)
 startdate = "2009-01-01"
 enddate = "2018-12-31"
 
-# formas:  “raw”, “ts”, “zoo”, “xts”, “timeSeries”
+# formas:  raw, ts, zoo, xts, timeSeries
 # Request data as ts 
 data_raw <- Quandl("FRED/GDP", start_date=startdate, end_date=enddate, type="raw")
 head(data_raw)
