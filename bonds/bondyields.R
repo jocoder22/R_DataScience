@@ -1,3 +1,4 @@
+library(jrvFinance)
 
 # setwd("~/R_DataScience/bonds")
 source("bondFunction.R")
@@ -37,5 +38,15 @@ PV01
 # zero-coupon bond with three years to maturity? Three
 
 
+
+
+settle <- "2000-01-01"
+mature <- "2011-01-01"
+
+bond.price(settle = settle, mature = mature, coupon = 0.05, freq = 1, yield = 0.06, 
+           convention = "ACT/ACT", comp.freq = 12, redemption_value = 200)
+
+bond.duration(settle = settle, mature = mature, coupon = 0.05, freq = 1, 0.06, 
+           convention = "ACT/ACT", comp.freq = 1)
 
 
