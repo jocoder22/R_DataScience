@@ -20,7 +20,7 @@ bondyield(price = 98.79, p = 200, cr = 0.05, ttm = 15)
 bondyield(price = 95.79, p = 100, cr = 0.05, ttm = 5)
 bondyield(price = 95.79, p = 100, cr = 0.05, ttm = 10)
 bondyield(price = 95.79, p = 100, cr = 0.05, ttm = 3)
-
+bondyield(price = 98.79, p = 100, cr = 0.05, ttm = 11)
 
 # Calculate PV01 of a 10% bond
 # You can calculate the PV01 by calculating the value of a bond and the value of the 
@@ -50,6 +50,9 @@ bond.price(settle = settle, mature = mature, coupon = 0.05, freq = 1, yield = aa
 
 bond.duration(settle = settle, mature = mature, coupon = 0.05, freq = 1, yield = aaa_yield, 
            convention = "ACT/ACT", comp.freq = 1, modified = TRUE)
+
+bond.yield(settle = settle, mature = mature, coupon = 0.05, freq = 1, price = 98.79, 
+              convention = "ACT/ACT", comp.freq = 1)
 
 bond.TCF(settle = settle, mature = mature, coupon = 0.05, freq = 1, convention = "ACT/ACT")
 
