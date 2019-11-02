@@ -27,7 +27,6 @@ plot(baa10ym, main = "Seasoned Baa Corporate Bond Yield Relative to Yield on 10-
 
 
 
-
 # Form xts object
 rating <- as.xts(data.frame(aaa$Value, baa$Value), order.by = aaa$Date) / 100
 colnames(rating) <- c("Aaa", "Baa")
