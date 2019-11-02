@@ -1,4 +1,16 @@
 
+futurevalue <- function(p, r , t){
+  
+  p * (1 + r) ^ t
+}
+
+cashflow <- function(p, cr, ttm){
+  
+  cf <- c(rep(p * cr, ttm - 1), p * (1 + cr))
+  
+}
+
+
 
 bondprice <- function(p, cr, ttm, y){
   
