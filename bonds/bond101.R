@@ -27,6 +27,8 @@ baa10ym <- Quandl("FRED/BAA10YM", type="xts")
 plot(baa10ym, main = "Seasoned Baa Corporate Bond Yield Relative to Yield on 10-Year Treasury Constant Maturity")
 
 
+baa_aaa <- baa10ym - aaa10ym
+plot(baa_aaa, main = 'Spread: Baa vs Aaa difference')
 
 # Form xts object
 rating <- as.xts(data.frame(aaa$Value, baa$Value), order.by = aaa$Date) / 100
@@ -37,7 +39,7 @@ plot(rating, legend.loc = "topright", main = "Aaa rated Bond Yield vs Baa rated 
 
 
 # compute rating difference
-rating$Diff <- rating$Aaa - rating$Baa
+rating$Diff <- rating$Baa - rating$Aaa 
 
 plot(rating$Diff, main = " Difference in Yield: Aaa rated Bond vs Baa rated Bond")
 
