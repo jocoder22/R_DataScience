@@ -4,6 +4,9 @@ futurevalue <- function(p, r , t){
   p * (1 + r) ^ t
 }
 
+
+
+
 cashflow <- function(p, cr, ttm){
   
   cf <- c(rep(p * cr, ttm - 1), p * (1 + cr))
@@ -51,9 +54,3 @@ bondyield <- function(price, p , cr, ttm){
 }
 
 
-
-
-
-bondprice(1100, 0.051, 10, 0.07)
-
-bondyield(98.79, 200, 0.05, 15)
