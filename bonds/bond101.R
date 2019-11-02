@@ -16,6 +16,18 @@ aaa <- Quandl("FED/RIMLPAAAR_N_M", start_date=startdate)
 
 
 
+# Moody's Seasoned Aaa Corporate Bond Yield Relative to Yield on 10-Year Treasury Constant Maturity
+aaa10ym <- Quandl("FRED/AAA10YM", start_date=startdate, type="xts")
+plot(aaa10ym, main = "Moody's Seasoned Aaa Corporate Bond Yield Relative to Yield on 10-Year Treasury Constant Maturity")
+
+
+# Moody's Seasoned Baa Corporate Bond Yield Relative to Yield on 10-Year Treasury Constant Maturity
+baa10ym <- Quandl("FRED/BAA10YM", type="xts")
+plot(baa10ym, main = "Seasoned Baa Corporate Bond Yield Relative to Yield on 10-Year Treasury Constant Maturity")
+
+
+
+
 # Form xts object
 rating <- as.xts(data.frame(aaa$Value, baa$Value), order.by = aaa$Date) / 100
 colnames(rating) <- c("Aaa", "Baa")
