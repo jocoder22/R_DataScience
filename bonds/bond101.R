@@ -1,5 +1,6 @@
 library(Quandl)
 library(xts)
+library(quantmod)
 
 
 
@@ -46,3 +47,7 @@ yield20180624 <- subset(rating, index(rating) == "2015-05-31")
 yield20180624
 
 
+
+# Obtain Treasury yield data
+treasury10yr <- getSymbols(Symbols = "DGS10", src = "FRED", auto.assign = FALSE)
+plot(treasury10yr, main = "Ten year US Treasury bill yield")
