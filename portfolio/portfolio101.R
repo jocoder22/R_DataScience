@@ -4,7 +4,8 @@ library(PerformanceAnalytics, quietly = TRUE)
 library(ROI, quietly = TRUE)
 library(timeSeries)
 library(tseries)
-
+library(PortfolioAnalytics)
+library(tidyr)
 
 
 # Download stocks
@@ -17,9 +18,16 @@ names = c('AMZN','AAPL','MSFT',"SPY","AGG", "VNQ", "GSG","JPM", "GSPC")
 portfolio  <- Ad(merge(AMZN, AAPL, MSFT, SPY, AGG, VNQ, GSG, JPM, GSPC))
 colnames(portfolio) <- names
 
+# get summary statistics
 summary(coredata(portfolio))
 plot(portfolio[,2:8])
 plot(portfolio[, c(1,9)])
+
+# Obtain Treasury yield data
+treasury10yr <- getSymbols(Symbols = "DGS10", src = "FRED", from='2007-01-03', auto.assign = FALSE)
+plot(treasury10yr, main = "Ten year US Treasury bill yield")
+
+
 
 
 # Computer returns
@@ -59,9 +67,15 @@ chart.Weights(optModel)
 
 dim(portfolioReturn)
 
+
+# new_portfolioReturn <- merge(portfolioReturn, treasury10yr, all = FALSE) %>% na.locf()
+portfolioReturn$R <- 0.0
 optReModel <- optimize.portfolio(portfolioReturn[,3:8], portfolio = model, optimize_method= "random",
                                  trace = TRUE, search_size = 1000, rebalance_on = "quarters", 
-                                 training_period = 50, rolling_window = 50, rp = r)
+                                 training_period = 50, rolling_window = 50, rp = portfolioReturn$R)
+
+
+
 
 # Extract the optimal weights
 extractWeights(optReModel)
@@ -69,3 +83,10 @@ extractWeights(optReModel)
 # Chart the optimal weights
 chart.Weights(optReModel)
 
+
+
+plot.zoo(portfolio, plot.type = "single", col = 1:11)
+legend(julian(x = as.Date("2009-01-01")), y = 3000, legend = names(portfolioReturn)[1:9], fill = 1:9)
+
+
+plot.zoo(portfolioReturn["2008/2012",1:4], type = "h")
