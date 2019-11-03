@@ -90,3 +90,11 @@ legend(julian(x = as.Date("2009-01-01")), y = 3000, legend = names(portfolioRetu
 
 
 plot.zoo(portfolioReturn["2008/2012",1:4], type = "h")
+
+
+apply.quarterly(portfolioReturn, colSums)
+
+
+# calculate skewness and kurtosis of portfolio assets 
+sk <- apply(portfolioReturn[, 1:9], 2, skewness)
+kurt <-  apply(portfolioReturn[, 1:9], 2, kurtosis)
