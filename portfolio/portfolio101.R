@@ -98,3 +98,12 @@ apply.quarterly(portfolioReturn, colSums)
 # calculate skewness and kurtosis of portfolio assets 
 sk <- apply(portfolioReturn[, 1:9], 2, skewness)
 kurt <-  apply(portfolioReturn[, 1:9], 2, kurtosis)
+
+# plot their skewness and kurtosis
+plot(sk, kurt, type = "n")
+text(sk, kurt, names(sk), cex = 0.6)
+
+
+# do formal normal test
+apply(portfolioReturn[,1:9], 2, jarque.bera.test)
+
