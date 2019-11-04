@@ -142,8 +142,6 @@ qqnorm2 <- function(c){
 apply(portfolioReturn[,1:9],  2, qqnorm2)
 sapply(colnames(portfolioReturn), function(x){mean(portfolioReturn[,x])})
 
-       
-
 
 acf(portfolioReturn)
 
