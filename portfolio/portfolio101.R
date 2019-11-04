@@ -107,3 +107,43 @@ text(sk, kurt, names(sk), cex = 0.6)
 # do formal normal test
 apply(portfolioReturn[,1:9], 2, jarque.bera.test)
 
+
+apply(portfolioReturn[,1:9], 2, qqnorm, qqline, col="red")
+
+n <- 1
+
+qqnorm2 <- function(c){
+  
+  
+  par(mfrow=c(3,1), mar=c(6,4,2,2))
+  qqnorm(c, ylim = range(c))
+  qqline(c, ylim = range(c), col = "red")
+
+  
+  d_norm <- dnorm(c, mean = mean(c), sd = sd(c))
+  
+  n <- as.integer(sqrt(length(c)))
+  
+  # Plot histogram of c
+  hist(c, nclass = n, probability = TRUE)
+  points(coredata(c), coredata(d_norm), col = 2, lty = 2, lwd = 2)
+  
+ 
+  
+  # Plot non-parametric KDE of c
+  plot(density(c))
+  points(coredata(c), coredata(d_norm), col = 2, lty = 2, lwd = 2)
+  
+
+  
+  par(mfrow=c(1,1))
+}
+
+apply(portfolioReturn[,1:9],  2, qqnorm2)
+sapply(colnames(portfolioReturn), function(x){mean(portfolioReturn[,x])})
+
+       
+
+
+acf(portfolioReturn)
+
