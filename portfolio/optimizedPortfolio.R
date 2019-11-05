@@ -24,6 +24,8 @@ colnames(portfolio) <- names
 portfolioReturn <- Return.calculate(portfolio)[-1]
 num <- ncol(portfolio)
 
+# save portofolio returns
+saveRDS(portfolioReturn, "Returns.RDS")
 
 # compute the average returns
 row_mean <- apply(portfolioReturn, 1, mean)
