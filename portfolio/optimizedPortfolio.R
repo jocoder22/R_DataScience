@@ -7,6 +7,8 @@ library(tseries)
 library(xts)
 
 
+# Set working directory
+# setwd("D:/R_DataScience/portfolio")
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # Download stocks
