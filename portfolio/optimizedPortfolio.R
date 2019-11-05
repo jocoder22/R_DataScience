@@ -7,6 +7,8 @@ library(tseries)
 library(xts)
 
 
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
 # Download stocks
 tickers = c('AMZN','AAPL','MSFT',"SPY", "AGG", "VNQ", "GSG","JPM", "^GSPC")
 getSymbols(tickers, from='2007-01-03') 
