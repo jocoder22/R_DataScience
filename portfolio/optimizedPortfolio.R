@@ -8,7 +8,7 @@ library(xts)
 
 
 # Set working directory
-# setwd("D:/R_DataScience/portfolio")
+setwd("D:/R_DataScience/portfolio")
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # Download stocks
@@ -27,7 +27,7 @@ portfolioReturn <- Return.calculate(portfolio)[-1]
 num <- ncol(portfolio)
 
 # save portofolio returns
-saveRDS(portfolioReturn, "Returns.RDS")
+saveRDS(portfolioReturn, "Returns.rds")
 
 
 # compute the average returns
