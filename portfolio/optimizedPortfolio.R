@@ -27,6 +27,7 @@ num <- ncol(portfolio)
 # save portofolio returns
 saveRDS(portfolioReturn, "Returns.RDS")
 
+
 # compute the average returns
 row_mean <- apply(portfolioReturn, 1, mean)
 portfolioRowMean <- as.xts(row_mean, order.by = index(portfolioReturn))
