@@ -30,6 +30,9 @@ num <- ncol(portfolio)
 saveRDS(portfolioReturn, "Returns.rds")
 
 
+patht <- "D:\\PythonDataScience\\importingData\\localData"
+write.csv(portfolioReturn, file.path(patht, "portfolios.csv"), row.names = FALSE)
+
 # compute the average returns
 row_mean <- apply(portfolioReturn, 1, mean)
 portfolioRowMean <- as.xts(row_mean, order.by = index(portfolioReturn))
