@@ -33,15 +33,15 @@ num <- ncol(portfolio)
 
 # Export file as csv
 # patht <- "D:\\PythonDataScience\\importingData\\localData"
-# # write.csv(portfolioReturn, file.path(patht, "portfolios.csv"), row.names = FALSE)
-# 
-# # export to excel
-# write.xlsx(portfolioReturn, file.path(patht, "portfolioxx.xlsx"))
-# 
-# xcellist <- list('AMZN' = AMZN,'AAPL' = AAPL,'MSFT' = MSFT ,"SPY" = SPY,
-#                  "AGG" = AGG, "VNQ" = VNQ, "GSG" = GSG,"JPM" = JPM, "GSPC" = GSPC)
-# 
-# write.xlsx(xcellist, file = file.path(patht, "portfolioSheet.xlsx"))
+# write.csv(portfolioReturn, file.path(patht, "portfolios.csv"), row.names = index(portfolioReturn))
+# # 
+# # # export to excel
+# write.xlsx(portfolioReturn, file.path(patht, "portfolioxx.xlsx"), borders = "rows")
+# # 
+# # xcellist <- list('AMZN' = AMZN,'AAPL' = AAPL,'MSFT' = MSFT ,"SPY" = SPY,
+# #                  "AGG" = AGG, "VNQ" = VNQ, "GSG" = GSG,"JPM" = JPM, "GSPC" = GSPC)
+# # 
+# # write.xlsx(xcellist, file = file.path(patht, "portfolioSheet.xlsx"))
 
 
 
