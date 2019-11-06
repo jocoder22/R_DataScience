@@ -36,7 +36,7 @@ num <- ncol(portfolio)
 # write.csv(portfolioReturn, file.path(patht, "portfolios.csv"), row.names = index(portfolioReturn))
 # # 
 # # # export to excel
-# write.xlsx(portfolioReturn, file.path(patht, "portfolioxx.xlsx"), borders = "rows")
+# write.xlsx(portfolioReturn, file.path(patht, "portfolioxx.xlsx"), rowNames = TRUE)
 # # 
 # # xcellist <- list('AMZN' = AMZN,'AAPL' = AAPL,'MSFT' = MSFT ,"SPY" = SPY,
 # #                  "AGG" = AGG, "VNQ" = VNQ, "GSG" = GSG,"JPM" = JPM, "GSPC" = GSPC)
@@ -44,7 +44,7 @@ num <- ncol(portfolio)
 # # write.xlsx(xcellist, file = file.path(patht, "portfolioSheet.xlsx"))
 
 
-
+head(portfolioReturn)
 # compute the average returns
 row_mean <- apply(portfolioReturn, 1, mean)
 portfolioRowMean <- as.xts(row_mean, order.by = index(portfolioReturn))
