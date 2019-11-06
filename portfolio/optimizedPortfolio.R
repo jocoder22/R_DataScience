@@ -28,13 +28,20 @@ portfolioReturn <- Return.calculate(portfolio)[-1]
 num <- ncol(portfolio)
 
 # save portofolio returns
-saveRDS(portfolioReturn, "Returns.rds")
+# saveRDS(portfolioReturn, "Returns.rds")
 
 
 # Export file as csv
-patht <- "D:\\PythonDataScience\\importingData\\localData"
-# write.csv(portfolioReturn, file.path(patht, "portfolios.csv"), row.names = FALSE)
-write.xlsx(portfolioReturn, file.path(patht, "portfoliox.xlsx"))
+# patht <- "D:\\PythonDataScience\\importingData\\localData"
+# # write.csv(portfolioReturn, file.path(patht, "portfolios.csv"), row.names = FALSE)
+# 
+# # export to excel
+# write.xlsx(portfolioReturn, file.path(patht, "portfolioxx.xlsx"))
+# 
+# xcellist <- list('AMZN' = AMZN,'AAPL' = AAPL,'MSFT' = MSFT ,"SPY" = SPY,
+#                  "AGG" = AGG, "VNQ" = VNQ, "GSG" = GSG,"JPM" = JPM, "GSPC" = GSPC)
+# 
+# write.xlsx(xcellist, file = file.path(patht, "portfolioSheet.xlsx"))
 
 
 
