@@ -5,8 +5,7 @@ library(ROI, quietly = TRUE)
 library(timeSeries)
 library(tseries)
 library(xts)
-library(rJava)
-library(xlsx)
+library(openxlsx)
 
 
 # Set working directory
