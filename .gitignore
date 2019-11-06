@@ -59,3 +59,7 @@ _*
 .*
 .mp4
 .jpg
+*.csv
+*.rds
+*.RDS
+*.xlsx
