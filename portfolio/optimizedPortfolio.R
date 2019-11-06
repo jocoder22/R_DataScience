@@ -5,6 +5,8 @@ library(ROI, quietly = TRUE)
 library(timeSeries)
 library(tseries)
 library(xts)
+library(rJava)
+library(xlsx)
 
 
 # Set working directory
@@ -31,8 +33,11 @@ saveRDS(portfolioReturn, "Returns.rds")
 
 
 # Export file as csv
-# patht <- "D:\\PythonDataScience\\importingData\\localData"
+patht <- "D:\\PythonDataScience\\importingData\\localData"
 # write.csv(portfolioReturn, file.path(patht, "portfolios.csv"), row.names = FALSE)
+write.xlsx(portfolioReturn, file.path(patht, "portfoliox.xlsx"))
+
+
 
 # compute the average returns
 row_mean <- apply(portfolioReturn, 1, mean)
